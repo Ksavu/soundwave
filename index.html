@@ -12,11 +12,11 @@
     :root {
       color-scheme: dark;
       --sw-black-rich: #050608;
-      --sw-black-midnight: rgba(6, 7, 10, 0.72);
-      --sw-black-charcoal: rgba(14, 16, 22, 0.72);
-      --sw-glass: rgba(6, 7, 10, 0.76);
-      --sw-glass-raised: rgba(10, 12, 16, 0.62);
-      --sw-glass-soft: rgba(14, 16, 22, 0.48);
+      --sw-black-midnight: #090B0F;
+      --sw-black-charcoal: #151820;
+      --sw-glass: rgba(8, 9, 13, 0.78);
+      --sw-glass-raised: rgba(12, 14, 19, 0.65);
+      --sw-glass-soft: rgba(12, 14, 19, 0.48);
       --sw-glass-border: rgba(255, 255, 255, 0.08);
       --sw-text: #f6f7fb;
       --sw-text-secondary: #a4aab8;
@@ -349,14 +349,16 @@
       backdrop-filter: blur(20px);
       padding: 6px 11px;
       border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .reel-arrows {
       position: absolute;
-      right: 18px;
-      top: 64px;
+      right: 16px;
+      top: 62px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 7px;
       z-index: 3;
     }
     .reel-arrows button {
@@ -367,9 +369,9 @@
       border: 1px solid var(--sw-glass-border);
       backdrop-filter: blur(20px);
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
       transition: background .15s, transform .15s;
     }
     .reel-arrows button:hover {
@@ -380,7 +382,7 @@
     .reel-bottom {
       position: absolute;
       left: 24px;
-      right: 86px;
+      right: 76px;
       bottom: 26px;
       max-width: 470px;
       z-index: 2;
@@ -411,12 +413,13 @@
     /* Right-side Reel Actions */
     .reel-actions {
       position: absolute;
-      right: 18px;
-      bottom: 24px;
+      right: 16px;
+      top: 150px;
+      bottom: auto;
       display: flex;
       align-items: center;
       flex-direction: column;
-      gap: 12px;
+      gap: 11px;
       z-index: 2;
     }
     .action {
@@ -427,12 +430,12 @@
       gap: 2px;
       font-size: 10px;
       font-weight: 600;
-      min-width: 44px;
+      min-width: 40px;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
       transition: transform .15s;
     }
     .action:hover { transform: scale(1.08); }
-    .action .acticon { font-size: 22px; line-height: 1.05; }
+    .action .acticon { font-size: 20px; line-height: 1.05; }
     .action.selected { color: var(--sw-pink); }
     .action.gold { color: #ffd166; }
 
@@ -1035,11 +1038,11 @@
         justify-content: space-around;
         align-items: center;
         border-top: 1px solid var(--sw-glass-border);
-        padding: 6px 4px calc(8px + env(safe-area-inset-bottom));
+        padding: 6px 2px calc(8px + env(safe-area-inset-bottom));
       }
-      .mobile-nav button { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--sw-text-subtle); align-items: center; min-width: 50px; }
+      .mobile-nav button { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--sw-text-subtle); align-items: center; flex: 1; min-width: 0; padding: 2px 0; }
       .mobile-nav .active { color: var(--sw-text); font-weight: 800; }
-      .mobile-nav span { font-size: 20px; }
+      .mobile-nav span { font-size: 19px; }
       .main { padding-bottom: 158px; }
       .tiktok-stage { height: calc(100dvh - 155px); }
     }
@@ -1060,9 +1063,15 @@
       }
       body.is-reels .tt-top { top: calc(12px + env(safe-area-inset-top)); }
       body.is-reels .tt-bottom { bottom: calc(74px + env(safe-area-inset-bottom)); }
-      body.is-reels .tt-actions { bottom: calc(76px + env(safe-area-inset-bottom)); }
+      body.is-reels .tt-actions { top: calc(146px + env(safe-area-inset-top)); bottom: auto; gap: 11px; }
       body.is-reels .tt-progress { bottom: calc(54px + env(safe-area-inset-bottom)); }
-      .rail, .studio-layout, .two-col, .release-showcase-grid { grid-template-columns: 1fr; }
+      .rail, .studio-layout, .two-col, .release-showcase-grid { grid-template-columns: minmax(0, 1fr); }
+      .rail-card, .board, .panel, .sponsor, .bottom-strip { padding: 16px 14px; min-width: 0; }
+      .track-row { gap: 7px; padding: 11px 0; }
+      .track-rank { width: 16px; font-size: 12px; }
+      .track-cover { width: 40px; height: 40px; }
+      .rate-pill { padding: 5px 7px; font-size: 9.5px; }
+      .vote { padding: 5px 8px; font-size: 9.5px; }
       .music-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .release-showcase { padding: 18px 16px 20px; }
       .release-big { aspect-ratio: 1 / 1; min-height: 0; }
@@ -1072,17 +1081,21 @@
       .release-mini strong { font-size: 14px; }
       .topbar .top-upload, .player .time-label, .player .skip { display: none; }
       .player { left: 8px; right: 8px; bottom: 67px; height: 62px; }
-      .reel-shell { min-height: 490px; }
-      .reel-top { left: 12px; right: 12px; top: 14px; }
-      .reel-bottom { left: 14px; right: 62px; bottom: 18px; }
-      .reel-bottom h2 { font-size: 28px; }
-      .reel-actions { right: 10px; bottom: 18px; gap: 10px; }
-      .reel-arrows { right: 10px; top: 56px; gap: 6px; }
-      .reel-arrows button { width: 33px; height: 33px; font-size: 16px; }
+      .reel-shell { min-height: 515px; }
+      .reel-top { left: 12px; right: 12px; top: 14px; gap: 6px; }
+      .glasslabel { padding: 6px 10px; font-size: 10px; }
+      .reel-indicator { padding: 5px 9px; font-size: 10px; }
+      .reel-bottom { left: 14px; right: 58px; bottom: 18px; }
+      .reel-bottom h2 { font-size: 27px; }
+      .reel-arrows { right: 10px; top: 54px; gap: 6px; }
+      .reel-arrows button { width: 32px; height: 32px; font-size: 15px; }
+      .reel-actions { right: 10px; top: 132px; bottom: auto; gap: 9px; }
+      .action { min-width: 36px; font-size: 9.5px; }
+      .action .acticon { font-size: 19px; }
       .topbar { padding: 0 12px; gap: 8px; }
       .search { padding: 8px 12px; max-width: 155px; }
       .topactions .btn { padding: 9px 13px; font-size: 11px; }
-      .content { padding: 20px 14px; }
+      .content { padding: 20px 12px; }
     }
   </style>
 </head>
