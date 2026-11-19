@@ -1306,7 +1306,7 @@
     const ALLOW_YOUTUBE = true;
     const MAX_MEDIA_MB = 15;
     const MAX_COVER_MB = 2;
-    const SITE_URL = 'https://spotwav.space';
+    const SITE_URL = 'https://spotwav.online';
 
     const hasSupabase = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
     const sb = hasSupabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
@@ -2301,7 +2301,7 @@
               ${currentUser ? `<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>` : `<button class="btn ghost" data-action="openauth">Log In</button>`}
             </div>
           </header>
-          <div class="content">${page === 'Home' ? home() : page === 'Feed' ? feed() : page === 'Charts' ? charts() : page === 'Rewards' ? rewardsPage() : page === 'Studio' ? studio() : page === 'Library' ? library() : page === 'Artist' ? artistPage() : searchPage()}<div class="footer-note">SPOTWAV · Community Music Social Network · spotwav.space</div></div>
+          <div class="content">${page === 'Home' ? home() : page === 'Feed' ? feed() : page === 'Charts' ? charts() : page === 'Rewards' ? rewardsPage() : page === 'Studio' ? studio() : page === 'Library' ? library() : page === 'Artist' ? artistPage() : searchPage()}<div class="footer-note">SPOTWAV · Community Music Social Network · spotwav.online</div></div>
         </main>
       </div>
       ${t ? `<div class="player"><button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button><div class="player-title" data-openartist="${esc(t.artist)}"><div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div></div><button aria-label="Rate song" data-action="rate" style="font-size:18px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id] || ''}</button><button aria-label="Save song" data-action="save" style="font-size:22px;color:${has('saved', t.id) ? 'var(--sw-pink)' : 'var(--sw-text-subtle)'}">${has('saved', t.id) ? '♥' : '♡'}</button><button class="skip" aria-label="Previous track" data-action="prev">⏮</button><button class="play-circle" aria-label="Play or pause" data-action="play">${playing ? 'Ⅱ' : '▶'}</button><button class="skip" aria-label="Next track" data-action="next">⏭</button><div class="progress-wrap"><div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div><span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime || 135)}</span></div></div>` : ''}
