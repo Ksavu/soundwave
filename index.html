@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0e1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Soundwave — Discover what’s next</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--ink:#151827;--muted:#777c90;--blue:#5168ff;--violet:#9559ec;--pink:#e36cbd;--fire:#ff4b44;--gold:#ffb400;--line:#e9ebf2;--paper:#f7f8fb}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{border:0;background:none;cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #a3a6ff;outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.app{display:grid;grid-template-columns:212px minmax(0,1fr);min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:27px 17px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:9px;font-size:23px;letter-spacing:-1.35px;font-weight:850;white-space:nowrap}.brand-mark{width:33px;height:33px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(130deg,#487fff,#805ff2 56%,#e76fb8);color:white;box-shadow:0 5px 16px #835af134;font-size:22px}.brand-dot{color:var(--pink)}.sidebar-label{margin:39px 12px 13px;font-size:10px;font-weight:800;letter-spacing:1.4px;color:#9ca1ad}.nav{display:flex;align-items:center;gap:13px;border-radius:13px;padding:13px 14px;text-align:left;width:100%;color:#727688;font-weight:620;margin:3px 0}.nav .glyph{font-size:20px;width:24px;text-align:center;font-weight:400}.nav.active{background:#eef0ff;color:#455cf0}.nav:hover{background:#f4f5fc}.side-bottom{margin-top:auto;border-radius:15px;padding:17px 14px;background:linear-gradient(140deg,#eef2ff,#f5edff);font-size:12px}.side-bottom b{font-size:14px}.side-bottom p{color:#747992;margin:7px 0 14px}.main{min-width:0;padding-bottom:96px}.topbar{height:77px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(20px,3vw,48px);border-bottom:1px solid var(--line);background:#ffffffd9;backdrop-filter:blur(20px)}.topbrand{display:none}.search{background:#f2f3f8;border:1px solid #ecedf4;border-radius:30px;padding:11px 17px;display:flex;gap:9px;align-items:center;max-width:330px;flex:1;color:#888da0}.search input{background:none;border:0;outline:none;color:var(--ink);width:100%;min-width:0;font-size:12px}.topactions{display:flex;align-items:center;gap:12px}.avatar{width:36px;height:36px;border-radius:50%;background:#e6e9fd;display:grid;place-items:center;color:#4f5e9f;font-size:11px;font-weight:800}.btn{border-radius:30px;padding:11px 17px;font-size:12px;font-weight:750;transition:transform .17s,box-shadow .17s;white-space:nowrap}.btn:hover{transform:translateY(-1px)}.btn.primary{background:#4a61f0;color:#fff;box-shadow:0 5px 13px #5366ef20}.btn.light{background:#fff;color:#151827}.btn.ghost{border:1px solid #dcdfea;background:#fff}.btn.dark{background:#202334;color:white}.btn.gold{background:linear-gradient(135deg,#ffb400,#ff7b00);color:#fff;box-shadow:0 5px 15px #ff990035}.btn.danger{background:#fee2e2;color:#dc2626}.content{max-width:1500px;margin:0 auto;padding:32px clamp(20px,3vw,48px)}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.55px;font-weight:800;color:#787fa0}.heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}.heading h1{margin:6px 0 4px;font-size:clamp(26px,3vw,39px);letter-spacing:-1.35px;line-height:1.12}.sub{color:#82879b;font-size:13px;margin:0}.dot{display:inline-block;width:7px;height:7px;background:#10b981;border-radius:100%;vertical-align:middle;margin-right:5px;box-shadow:0 0 9px #10b98190}.home-layout{display:grid;grid-template-columns:minmax(320px,1fr) minmax(275px,360px);gap:25px;align-items:start}.reel-wrap{min-width:0}.reel-shell{height:min(67vh,710px);min-height:540px;border-radius:24px;background:#121424;position:relative;overflow:hidden;color:#fff;box-shadow:0 16px 50px #11173921}.reel-media{position:absolute;inset:0}.reel-media img,.reel-media video{width:100%;height:100%;object-fit:cover;display:block}.reel-media video{background:#161829}.reel-dim{position:absolute;inset:0;background:linear-gradient(180deg,#11132260 0,transparent 29%,transparent 43%,#0e101e7c 72%,#0b0e1afa 100%);pointer-events:none}.reel-top{position:absolute;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:2}.glasslabel{border-radius:30px;padding:8px 13px;background:#0e102b88;backdrop-filter:blur(18px);border:1px solid #ffffff2a;font-size:11px;font-weight:760}.vip-badge{background:linear-gradient(135deg,#ffb400,#ea580c);color:#fff;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:850;letter-spacing:.7px;text-transform:uppercase;display:inline-flex;align-items:center;gap:3px}.live-badge{background:#10b98126;border:1px solid #10b98166;color:#6ee7b7;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.6px}.reel-indicator{font-size:11px;color:#f4eefb;opacity:.9;background:#0e102b66;backdrop-filter:blur(12px);padding:6px 11px;border-radius:20px}.reel-bottom{position:absolute;left:24px;right:86px;bottom:26px;max-width:460px;z-index:2}.reel-bottom h2{font-size:clamp(30px,4vw,49px);letter-spacing:-1.8px;line-height:1.02;margin:9px 0 12px;text-shadow:0 3px 12px #0007}.artistline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:750}.follow{font-weight:750;font-size:11px;padding:5px 11px;border:1px solid #ffffff85;color:white;border-radius:30px;background:#ffffff14;backdrop-filter:blur(8px)}.follow.subbed{background:#5168ff;border-color:#5168ff}.reel-description{color:#e4e4ee;font-size:12px;margin:0 0 18px;max-width:400px}.reel-btns{display:flex;gap:9px;flex-wrap:wrap}.reel-actions{position:absolute;right:18px;bottom:24px;display:flex;align-items:center;flex-direction:column;gap:12px;z-index:2}.action{color:#fff;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;min-width:44px;text-shadow:0 2px 7px #0009}.action .acticon{font-size:22px;line-height:1.05}.action.selected{color:#ffc2e9}.action.gold{color:#ffd166}.reel-arrows{position:absolute;right:18px;top:64px;display:flex;flex-direction:column;gap:8px;z-index:3}.reel-arrows button{display:grid;place-items:center;background:#14152988;color:#fff;border:1px solid #ffffff35;backdrop-filter:blur(12px);border-radius:50%;width:36px;height:36px;font-size:19px;transition:background .15s,transform .15s}.reel-arrows button:hover{background:#252847cc;transform:scale(1.06)}.rail{display:flex;flex-direction:column;gap:16px}.rail-card{background:#fff;border:1px solid #eaecf3;border-radius:20px;padding:21px 20px;box-shadow:0 5px 25px #28306407}.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.rail-head h2{margin:0;font-size:20px;letter-spacing:-.7px}.rail-note{margin:3px 0 15px;color:#898d9c;font-size:11px}.fire-label{color:#ee4443;font-size:10px;letter-spacing:1.1px;font-weight:850;text-transform:uppercase}.track-row{display:flex;gap:10px;align-items:center;border-top:1px solid #f0f1f6;padding:13px 0}.track-rank{width:18px;text-align:center;color:#9295a6;font-size:15px;font-weight:850}.track-rank.first{color:#ff4942}.cover{position:relative;aspect-ratio:1;background:#393451;overflow:hidden;border-radius:11px}.cover img{width:100%;height:100%;object-fit:cover}.cover-fallback{position:absolute;inset:0;display:grid;place-items:center;color:white;font-weight:850;font-size:17px}.track-cover{width:47px;height:47px;flex-shrink:0;cursor:pointer}.track-name{font-weight:760;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.track-small{font-size:11px;color:#8b8fa1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-body{flex:1;min-width:0;cursor:pointer}.vote{background:#f0f3ff;border:1px solid #e5e9ff;color:#4c65df;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:850;white-space:nowrap}.vote.voted{background:#5069f3;color:#fff;border-color:#5069f3}.rate-pill{background:#fff8eb;border:1px solid #fde6b8;color:#b87503;border-radius:30px;padding:7px 10px;font-size:10px;font-weight:850;white-space:nowrap}.text-link{color:#4f62dc;font-size:12px;font-weight:750}.hot-link{color:#e74d47}.sponsor{border:1px solid #f0e4fa;background:linear-gradient(145deg,#fbfaff,#f7f4fd);border-radius:20px;padding:19px 20px;position:relative;overflow:hidden}.sponsor:after{content:'';position:absolute;width:150px;height:150px;border-radius:100%;background:#bd75f422;filter:blur(30px);right:-65px;top:-80px;pointer-events:none}.sponsor-tag{font-size:10px;font-weight:750;letter-spacing:1px;color:#8c79a1;text-transform:uppercase}.sponsor h3{font-size:19px;letter-spacing:-.6px;margin:9px 0 7px}.sponsor p{color:#7f8195;font-size:11px;margin:0 0 15px;max-width:270px}.promo-link{background:#23273c;color:white;border-radius:30px;padding:9px 13px;font-size:11px;font-weight:750}.bottom-strip{margin-top:25px;background:#fff;border:1px solid #ebeef5;border-radius:20px;padding:23px 25px}.strip-head{display:flex;justify-content:space-between;align-items:center;gap:13px;margin-bottom:17px}.strip-head h2{margin:5px 0 0;font-size:20px;letter-spacing:-.6px}.chips{display:flex;gap:7px;overflow:auto;padding-bottom:14px;scrollbar-width:none}.chip{border:1px solid #eceef5;background:#f8f9fc;padding:8px 13px;border-radius:30px;font-size:11px;font-weight:650;white-space:nowrap;color:#6e7488}.chip.active{background:#edf0ff;color:#4b62df;border-color:#dce2ff}.music-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.music-tile{text-align:left;min-width:0}.music-tile .cover{border-radius:14px}.music-tile .track-name{margin-top:9px}.section-lead{margin:0 0 21px}.board{background:white;padding:17px 22px;border-radius:22px;border:1px solid #e9ebf3}.board .track-row{padding:15px 0}.board .track-cover{width:55px;height:55px}.board .track-rank{width:38px}.board .track-name{font-size:14px}.board .track-small{font-size:12px}.board-intro{display:flex;justify-content:space-between;gap:20px;align-items:center;background:#fff5f4;border:1px solid #ffe5e2;padding:21px 24px;border-radius:20px;margin-bottom:20px}.board-intro h2{margin:3px 0;font-size:22px;letter-spacing:-.7px}.board-intro p{margin:3px 0;font-size:12px;color:#a17876}.board-intro .fire{font-size:38px}.studio-layout{display:grid;grid-template-columns:minmax(300px,670px) minmax(190px,300px);gap:22px}.panel{background:#fff;padding:23px;border-radius:20px;border:1px solid #e9ebf3}.panel h2{margin:0 0 4px;letter-spacing:-.4px}.field{display:flex;flex-direction:column;gap:7px;margin-top:16px;font-size:12px;font-weight:750}.field input,.field select,.field textarea{border:1px solid #e2e5ed;background:#fafbfe;border-radius:12px;padding:12px 13px;width:100%;color:var(--ink)}.field input[type=file]{font-size:12px}.note{font-size:11px;color:#9093a2}.empty{padding:30px;text-align:center;color:#8d90a0;font-size:13px}.player{position:fixed;bottom:13px;left:calc(212px + 18px);right:18px;max-width:1470px;margin:0 auto;background:#ffffffed;backdrop-filter:blur(20px);border:1px solid white;box-shadow:0 6px 37px #23294920;border-radius:20px;display:flex;align-items:center;gap:13px;padding:11px 15px;z-index:15;min-width:0}.player .cover{width:45px;height:45px;flex-shrink:0}.play-circle{background:#5369f4;color:white;width:40px;height:40px;border-radius:50%;font-size:17px;flex-shrink:0}.progress-wrap{flex:1;display:flex;align-items:center;gap:10px;min-width:60px}.progress{height:7px;border-radius:20px;background:#eaecf3;flex:1;overflow:hidden;cursor:pointer;position:relative}.progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#4a7bff,#9e6cef,#e77ac6);border-radius:20px;pointer-events:none}.time-label{font-size:11px;color:#888da0;font-variant-numeric:tabular-nums;white-space:nowrap}.player-title{min-width:110px;max-width:220px;flex:1;cursor:pointer}.player-title div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-nav{display:none}.modal-layer{position:fixed;inset:0;z-index:30;background:#17192bb0;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px}.modal{max-width:460px;width:100%;max-height:86vh;overflow:auto;background:white;border-radius:24px;padding:26px;box-shadow:0 30px 80px #0003}.modal h2{font-size:23px;letter-spacing:-.7px;margin:11px 0 4px}.modal p{font-size:13px;color:#7b7f92}.modal .cover{max-width:215px;margin:15px auto}.close{font-size:23px;float:right}.toast{position:fixed;z-index:100;bottom:105px;left:50%;transform:translateX(-50%);background:#23263d;color:white;border-radius:25px;padding:12px 20px;font-size:12px;font-weight:700;box-shadow:0 10px 35px #0003;white-space:nowrap}.footer-note{font-size:10px;color:#999eae;padding:20px 2px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px}.stat strong{display:block;font-size:22px;color:#5b66e1}.stat span{color:#9295a4;font-size:11px}.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:20px}.star-picker{display:flex;justify-content:center;gap:8px;margin:18px 0}.star-btn{font-size:34px;color:#d9dce8;transition:transform .15s,color .15s}.star-btn:hover,.star-btn.on{color:var(--gold);transform:scale(1.12)}.artist-banner{background:linear-gradient(135deg,#191a31,#2b2250);color:#fff;padding:20px;border-radius:18px;margin-bottom:16px}.auth-tabs{display:flex;gap:8px;margin:14px 0}.auth-tab{flex:1;padding:10px;border-radius:12px;background:#f2f3f8;font-weight:750;font-size:12px;color:#727688}.auth-tab.active{background:#4a61f0;color:#fff}.tiktok-feed{display:none}
+:root{--ink:#151827;--muted:#777c90;--blue:#5168ff;--violet:#9559ec;--pink:#e36cbd;--fire:#ff4b44;--gold:#ffb400;--line:#e9ebf2;--paper:#f7f8fb}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{border:0;background:none;cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #a3a6ff;outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.app{display:grid;grid-template-columns:212px minmax(0,1fr);min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:27px 17px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:9px;font-size:23px;letter-spacing:-1.35px;font-weight:850;white-space:nowrap}.brand-mark{width:33px;height:33px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(130deg,#487fff,#805ff2 56%,#e76fb8);color:white;box-shadow:0 5px 16px #835af134;font-size:22px}.brand-dot{color:var(--pink)}.sidebar-label{margin:39px 12px 13px;font-size:10px;font-weight:800;letter-spacing:1.4px;color:#9ca1ad}.nav{display:flex;align-items:center;gap:13px;border-radius:13px;padding:13px 14px;text-align:left;width:100%;color:#727688;font-weight:620;margin:3px 0}.nav .glyph{font-size:20px;width:24px;text-align:center;font-weight:400}.nav.active{background:#eef0ff;color:#455cf0}.nav:hover{background:#f4f5fc}.side-bottom{margin-top:auto;border-radius:15px;padding:17px 14px;background:linear-gradient(140deg,#eef2ff,#f5edff);font-size:12px}.side-bottom b{font-size:14px}.side-bottom p{color:#747992;margin:7px 0 14px}.main{min-width:0;padding-bottom:96px}.topbar{height:77px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(20px,3vw,48px);border-bottom:1px solid var(--line);background:#ffffffd9;backdrop-filter:blur(20px)}.topbrand{display:none}.search{background:#f2f3f8;border:1px solid #ecedf4;border-radius:30px;padding:11px 17px;display:flex;gap:9px;align-items:center;max-width:330px;flex:1;color:#888da0}.search input{background:none;border:0;outline:none;color:var(--ink);width:100%;min-width:0;font-size:12px}.topactions{display:flex;align-items:center;gap:12px}.avatar{width:36px;height:36px;border-radius:50%;background:#e6e9fd;display:grid;place-items:center;color:#4f5e9f;font-size:11px;font-weight:800}.btn{border-radius:30px;padding:11px 17px;font-size:12px;font-weight:750;transition:transform .17s,box-shadow .17s;white-space:nowrap}.btn:hover{transform:translateY(-1px)}.btn.primary{background:#4a61f0;color:#fff;box-shadow:0 5px 13px #5366ef20}.btn.light{background:#fff;color:#151827}.btn.ghost{border:1px solid #dcdfea;background:#fff}.btn.dark{background:#202334;color:white}.btn.gold{background:linear-gradient(135deg,#ffb400,#ff7b00);color:#fff;box-shadow:0 5px 15px #ff990035}.btn.danger{background:#fee2e2;color:#dc2626}.content{max-width:1500px;margin:0 auto;padding:32px clamp(20px,3vw,48px)}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.55px;font-weight:800;color:#787fa0}.heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}.heading h1{margin:6px 0 4px;font-size:clamp(26px,3vw,39px);letter-spacing:-1.35px;line-height:1.12}.sub{color:#82879b;font-size:13px;margin:0}.dot{display:inline-block;width:7px;height:7px;background:#10b981;border-radius:100%;vertical-align:middle;margin-right:5px;box-shadow:0 0 9px #10b98190}.home-layout{display:grid;grid-template-columns:minmax(320px,1fr) minmax(275px,360px);gap:25px;align-items:start}.reel-wrap{min-width:0}.reel-shell{height:min(67vh,710px);min-height:540px;border-radius:24px;background:#121424;position:relative;overflow:hidden;color:#fff;box-shadow:0 16px 50px #11173921}.reel-media{position:absolute;inset:0}.reel-media img,.reel-media video{width:100%;height:100%;object-fit:cover;display:block}.reel-media video{background:#161829}.reel-dim{position:absolute;inset:0;background:linear-gradient(180deg,#11132260 0,transparent 29%,transparent 43%,#0e101e7c 72%,#0b0e1afa 100%);pointer-events:none}.reel-top{position:absolute;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:2}.glasslabel{border-radius:30px;padding:8px 13px;background:#0e102b88;backdrop-filter:blur(18px);border:1px solid #ffffff2a;font-size:11px;font-weight:760}.vip-badge{background:linear-gradient(135deg,#ffb400,#ea580c);color:#fff;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:850;letter-spacing:.7px;text-transform:uppercase;display:inline-flex;align-items:center;gap:3px}.live-badge{background:#10b98126;border:1px solid #10b98166;color:#6ee7b7;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.6px}.reel-indicator{font-size:11px;color:#f4eefb;opacity:.9;background:#0e102b66;backdrop-filter:blur(12px);padding:6px 11px;border-radius:20px}.reel-bottom{position:absolute;left:24px;right:86px;bottom:26px;max-width:460px;z-index:2}.reel-bottom h2{font-size:clamp(30px,4vw,49px);letter-spacing:-1.8px;line-height:1.02;margin:9px 0 12px;text-shadow:0 3px 12px #0007}.artistline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:750}.follow{font-weight:750;font-size:11px;padding:5px 11px;border:1px solid #ffffff85;color:white;border-radius:30px;background:#ffffff14;backdrop-filter:blur(8px)}.follow.subbed{background:#5168ff;border-color:#5168ff}.reel-description{color:#e4e4ee;font-size:12px;margin:0 0 18px;max-width:400px}.reel-btns{display:flex;gap:9px;flex-wrap:wrap}.reel-actions{position:absolute;right:18px;bottom:24px;display:flex;align-items:center;flex-direction:column;gap:12px;z-index:2}.action{color:#fff;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;min-width:44px;text-shadow:0 2px 7px #0009}.action .acticon{font-size:22px;line-height:1.05}.action.selected{color:#ff7ac6}.action.gold{color:#ffd166}.reel-arrows{position:absolute;right:18px;top:64px;display:flex;flex-direction:column;gap:8px;z-index:3}.reel-arrows button{display:grid;place-items:center;background:#14152988;color:#fff;border:1px solid #ffffff35;backdrop-filter:blur(12px);border-radius:50%;width:36px;height:36px;font-size:19px;transition:background .15s,transform .15s}.reel-arrows button:hover{background:#252847cc;transform:scale(1.06)}.rail{display:flex;flex-direction:column;gap:16px}.rail-card{background:#fff;border:1px solid #eaecf3;border-radius:20px;padding:21px 20px;box-shadow:0 5px 25px #28306407}.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.rail-head h2{margin:0;font-size:20px;letter-spacing:-.7px}.rail-note{margin:3px 0 15px;color:#898d9c;font-size:11px}.fire-label{color:#ee4443;font-size:10px;letter-spacing:1.1px;font-weight:850;text-transform:uppercase}.track-row{display:flex;gap:10px;align-items:center;border-top:1px solid #f0f1f6;padding:13px 0}.track-rank{width:18px;text-align:center;color:#9295a6;font-size:15px;font-weight:850}.track-rank.first{color:#ff4942}.cover{position:relative;aspect-ratio:1;background:#393451;overflow:hidden;border-radius:11px}.cover img{width:100%;height:100%;object-fit:cover}.cover-fallback{position:absolute;inset:0;display:grid;place-items:center;color:white;font-weight:850;font-size:17px}.track-cover{width:47px;height:47px;flex-shrink:0;cursor:pointer}.track-name{font-weight:760;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.track-small{font-size:11px;color:#8b8fa1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-body{flex:1;min-width:0;cursor:pointer}.vote{background:#f0f3ff;border:1px solid #e5e9ff;color:#4c65df;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:850;white-space:nowrap}.vote.voted{background:#5069f3;color:#fff;border-color:#5069f3}.rate-pill{background:#fff8eb;border:1px solid #fde6b8;color:#b87503;border-radius:30px;padding:7px 10px;font-size:10px;font-weight:850;white-space:nowrap}.text-link{color:#4f62dc;font-size:12px;font-weight:750}.hot-link{color:#e74d47}.sponsor{border:1px solid #f0e4fa;background:linear-gradient(145deg,#fbfaff,#f7f4fd);border-radius:20px;padding:19px 20px;position:relative;overflow:hidden}.sponsor:after{content:'';position:absolute;width:150px;height:150px;border-radius:100%;background:#bd75f422;filter:blur(30px);right:-65px;top:-80px;pointer-events:none}.sponsor-tag{font-size:10px;font-weight:750;letter-spacing:1px;color:#8c79a1;text-transform:uppercase}.sponsor h3{font-size:19px;letter-spacing:-.6px;margin:9px 0 7px}.sponsor p{color:#7f8195;font-size:11px;margin:0 0 15px;max-width:270px}.promo-link{background:#23273c;color:white;border-radius:30px;padding:9px 13px;font-size:11px;font-weight:750}.bottom-strip{margin-top:25px;background:#fff;border:1px solid #ebeef5;border-radius:20px;padding:23px 25px}.strip-head{display:flex;justify-content:space-between;align-items:center;gap:13px;margin-bottom:17px}.strip-head h2{margin:5px 0 0;font-size:20px;letter-spacing:-.6px}.chips{display:flex;gap:7px;overflow:auto;padding-bottom:14px;scrollbar-width:none}.chip{border:1px solid #eceef5;background:#f8f9fc;padding:8px 13px;border-radius:30px;font-size:11px;font-weight:650;white-space:nowrap;color:#6e7488}.chip.active{background:#edf0ff;color:#4b62df;border-color:#dce2ff}.music-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.music-tile{text-align:left;min-width:0}.music-tile .cover{border-radius:14px}.music-tile .track-name{margin-top:9px}.section-lead{margin:0 0 21px}.board{background:white;padding:17px 22px;border-radius:22px;border:1px solid #e9ebf3}.board .track-row{padding:15px 0}.board .track-cover{width:55px;height:55px}.board .track-rank{width:38px}.board .track-name{font-size:14px}.board .track-small{font-size:12px}.board-intro{display:flex;justify-content:space-between;gap:20px;align-items:center;background:#fff5f4;border:1px solid #ffe5e2;padding:21px 24px;border-radius:20px;margin-bottom:20px}.board-intro h2{margin:3px 0;font-size:22px;letter-spacing:-.7px}.board-intro p{margin:3px 0;font-size:12px;color:#a17876}.board-intro .fire{font-size:38px}.studio-layout{display:grid;grid-template-columns:minmax(300px,670px) minmax(190px,300px);gap:22px}.panel{background:#fff;padding:23px;border-radius:20px;border:1px solid #e9ebf3}.panel h2{margin:0 0 4px;letter-spacing:-.4px}.field{display:flex;flex-direction:column;gap:7px;margin-top:16px;font-size:12px;font-weight:750}.field input,.field select,.field textarea{border:1px solid #e2e5ed;background:#fafbfe;border-radius:12px;padding:12px 13px;width:100%;color:var(--ink)}.field input[type=file]{font-size:12px}.note{font-size:11px;color:#9093a2}.empty{padding:30px;text-align:center;color:#8d90a0;font-size:13px}.player{position:fixed;bottom:13px;left:calc(212px + 18px);right:18px;max-width:1470px;margin:0 auto;background:#ffffffed;backdrop-filter:blur(20px);border:1px solid white;box-shadow:0 6px 37px #23294920;border-radius:20px;display:flex;align-items:center;gap:13px;padding:11px 15px;z-index:15;min-width:0}.player .cover{width:45px;height:45px;flex-shrink:0}.play-circle{background:#5369f4;color:white;width:40px;height:40px;border-radius:50%;font-size:17px;flex-shrink:0}.progress-wrap{flex:1;display:flex;align-items:center;gap:10px;min-width:60px}.progress{height:7px;border-radius:20px;background:#eaecf3;flex:1;overflow:hidden;cursor:pointer;position:relative}.progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#4a7bff,#9e6cef,#e77ac6);border-radius:20px;pointer-events:none}.time-label{font-size:11px;color:#888da0;font-variant-numeric:tabular-nums;white-space:nowrap}.player-title{min-width:110px;max-width:220px;flex:1;cursor:pointer}.player-title div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-nav{display:none}.modal-layer{position:fixed;inset:0;z-index:30;background:#17192bb0;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px}.modal{max-width:460px;width:100%;max-height:86vh;overflow:auto;background:white;border-radius:24px;padding:26px;box-shadow:0 30px 80px #0003}.modal h2{font-size:23px;letter-spacing:-.7px;margin:11px 0 4px}.modal p{font-size:13px;color:#7b7f92}.modal .cover{max-width:215px;margin:15px auto}.close{font-size:23px;float:right}.toast{position:fixed;z-index:100;bottom:105px;left:50%;transform:translateX(-50%);background:#23263d;color:white;border-radius:25px;padding:12px 20px;font-size:12px;font-weight:700;box-shadow:0 10px 35px #0003;white-space:nowrap}.footer-note{font-size:10px;color:#999eae;padding:20px 2px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px}.stat strong{display:block;font-size:22px;color:#5b66e1}.stat span{color:#9295a4;font-size:11px}.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:20px}.star-picker{display:flex;justify-content:center;gap:8px;margin:18px 0}.star-btn{font-size:34px;color:#d9dce8;transition:transform .15s,color .15s}.star-btn:hover,.star-btn.on{color:var(--gold);transform:scale(1.12)}.artist-hero{background:linear-gradient(135deg,#16182c 0%,#28204c 55%,#1d1936 100%);color:#fff;padding:30px 28px;border-radius:24px;margin-bottom:22px;position:relative;overflow:hidden;box-shadow:0 16px 45px #1a163822}.artist-hero-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.artist-avatar-lg{width:74px;height:74px;border-radius:22px;background:linear-gradient(135deg,#5168ff,#e36cbd);display:grid;place-items:center;font-size:26px;font-weight:850;color:#fff;flex-shrink:0;box-shadow:0 8px 24px #5168ff44}.artist-stats-bar{display:flex;gap:22px;margin:18px 0;padding:14px 18px;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:16px;flex-wrap:wrap}.artist-stats-bar div strong{display:block;font-size:19px;color:#fff}.artist-stats-bar div span{font-size:11px;color:#b8b4d8}.wall-post{border-top:1px solid #f0f1f6;padding:16px 0}.wall-post:first-child{border-top:0;padding-top:4px}.wall-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}.wall-body{font-size:13px;color:var(--ink);line-height:1.55;white-space:pre-wrap}.wall-replies{margin-top:10px;padding-left:12px;border-left:2px solid #e6e9fd;display:flex;flex-direction:column;gap:6px}.wall-reply{font-size:12px;color:#5a5f75;background:#f8f9fd;padding:7px 11px;border-radius:10px}.auth-tabs{display:flex;gap:8px;margin:14px 0}.auth-tab{flex:1;padding:10px;border-radius:12px;background:#f2f3f8;font-weight:750;font-size:12px;color:#727688}.auth-tab.active{background:#4a61f0;color:#fff}.tiktok-feed{display:none}
 @media(max-width:1180px){.app{grid-template-columns:174px minmax(0,1fr)}.sidebar{padding:24px 10px}.brand{font-size:19px}.home-layout{grid-template-columns:minmax(0,1fr) minmax(240px,300px);gap:15px}.music-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.player{left:192px}.content{padding:24px}.topbar{padding:0 24px}.reel-shell{min-height:540px}}
 @media(max-width:850px){.sidebar{display:none}.app{display:block}.topbrand{display:flex;font-weight:850;align-items:center;gap:7px;font-size:21px;letter-spacing:-.8px}.topbrand .brand-mark{height:30px;width:30px}.home-layout{grid-template-columns:1fr}.rail{display:grid;grid-template-columns:1fr 1fr}.reel-shell{height:630px}.player{left:14px;right:14px;bottom:75px}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(20px);z-index:20;justify-content:space-around;align-items:center;border-top:1px solid #ebeef4;padding:6px 4px calc(8px + env(safe-area-inset-bottom))}.mobile-nav button{display:flex;flex-direction:column;gap:3px;font-size:10px;color:#8e91a2;align-items:center;min-width:50px}.mobile-nav .active{color:#4c63ed;font-weight:800}.mobile-nav span{font-size:20px}.main{padding-bottom:158px}}
 /* PHONE-ONLY FULLSCREEN TIKTOK REELS MODE */
@@ -28,7 +28,7 @@
   .tt-actions{position:absolute;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:14px;z-index:4}
   .tt-progress{position:fixed;left:0;right:0;bottom:calc(54px + env(safe-area-inset-bottom));height:4px;background:#ffffff24;z-index:22;cursor:pointer}
   .tt-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5168ff,#9559ec,#e36cbd)}
-  .topbar{padding:0 14px;height:63px;gap:8px}.topbar .top-upload{display:none}.search{max-width:165px;padding:9px 12px}.content{padding:19px 14px}.heading h1{font-size:27px}.heading .sub{font-size:11px}.home-layout{gap:15px}.reel-shell{height:min(72vh,620px);min-height:510px;border-radius:19px}.reel-bottom{left:16px;right:68px;bottom:20px}.reel-bottom h2{font-size:31px}.reel-actions{right:12px;bottom:20px;gap:10px}.action .acticon{font-size:20px}.reel-arrows{right:12px;top:58px;gap:6px}.reel-arrows button{width:33px;height:33px;font-size:17px}.rail{grid-template-columns:1fr}.rail-card{padding:18px}.sponsor{padding:18px}.music-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.bottom-strip{padding:18px}.strip-head h2{font-size:18px}.player{left:8px;right:8px;bottom:67px;padding:8px 10px;gap:8px;height:62px}.player .cover{width:39px;height:39px}.player-title{min-width:70px}.player-title .track-name{font-size:11px}.player .note,.player .time-label,.player .skip{display:none}.player .play-circle{width:34px;height:34px}.studio-layout,.two-col{grid-template-columns:1fr}.board-intro{padding:15px}.board .track-cover{width:45px;height:45px}.board .track-rank{width:23px}.statgrid{gap:7px}.stat{padding:14px}
+  .topbar{padding:0 14px;height:63px;gap:8px}.topbar .top-upload{display:none}.search{max-width:165px;padding:9px 12px}.content{padding:19px 14px}.heading h1{font-size:27px}.heading .sub{font-size:11px}.home-layout{gap:15px}.reel-shell{height:min(72vh,620px);min-height:510px;border-radius:19px}.reel-bottom{left:16px;right:68px;bottom:20px}.reel-bottom h2{font-size:31px}.reel-actions{right:12px;bottom:20px;gap:10px}.action .acticon{font-size:20px}.reel-arrows{right:12px;top:58px;gap:6px}.reel-arrows button{width:33px;height:33px;font-size:17px}.rail{grid-template-columns:1fr}.rail-card{padding:18px}.sponsor{padding:18px}.music-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.bottom-strip{padding:18px}.strip-head h2{font-size:18px}.player{left:8px;right:8px;bottom:67px;padding:8px 10px;gap:8px;height:62px}.player .cover{width:39px;height:39px}.player-title{min-width:70px}.player-title .track-name{font-size:11px}.player .note,.player .time-label,.player .skip{display:none}.player .play-circle{width:34px;height:34px}.studio-layout,.two-col{grid-template-columns:1fr}.board-intro{padding:15px}.board .track-cover{width:45px;height:45px}.board .track-rank{width:23px}.statgrid{gap:7px}.stat{padding:14px}.artist-hero{padding:22px 18px}
 }
 .release-showcase{margin-top:24px;border-radius:23px;padding:24px 25px 26px;background:linear-gradient(135deg,#191a31 0%,#282149 60%,#201b35 100%);color:#fff;overflow:hidden;position:relative;box-shadow:0 15px 36px #29204618}
 .release-showcase:before{content:"";position:absolute;inset:auto -20% -80px 20%;height:200px;background:radial-gradient(ellipse,#6e4ec42b,transparent 65%);pointer-events:none}
@@ -61,19 +61,35 @@ const demoAudio=[
   'https://cdn.pixabay.com/download/audio/2022/08/02/audio_884fe92c21.mp3'
 ];
 const artistSubsBase={'LONEK':1420,'Tyler J':985,'Marlon Tega':740,'NOVA':610,'ELARA':530};
+const mockBios={
+  'LONEK':{bio:'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.',link:'https://soundwave-pearl.vercel.app/#@LONEK'},
+  'Tyler J':{bio:'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.',link:''},
+  'Marlon Tega':{bio:'Dancehall & island rhythms straight from the studio.',link:''},
+  'NOVA':{bio:'Analog synths & midnight electronic soundscapes.',link:''},
+  'ELARA':{bio:'Alternative R&B vocalist.',link:''}
+};
+const mockWallPosts={
+  'LONEK':[
+    {id:'mp1',artist:'LONEK',body:'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right below.',vip_only:false,created_at:new Date(Date.now()-86400000).toISOString()},
+    {id:'mp2',artist:'LONEK',body:'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!',vip_only:true,created_at:new Date(Date.now()-3600000).toISOString()}
+  ],
+  'Tyler J':[
+    {id:'mp3',artist:'Tyler J',body:'"Oh My Days" just crossed 2,800 community votes. Appreciate every single rating!',vip_only:false,created_at:new Date(Date.now()-43200000).toISOString()}
+  ]
+};
 
 // Leave mocks active for now until community uploads fill the feed
 const SHOW_MOCKS = true;
 
 const samples=[
-  ['LONEK','I Bet on Me','Hip-Hop',2842,'photo-1529139574466-a303027c1d8b','#3c3559',4.9,142,false],
-  ['Tyler J','Oh My Days','Hip-Hop',2841,'photo-1506794778202-cbf6067b4bc1','#416583',4.8,118,false],
-  ['Marlon Tega','Pom Pom Whine','Dancehall',2840,'photo-1500648767791-00dcc994a43e','#865b3d',4.7,96,false],
-  ['NOVA','Afterglow','Electronic',1986,'photo-1470229722913-7c0e2dbbafd3','#523c83',4.8,84,false],
-  ['LONEK','I Got You','Hip-Hop',1754,'photo-1503376780353-7e6692767b70','#355668',4.9,91,true],
-  ['ELARA','Velvet Skies','R&B',1482,'photo-1524504388940-b1c1722653e1','#b56e90',4.6,63,false]
+  ['LONEK','I Bet on Me','Hip-Hop',2842,'photo-1529139574466-a303027c1d8b','#3c3559',4.9,142,false,412],
+  ['Tyler J','Oh My Days','Hip-Hop',2841,'photo-1506794778202-cbf6067b4bc1','#416583',4.8,118,false,389],
+  ['Marlon Tega','Pom Pom Whine','Dancehall',2840,'photo-1500648767791-00dcc994a43e','#865b3d',4.7,96,false,310],
+  ['NOVA','Afterglow','Electronic',1986,'photo-1470229722913-7c0e2dbbafd3','#523c83',4.8,84,false,245],
+  ['LONEK','I Got You','Hip-Hop',1754,'photo-1503376780353-7e6692767b70','#355668',4.9,91,true,298],
+  ['ELARA','Velvet Skies','R&B',1482,'photo-1524504388940-b1c1722653e1','#b56e90',4.6,63,false,190]
 ].map((s,i)=>({
-  id:'sample'+i,isMock:true,userId:null,artist:s[0],title:s[1],genre:s[2],votes:s[3],
+  id:'sample'+i,isMock:true,userId:null,artist:s[0],title:s[1],genre:s[2],votes:s[3],likes:s[9],
   img:({0:'assets/ibet-cover.webp',1:'assets/ohmydays-cover.webp',4:'assets/igotyou-cover.webp'}[i]||photo(s[4])),
   color:s[5],ratingSum:Math.round(s[6]*s[7]),ratingCount:s[7],vip:s[8],url:demoAudio[i],
   description:['A new sound for the ones who never stopped believing.','For everybody waiting on better days.','An upbeat dancehall rhythm to move to.','Electronic textures for the night.','Subscribers-only VIP drop for the day-one supporters.','Late-night R&B with room to breathe.'][i]
@@ -91,7 +107,8 @@ const saveState=()=>{try{localStorage.setItem('soundwave-state-v4',JSON.stringif
 const has=(key,v)=>state[key].includes(v),flip=(key,v)=>{state[key]=has(key,v)?state[key].filter(x=>x!==v):[...state[key],v];saveState()};
 
 let currentUser=null,userArtistName='',authMode='signup',authLoading=false;
-let tracks=SHOW_MOCKS?[...samples]:[],liveSubCounts={},page='Home',currentIndex=0,genre='All',tab='For You',modal='',query='',playing=false,userInteracted=false,progress=0,curTime=0,durTime=0,uploading=false;
+let tracks=SHOW_MOCKS?[...samples]:[],liveSubCounts={},artistProfiles={},artistPosts=[],selectedArtist='',editingBio=false;
+let page='Home',currentIndex=0,genre='All',tab='For You',modal='',query='',playing=false,userInteracted=false,progress=0,curTime=0,durTime=0,uploading=false;
 const audio=new Audio();audio.crossOrigin='anonymous';
 const sections=[['Home','⌂','Discover'],['Feed','▷','Reels'],['Charts','♨','Top Charts'],['Library','♡','My Music'],['Studio','⊕','Upload']];
 const genres=['All','Hip-Hop','R&B','Dancehall','Electronic','Pop','Rock','Other'];
@@ -99,21 +116,20 @@ const all=()=>tracks.map((t,i)=>({t,i})),current=()=>tracks[currentIndex]||track
 
 const getArtistDisplay=()=>userArtistName||currentUser?.user_metadata?.artist_name||currentUser?.email?.split('@')[0]||'';
 const getTrackRating=(t)=>{
-  const u=t.isMock?(state.ratings[t.id]||0):0;
-  const sum=(t.ratingSum||5)+u;
-  const count=(t.ratingCount||1)+(u?1:0);
+  const sum=t.ratingSum||5;
+  const count=t.ratingCount||1;
   return {avg:(sum/count).toFixed(1),count};
 };
-const subCount=(artist)=>(artistSubsBase[artist]||0)+(liveSubCounts[artist]||0)+(has('follows',artist)&&!liveSubCounts[artist]?1:0);
+const subCount=(artist)=>(artistSubsBase[artist]||0)+(liveSubCounts[artist]||0);
 const isLocked=(t)=>t.vip&&!has('follows',t.artist)&&!(currentUser&&t.userId===currentUser.id);
 const fmtTime=(s)=>{if(!s||isNaN(s))return '0:00';const m=Math.floor(s/60),sec=Math.floor(s%60);return `${m}:${sec<10?'0':''}${sec}`};
-const rank=()=>all().filter(x=>genre==='All'||x.t.genre===genre).sort((a,b)=>(b.t.votes+(b.t.isMock?Number(has('votes',b.t.id)):0))-(a.t.votes+(a.t.isMock?Number(has('votes',a.t.id)):0)));
+const timeAgo=(iso)=>{if(!iso)return 'Just now';const sec=Math.floor((Date.now()-new Date(iso))/1000);if(sec<60)return 'Just now';if(sec<3600)return Math.floor(sec/60)+'m ago';if(sec<86400)return Math.floor(sec/3600)+'h ago';return Math.floor(sec/86400)+'d ago'};
+const rank=()=>all().filter(x=>genre==='All'||x.t.genre===genre).sort((a,b)=>(b.t.votes||0)-(a.t.votes||0));
 const cover=t=>`<div class="cover" style="background:${t.color||'#403b71'}"><span class="cover-fallback">${esc(t.artist.slice(0,2).toUpperCase())}</span>${t.img?`<img src="${esc(t.img)}" alt="Cover artwork for ${esc(t.title)}" onerror="this.remove()">`:''}</div>`;
 const row=(x,n)=>{
   const r=getTrackRating(x.t);
-  const displayVotes=x.t.votes+(x.t.isMock?Number(has('votes',x.t.id)):0);
   const isOwner=currentUser&&x.t.userId===currentUser.id;
-  return `<div class="track-row"><span class="track-rank ${n===0?'first':''}">${String(n+1).padStart(2,'0')}</span><button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button><div class="track-body" data-track="${x.i}"><div class="track-name">${esc(x.t.title)} ${!x.t.isMock?'<span class="live-badge">LIVE</span>':''} ${x.t.vip?'<span class="vip-badge">★ VIP</span>':''}</div><div class="track-small">${esc(x.t.artist)} · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})</div></div>${isOwner?`<button class="btn danger" style="padding:6px 10px;font-size:10px" data-deltrack="${x.t.id}" title="Delete your track">Delete</button>`:''}<button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id]||r.avg}</button><button class="vote ${has('votes',x.t.id)?'voted':''}" data-vote="${x.i}">${has('votes',x.t.id)?'✓ ':'↑ '}${displayVotes.toLocaleString()}</button></div>`;
+  return `<div class="track-row"><span class="track-rank ${n===0?'first':''}">${String(n+1).padStart(2,'0')}</span><button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button><div class="track-body"><div class="track-name" data-track="${x.i}">${esc(x.t.title)} ${!x.t.isMock?'<span class="live-badge">LIVE</span>':''} ${x.t.vip?'<span class="vip-badge">★ VIP</span>':''}</div><div class="track-small"><span data-openartist="${esc(x.t.artist)}" style="color:#4a61f0;font-weight:700">@${esc(x.t.artist)}</span> · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})</div></div>${isOwner?`<button class="btn danger" style="padding:6px 10px;font-size:10px" data-deltrack="${x.t.id}" title="Delete your track">Delete</button>`:''}<button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id]||r.avg}</button><button class="vote ${has('votes',x.t.id)?'voted':''}" data-vote="${x.i}">${has('votes',x.t.id)?'✓ ':'↑ '}${(x.t.votes||0).toLocaleString()}</button></div>`;
 };
 const chips=()=>`<div class="chips">${genres.map(g=>`<button class="chip ${genre===g?'active':''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
 
@@ -122,8 +138,9 @@ async function syncUserSession(){
   const {data:{session}}=await sb.auth.getSession();
   currentUser=session?.user||null;
   if(currentUser){
-    const {data:prof}=await sb.from('profiles').select('artist_name').eq('id',currentUser.id).maybeSingle();
+    const {data:prof}=await sb.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
     userArtistName=prof?.artist_name||currentUser.user_metadata?.artist_name||currentUser.email.split('@')[0];
+    if(prof)artistProfiles[userArtistName]=prof;
   }else{
     userArtistName='';
   }
@@ -133,36 +150,100 @@ async function syncUserSession(){
 async function syncFromSupabase(){
   if(!sb)return;
   try{
-    const [{data:dbTracks},{data:dbSubs}]=await Promise.all([
+    const [{data:dbTracks},{data:dbSubs},{data:dbProfs},{data:dbEng}]=await Promise.all([
       sb.from('tracks').select('*').order('created_at',{ascending:false}),
-      sb.from('subscriptions').select('artist')
+      sb.from('subscriptions').select('*'),
+      sb.from('profiles').select('*'),
+      sb.from('engagement').select('*')
     ]);
     liveSubCounts={};
-    (dbSubs||[]).forEach(s=>{liveSubCounts[s.artist]=(liveSubCounts[s.artist]||0)+1});
+    const myRemoteSubs=[];
+    (dbSubs||[]).forEach(s=>{
+      liveSubCounts[s.artist]=(liveSubCounts[s.artist]||0)+1;
+      if(s.device_id===state.deviceId)myRemoteSubs.push(s.artist);
+    });
+    if(myRemoteSubs.length){
+      state.follows=Array.from(new Set([...state.follows,...myRemoteSubs]));
+      saveState();
+    }
+    (dbProfs||[]).forEach(p=>{artistProfiles[p.artist_name]=p});
+    const engMap={};
+    (dbEng||[]).forEach(e=>{engMap[e.item_id]=e});
+
     const realTracks=(dbTracks||[]).map(r=>({
       id:r.id,isMock:false,userId:r.user_id,artist:r.artist,title:r.title,genre:r.genre,
       description:r.description,url:r.audio_url,img:r.cover_url,
-      video:r.is_video,vip:r.vip,votes:r.votes||1,
+      video:r.is_video,vip:r.vip,votes:r.votes||1,likes:r.likes||0,
       ratingSum:r.rating_sum||5,ratingCount:r.rating_count||1,color:'#4a61f0'
     }));
+
+    const syncedSamples=samples.map(s=>{
+      const e=engMap[s.id];
+      if(!e)return {...s};
+      return {
+        ...s,
+        votes:s.votes+(e.votes||0),
+        likes:s.likes+(e.likes||0),
+        ratingSum:s.ratingSum+(e.rating_sum||0),
+        ratingCount:s.ratingCount+(e.rating_count||0)
+      };
+    });
+
     const prevId=current()?.id;
-    tracks=SHOW_MOCKS?[...realTracks,...samples]:realTracks;
+    tracks=SHOW_MOCKS?[...realTracks,...syncedSamples]:realTracks;
     const foundIdx=tracks.findIndex(x=>x.id===prevId);
     currentIndex=foundIdx>=0?foundIdx:0;
-    render();
+    if(location.hash.startsWith('#@')){
+      const hName=decodeURIComponent(location.hash.slice(2));
+      if(hName)openArtistPage(hName);
+    }else{
+      render();
+    }
   }catch(err){console.error('Supabase sync error:',err)}
 }
 
 async function loadTrackComments(trackId){
   if(!sb)return;
   const {data}=await sb.from('comments').select('*').eq('track_id',trackId).order('created_at',{ascending:false});
-  if(data){state.comments[trackId]=data.map(c=>c.body);render()}
+  if(data){
+    state.comments[trackId]=data.map(c=>c.body);
+    saveState();
+    render();
+  }
+}
+
+async function openArtistPage(name){
+  selectedArtist=name;
+  editingBio=false;
+  page='Artist';
+  modal='';
+  try{history.replaceState(null,'',`#@${encodeURIComponent(name)}`)}catch{}
+  render();
+  scrollTo(0,0);
+  if(!sb)return;
+  const [{data:prof},{data:posts}]=await Promise.all([
+    sb.from('profiles').select('*').eq('artist_name',name).maybeSingle(),
+    sb.from('artist_posts').select('*').eq('artist',name).order('created_at',{ascending:false})
+  ]);
+  if(prof)artistProfiles[name]=prof;
+  artistPosts=posts||[];
+  const combined=[...artistPosts,...(mockWallPosts[name]||[])];
+  const postKeys=combined.map(p=>'post_'+p.id);
+  if(postKeys.length){
+    const {data:allReplies}=await sb.from('comments').select('*').in('track_id',postKeys).order('created_at',{ascending:true});
+    if(allReplies){
+      postKeys.forEach(k=>{state.comments[k]=[]});
+      allReplies.forEach(r=>{state.comments[r.track_id].push(r.body)});
+      saveState();
+    }
+  }
+  render();
 }
 
 function reel(){
   const t=current();if(!t)return '<div class="empty">No tracks yet. Upload the first track in Artist Studio!</div>';
   const i=currentIndex,r=getTrackRating(t),locked=isLocked(t);
-  return `<div class="reel-shell" id="reel"><div class="reel-media">${t.video?`<video id="reel-video" src="${esc(t.url)}" playsinline loop ${playing?'':'muted'} autoplay></video>`:t.img?`<img src="${esc(t.img)}" alt="Release artwork for ${esc(t.artist)} — ${esc(t.title)}">`:cover(t)}</div><div class="reel-dim"></div><div class="reel-top"><span class="glasslabel">✦ &nbsp; ${t.isMock?'FEATURED CATALOG':'VERIFIED UPLOAD'} ${t.vip?'&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>':''}</span><span class="reel-indicator">★ ${r.avg} (${r.count}) &nbsp;·&nbsp; ${i+1} / ${tracks.length}</span></div><div class="reel-arrows"><button data-action="prev" aria-label="Previous reel">⌃</button><button data-action="next" aria-label="Next reel">⌄</button></div><div class="reel-bottom"><div class="artistline"><button data-action="artist" style="font-weight:800">@${esc(t.artist.replace(/\s/g,''))}</button><button class="follow ${has('follows',t.artist)?'subbed':''}" data-action="follow">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button></div><h2>${esc(t.title)}</h2><p class="reel-description">${esc(t.description||'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g,''))}</span></p><div class="reel-btns">${locked?`<button class="btn gold" data-action="follow">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`:`<button class="btn light" data-action="play">${playing?'Ⅱ Pause':'▶ Play full track'}</button>`}<button class="btn" style="background:#ffffff23;border:1px solid #ffffff50;color:white;backdrop-filter:blur(12px)" data-action="save">${has('saved',t.id)?'✓ Saved':'+ Save song'}</button></div></div><div class="reel-actions"><button class="action ${has('likes',t.id)?'selected':''}" data-action="like"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>Like</button><button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id]?state.ratings[t.id]+'/5':'Rate'}</button><button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id]||[]).length||'Comment'}</button><button class="action" data-action="share"><span class="acticon">↗</span>Share</button><button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes',t.id)?'Voted':'Vote'}</button></div></div>`;
+  return `<div class="reel-shell" id="reel"><div class="reel-media">${t.video?`<video id="reel-video" src="${esc(t.url)}" playsinline loop ${playing?'':'muted'} autoplay></video>`:t.img?`<img src="${esc(t.img)}" alt="Release artwork for ${esc(t.artist)} — ${esc(t.title)}">`:cover(t)}</div><div class="reel-dim"></div><div class="reel-top"><span class="glasslabel">✦ &nbsp; ${t.isMock?'FEATURED CATALOG':'VERIFIED UPLOAD'} ${t.vip?'&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>':''}</span><span class="reel-indicator">★ ${r.avg} (${r.count}) &nbsp;·&nbsp; ${i+1} / ${tracks.length}</span></div><div class="reel-arrows"><button data-action="prev" aria-label="Previous reel">⌃</button><button data-action="next" aria-label="Next reel">⌄</button></div><div class="reel-bottom"><div class="artistline"><button data-openartist="${esc(t.artist)}" style="font-weight:800">@${esc(t.artist.replace(/\s/g,''))}</button><button class="follow ${has('follows',t.artist)?'subbed':''}" data-subartist="${esc(t.artist)}">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button></div><h2>${esc(t.title)}</h2><p class="reel-description">${esc(t.description||'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g,''))}</span></p><div class="reel-btns">${locked?`<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`:`<button class="btn light" data-action="play">${playing?'Ⅱ Pause':'▶ Play full track'}</button>`}<button class="btn" style="background:#ffffff23;border:1px solid #ffffff50;color:white;backdrop-filter:blur(12px)" data-action="save">${has('saved',t.id)?'✓ Saved':'+ Save song'}</button></div></div><div class="reel-actions"><button class="action ${has('likes',t.id)?'selected':''}" data-like="${i}"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>${(t.likes||0).toLocaleString()}</button><button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id]?state.ratings[t.id]+'/5':r.avg}</button><button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id]||[]).length||'Chat'}</button><button class="action" data-action="share"><span class="acticon">↗</span>Share</button><button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes',t.id)?'Voted':'Vote'}</button></div></div>`;
 }
 function trending(){const r=rank().slice(0,4);return `<section class="rail-card" aria-label="Top trending"><div class="rail-head"><div><div class="fire-label">🔥 &nbsp; COMMUNITY CHART</div><h2>Top Trending</h2></div><button class="text-link hot-link" data-nav="Charts">View all ↗</button></div><p class="rail-note">Songs climbing through listener votes & community ratings.</p>${r.map((x,n)=>row(x,n)).join('')}</section>`}
 function sponsor(){return `<section class="sponsor" aria-label="Sponsored placement"><div class="sponsor-tag">✧ Sponsored placement</div><div class="sponsor-art"><img src="assets/ibet-promo.webp" alt="Promotional format"><span>YOUR RELEASE<br>HERE</span></div><h3>Your next release,<br>front and center.</h3><p>Artists and brands can reserve clearly labeled promotional spots beside music discovery.</p><button class="promo-link" data-action="promote">Promote a release ↗</button></section>`}
@@ -179,15 +260,15 @@ function feed(){
       <div class="tt-center-play" data-action="tapplay">${activeSlide&&playing?'':`<span class="tt-play-badge">${locked?'🔒':'▶'}</span>`}</div>
       <div class="tt-bottom">
         <div class="artistline">
-          <button data-action="artist" style="font-weight:850;font-size:15px">@${esc(t.artist.replace(/\s/g,''))}</button>
-          <button class="follow ${has('follows',t.artist)?'subbed':''}" data-action="follow">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button>
+          <button data-openartist="${esc(t.artist)}" style="font-weight:850;font-size:15px">@${esc(t.artist.replace(/\s/g,''))}</button>
+          <button class="follow ${has('follows',t.artist)?'subbed':''}" data-subartist="${esc(t.artist)}">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button>
           ${t.vip?'<span class="vip-badge">★ VIP</span>':''}
         </div>
         <h2>${esc(t.title)}</h2>
         <p class="reel-description" style="margin-bottom:0">${esc(t.description||'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g,''))}</span></p>
       </div>
       <div class="tt-actions">
-        <button class="action ${has('likes',t.id)?'selected':''}" data-action="like"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>Like</button>
+        <button class="action ${has('likes',t.id)?'selected':''}" data-like="${i}"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>${(t.likes||0).toLocaleString()}</button>
         <button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id]?state.ratings[t.id]+'/5':r.avg}</button>
         <button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id]||[]).length||'Chat'}</button>
         <button class="action" data-action="save"><span class="acticon">${has('saved',t.id)?'✓':'+'}</span>Save</button>
@@ -210,8 +291,101 @@ function feed(){
   </div>`;
 }
 
+function artistPage(){
+  const name=selectedArtist||getArtistDisplay()||'LONEK';
+  const handleSlug=name.replace(/\s/g,'');
+  const artistTracks=all().filter(x=>x.t.artist.toLowerCase()===name.toLowerCase());
+  const isOwner=currentUser&&getArtistDisplay().toLowerCase()===name.toLowerCase();
+  const prof=artistProfiles[name]||mockBios[name]||{bio:'Independent creator on Soundwave.',link:''};
+  const totalVotes=artistTracks.reduce((sum,x)=>sum+(x.t.votes||0),0);
+  const avgRating=artistTracks.length?(artistTracks.reduce((s,x)=>s+Number(getTrackRating(x.t).avg),0)/artistTracks.length).toFixed(1):'5.0';
+  const combinedPosts=[...artistPosts,...(mockWallPosts[name]||[])];
+
+  return `<div class="artist-hero">
+    <div class="artist-hero-top">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="artist-avatar-lg">${esc(name.slice(0,2).toUpperCase())}</div>
+        <div>
+          <div class="eyebrow" style="color:#c4b3ff">VERIFIED ARTIST HUB</div>
+          <h1 style="margin:3px 0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1px">@${esc(handleSlug)}</h1>
+          <p style="color:#d6d2f0;margin:0;max-width:520px;font-size:13px">${esc(prof.bio||'Independent creator on Soundwave.')}</p>
+          ${prof.social_link||prof.link?`<a href="${esc(prof.social_link||prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.social_link||prof.link)}</a>`:''}
+        </div>
+      </div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        ${isOwner?`<button class="btn light" data-action="togglebio">${editingBio?'Cancel Edit':'✎ Edit Bio & Link'}</button>`:`<button class="btn ${has('follows',name)?'light':'gold'}" data-subartist="${esc(name)}">${has('follows',name)?'✓ Subscribed (VIP Unlocked)':'+ Subscribe for VIP Drops'}</button>`}
+        <button class="btn" style="background:#ffffff1f;border:1px solid #ffffff38;color:#fff" data-copyartist="${esc(name)}">↗ Share Page</button>
+      </div>
+    </div>
+    <div class="artist-stats-bar">
+      <div><strong>${subCount(name).toLocaleString()}</strong><span>Subscribers</span></div>
+      <div><strong>${artistTracks.length}</strong><span>Releases</span></div>
+      <div><strong>${totalVotes.toLocaleString()}</strong><span>Community Votes</span></div>
+      <div><strong>★ ${avgRating}</strong><span>Avg Rating</span></div>
+    </div>
+    ${isOwner&&editingBio?`<form id="bio-form" style="background:#ffffff12;padding:16px;border-radius:16px;margin-top:12px">
+      <label class="field" style="margin-top:0;color:#fff">Artist Bio <textarea name="bio" rows="2" maxlength="240" placeholder="Tell fans about your sound, upcoming drops, or booking info">${esc(prof.bio||'')}</textarea></label>
+      <label class="field" style="color:#fff">Social / Streaming Link <input type="url" name="social_link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.social_link||prof.link||'')}"></label>
+      <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
+    </form>`:''}
+  </div>
+
+  <div class="two-col">
+    <section>
+      <div class="panel" style="margin-bottom:20px">
+        <div class="eyebrow">DISCOGRAPHY & VIP DROPS</div>
+        <h2>Releases by @${esc(handleSlug)}</h2>
+        ${artistTracks.map((x,n)=>row(x,n)).join('')||'<div class="empty">No releases uploaded yet.</div>'}
+      </div>
+
+      <div class="panel">
+        <div class="eyebrow">CREATOR COMMUNITY WALL</div>
+        <h2>Updates & Fan Chat</h2>
+        <p class="sub" style="margin-bottom:14px">Direct updates from @${esc(handleSlug)} and live replies from fans.</p>
+        ${isOwner?`<form id="wall-post-form" style="background:#f8f9fd;padding:15px;border-radius:15px;margin-bottom:18px;border:1px solid #eaecf3">
+          <textarea name="body" rows="2" required maxlength="400" placeholder="Post an update, drop date, or message to your fans..." style="width:100%;border:1px solid #e2e5ed;border-radius:10px;padding:10px;background:#fff"></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
+            <label style="font-size:11px;font-weight:750;color:#b87503;display:flex;align-items:center;gap:6px"><input type="checkbox" name="vip_only"> ★ Subscribers-Only VIP Post</label>
+            <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
+          </div>
+        </form>`:''}
+        ${combinedPosts.map(p=>{
+          const postLocked=p.vip_only&&!has('follows',name)&&!isOwner;
+          const replies=state.comments['post_'+p.id]||[];
+          return `<div class="wall-post">
+            <div class="wall-head">
+              <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only?'<span class="vip-badge">★ VIP ONLY</span>':''}</strong>
+              <span class="note">${timeAgo(p.created_at)}</span>
+            </div>
+            ${postLocked?`<div style="background:#fff8eb;border:1px solid #fde6b8;padding:12px;border-radius:12px;font-size:12px;color:#9a6200">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>`:`<div class="wall-body">${esc(p.body)}</div>
+            <div class="wall-replies">
+              ${replies.map(rep=>`<div class="wall-reply">${esc(rep)}</div>`).join('')}
+              <form class="wall-reply-form" data-postid="${esc(p.id)}" style="display:flex;gap:7px;margin-top:4px">
+                <input name="reply" maxlength="200" required placeholder="Reply to @${esc(handleSlug)}..." style="flex:1;border:1px solid #e2e5ed;border-radius:20px;padding:6px 12px;font-size:11px;background:#fff">
+                <button type="submit" class="btn ghost" style="padding:5px 12px;font-size:11px">Reply</button>
+              </form>
+            </div>`}
+          </div>`;
+        }).join('')||'<div class="empty">No wall posts from this artist yet.</div>'}
+      </div>
+    </section>
+
+    <aside>
+      <div class="panel">
+        <div class="eyebrow">FAN PERKS</div>
+        <h3>Subscribe to @${esc(handleSlug)}</h3>
+        <p class="sub" style="margin-top:8px">• Instant access to all <b>★ VIP</b> unreleased tracks</p>
+        <p class="sub" style="margin-top:6px">• Unlock private community wall updates</p>
+        <p class="sub" style="margin-top:6px">• Support independent music directly</p>
+        ${!isOwner?`<button class="btn ${has('follows',name)?'ghost':'gold'}" style="width:100%;margin-top:16px" data-subartist="${esc(name)}">${has('follows',name)?'✓ Subscribed':'+ Subscribe Now'}</button>`:`<button class="btn primary" style="width:100%;margin-top:16px" data-nav="Studio">+ Upload New Track</button>`}
+      </div>
+      <div style="margin-top:16px">${sponsor()}</div>
+    </aside>
+  </div>`;
+}
+
 function charts(){return `<div class="heading"><div><div class="eyebrow">VOTED & RATED BY LISTENERS</div><h1>Top Charts.</h1><p class="sub">Real fan ratings and votes shape the rankings.</p></div></div><div class="board-intro"><div><div class="fire-label">🔥 THIS WEEK'S TOP TRENDING</div><h2>Listen. Rate. Move the charts.</h2><p>Community rankings and paid promotions are always separate.</p></div><div class="fire">🔥</div></div><div class="two-col"><section><div class="eyebrow" style="margin-bottom:10px">SONGS RANKED BY VOTES & RATINGS</div>${chips()}<div class="board">${rank().map((x,n)=>row(x,n)).join('')}</div></section><aside>${sponsor()}<div class="panel" style="margin-top:16px"><h3>How community scoring works</h3><p class="sub" style="margin-top:9px">Cast an upvote (↑) to push a track up the trending chart and leave a 1-to-5 star rating (★) to build the artist's community reputation.</p></div></aside></div>`}
-function library(){const saved=all().filter(x=>has('saved',x.t.id));return `<div class="heading"><div><div class="eyebrow">YOUR COLLECTION</div><h1>My Music.</h1><p class="sub">Save music, manage artist subscriptions and track your ratings.</p></div></div><div class="statgrid"><div class="stat"><strong>${state.saved.length}</strong><span>Saved songs</span></div><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Tracks rated</span></div></div><div class="two-col"><section class="panel"><h2>Saved tracks</h2>${saved.map((x,n)=>row(x,n)).join('')||'<div class="empty">Songs you save from the reels appear here.</div>'}</section><aside class="panel"><h2>Subscribed Artists</h2>${state.follows.map(s=>`<div class="track-row" style="justify-content:space-between"><strong>@${esc(s)}</strong><span class="vip-badge">✓ VIP Access</span></div>`).join('')||'<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}</aside></div>`}
+function library(){const saved=all().filter(x=>has('saved',x.t.id));return `<div class="heading"><div><div class="eyebrow">YOUR COLLECTION</div><h1>My Music.</h1><p class="sub">Save music, manage artist subscriptions and track your ratings.</p></div></div><div class="statgrid"><div class="stat"><strong>${state.saved.length}</strong><span>Saved songs</span></div><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Tracks rated</span></div></div><div class="two-col"><section class="panel"><h2>Saved tracks</h2>${saved.map((x,n)=>row(x,n)).join('')||'<div class="empty">Songs you save from the reels appear here.</div>'}</section><aside class="panel"><h2>Subscribed Artists</h2>${state.follows.map(s=>`<div class="track-row" style="justify-content:space-between"><button data-openartist="${esc(s)}" style="font-weight:800;color:#4a61f0">@${esc(s)}</button><span class="vip-badge">✓ VIP Access</span></div>`).join('')||'<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}</aside></div>`}
 
 function studio(){
   const liveUploads=all().filter(x=>!x.t.isMock);
@@ -219,12 +393,12 @@ function studio(){
   const artistHandle=getArtistDisplay();
 
   if(!currentUser){
-    return `<div class="heading"><div><div class="eyebrow">CREATOR WORKSPACE</div><h1>Artist Studio.</h1><p class="sub">Create your free creator account so every song you upload is permanently owned by your profile.</p></div></div>
+    return `<div class="heading"><div><div class="eyebrow">CREATOR WORKSPACE</div><h1>Artist Studio.</h1><p class="sub">Create your free creator account so every song you upload and every wall post is owned by your profile.</p></div></div>
     <div class="studio-layout">
       <div class="panel">
         <div class="eyebrow">ACCOUNT REQUIRED TO PUBLISH</div>
         <h2>Claim your Artist Profile</h2>
-        <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to upload music and build your subscriber base.</p>
+        <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to get your own #@Handle page and upload music.</p>
         <div class="auth-tabs">
           <button type="button" class="auth-tab ${authMode==='signup'?'active':''}" data-authmode="signup">Create Artist Account</button>
           <button type="button" class="auth-tab ${authMode==='login'?'active':''}" data-authmode="login">Log In</button>
@@ -239,15 +413,15 @@ function studio(){
       <aside>
         <div class="panel">
           <div class="eyebrow">WHY CREATE AN ACCOUNT?</div>
-          <p class="sub" style="margin-top:10px">• <b>Locked Artist Handle:</b> Nobody else can upload under your artist name.</p>
-          <p class="sub" style="margin-top:8px">• <b>Full Control:</b> Manage or delete your uploaded tracks anytime.</p>
-          <p class="sub" style="margin-top:8px">• <b>Subscriber Ownership:</b> Build a real fanbase and drop VIP tracks.</p>
+          <p class="sub" style="margin-top:10px">• <b>Your Own #@Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
+          <p class="sub" style="margin-top:8px">• <b>Full Track Ownership:</b> Upload MP3/WAV/MP4 releases and manage them anytime.</p>
+          <p class="sub" style="margin-top:8px">• <b>Subscriber VIP Vault:</b> Gate exclusive tracks and wall posts for subscribers.</p>
         </div>
       </aside>
     </div>`;
   }
 
-  return `<div class="heading"><div><div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div><h1>Artist Studio.</h1><p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p></div><button class="btn ghost" data-action="logout">Log Out</button></div>
+  return `<div class="heading"><div><div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div><h1>Artist Studio.</h1><p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p></div><div style="display:flex;gap:10px"><button class="btn primary" data-openartist="${esc(artistHandle)}">View My Public Page ↗</button><button class="btn ghost" data-action="logout">Log Out</button></div></div>
   <div class="studio-layout">
     <form class="panel" id="upload">
       <h2>Publish a new release</h2>
@@ -269,7 +443,7 @@ function studio(){
           <div class="stat"><strong>${myUploads.length}</strong><span>Your releases</span></div>
           <div class="stat"><strong>${subCount(artistHandle)}</strong><span>Subscribers</span></div>
         </div>
-        <p class="sub">You can delete any of your own releases below.</p>
+        <button class="btn ghost" style="width:100%" data-openartist="${esc(artistHandle)}">Post on Your Fan Wall ↗</button>
       </div>
       <div class="sponsor" style="margin-top:16px"><div class="sponsor-tag">PROMOTE YOUR DROP</div><h3>Boost visibility.</h3><p>Reserve sponsored positions without changing organic chart votes.</p><button class="promo-link" data-action="promote">Explore placements ↗</button></div>
     </aside>
@@ -283,7 +457,7 @@ function modalHTML(){
   const t=current();if(!modal)return '';
   let inner='';
   if(modal==='auth'){
-    inner=`<div class="eyebrow">SOUNDWAVE ACCOUNT</div><h2>${authMode==='signup'?'Create Artist Account':'Welcome Back'}</h2><p>Sign in to upload music, own your artist profile, and manage your tracks.</p>
+    inner=`<div class="eyebrow">SOUNDWAVE ACCOUNT</div><h2>${authMode==='signup'?'Create Artist Account':'Welcome Back'}</h2><p>Sign in to upload music, own your #@Handle page, and message your fans.</p>
     <div class="auth-tabs"><button type="button" class="auth-tab ${authMode==='signup'?'active':''}" data-authmode="signup">Sign Up</button><button type="button" class="auth-tab ${authMode==='login'?'active':''}" data-authmode="login">Log In</button></div>
     <form id="auth-form">
       ${authMode==='signup'?`<label class="field">Artist / Username <input name="artist_name" required maxlength="50" placeholder="Your artist name"></label>`:''}
@@ -293,14 +467,10 @@ function modalHTML(){
     </form>`;
   }else if(modal==='player'&&t){
     const r=getTrackRating(t),locked=isLocked(t);
-    inner=`<div style="max-width:190px;margin:12px auto">${cover(t)}</div><h2>${esc(t.title)} ${t.vip?'<span class="vip-badge">★ VIP</span>':''}</h2><p><button data-action="artist" style="font-weight:750;color:#4a61f0">@${esc(t.artist)}</button> · ★ ${r.avg} (${r.count} ratings)</p><div style="display:flex;justify-content:center;gap:10px;margin:16px 0">${locked?`<button class="btn gold" data-action="follow">🔒 Subscribe to Unlock</button>`:`<button class="btn primary" data-action="play">${playing?'Pause':'Play'} track</button>`}<button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id]||'1-5'})</button><button class="btn ghost" data-action="save">${has('saved',t.id)?'Saved ✓':'Save'}</button></div>`;
-  }else if(modal==='artist'&&t){
-    const artistTracks=all().filter(x=>x.t.artist===t.artist);
-    const totalVotes=artistTracks.reduce((sum,x)=>sum+x.t.votes+(x.t.isMock?Number(has('votes',x.t.id)):0),0);
-    inner=`<div class="artist-banner"><div class="eyebrow" style="color:#c4b3ff">CREATOR HUB</div><h2 style="margin:4px 0;color:#fff">@${esc(t.artist)}</h2><p style="color:#d6d2f0;margin:0 0 14px">${esc(t.genre)} Artist · ${subCount(t.artist).toLocaleString()} Subscribers · ${totalVotes.toLocaleString()} Total Votes</p><button class="btn ${has('follows',t.artist)?'light':'gold'}" data-action="follow">${has('follows',t.artist)?'✓ Subscribed (VIP Unlocked)':'+ Subscribe for VIP Drops'}</button></div><h3>Artist Releases (${artistTracks.length})</h3>${artistTracks.map((x,n)=>row(x,n)).join('')}`;
+    inner=`<div style="max-width:190px;margin:12px auto">${cover(t)}</div><h2>${esc(t.title)} ${t.vip?'<span class="vip-badge">★ VIP</span>':''}</h2><p><button data-openartist="${esc(t.artist)}" style="font-weight:750;color:#4a61f0">@${esc(t.artist)} ↗</button> · ★ ${r.avg} (${r.count} ratings)</p><div style="display:flex;justify-content:center;gap:10px;margin:16px 0">${locked?`<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to Unlock</button>`:`<button class="btn primary" data-action="play">${playing?'Pause':'Play'} track</button>`}<button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id]||'1-5'})</button><button class="btn ghost" data-action="save">${has('saved',t.id)?'Saved ✓':'Save'}</button></div>`;
   }else if(modal==='rate'&&t){
     const r=getTrackRating(t),curStars=state.ratings[t.id]||0;
-    inner=`<div class="eyebrow">COMMUNITY RATING</div><h2>Rate "${esc(t.title)}"</h2><p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p><div class="star-picker">${[1,2,3,4,5].map(n=>`<button class="star-btn ${n<=curStars?'on':''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}</div><p class="note" style="text-align:center">Your 1–5 star rating updates the live community score.</p>`;
+    inner=`<div class="eyebrow">COMMUNITY REVIEW</div><h2>Rate "${esc(t.title)}"</h2><p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p><div class="star-picker">${[1,2,3,4,5].map(n=>`<button class="star-btn ${n<=curStars?'on':''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}</div><p class="note" style="text-align:center">Your 1–5 star rating updates the live community score for all listeners.</p>`;
   }else if(modal==='comments'&&t){
     inner=`<h2>Community conversation</h2>${(state.comments[t.id]||[]).map(v=>`<div class="track-row">${esc(v)}</div>`).join('')||'<p>Be the first to drop feedback on this track.</p>'}<form id="comment"><label class="field">Leave feedback <input name="comment" maxlength="280" required placeholder="What do you think of the mix/vibe?"></label><button class="btn primary" style="margin-top:13px">Post comment</button></form>`;
   }else if(modal==='share'&&t){
@@ -310,7 +480,7 @@ function modalHTML(){
     inner=`<div class="eyebrow">SOUNDWAVE FOR ARTISTS & BRANDS</div><h2>Sponsored music placements</h2><p>Place a release in a clearly labeled recommendation slot next to the discovery experience.</p><div class="panel" style="background:#f8f7ff"><b>Available advertising concepts</b><p>Sponsored spotlight · Featured reel placement · Genre sponsorship</p><p class="note">Organic ratings and chart votes can never be bought.</p></div><button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
   }else{
     const artistHandle=getArtistDisplay();
-    inner=`<h2>@${esc(artistHandle)}</h2><p>${esc(currentUser?.email||'')}</p><div class="statgrid"><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div><div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div></div><div style="display:flex;gap:10px"><button class="btn primary" data-nav="Studio">Artist Studio</button><button class="btn ghost" data-action="logout">Log Out</button></div>`;
+    inner=`<h2>@${esc(artistHandle)}</h2><p>${esc(currentUser?.email||'')}</p><div class="statgrid"><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div><div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-openartist="${esc(artistHandle)}">My Artist Page</button><button class="btn ghost" data-nav="Studio">Upload</button><button class="btn ghost" data-action="logout">Log Out</button></div>`;
   }
   return `<div class="modal-layer" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-label="Soundwave dialog"><button class="close" data-action="close" aria-label="Close dialog">×</button>${inner}</div></div>`;
 }
@@ -351,7 +521,7 @@ function render(){
   let t=current(),r=t?getTrackRating(t):{avg:'5.0',count:0};
   const artistHandle=getArtistDisplay();
   const initials=artistHandle?artistHandle.slice(0,2).toUpperCase():'SW';
-  $('#app').innerHTML=`<div class="app"><aside class="sidebar"><div class="brand"><span class="brand-mark">∿</span>soundwave<span class="brand-dot">.</span></div><div class="sidebar-label">MUSIC</div>${sections.map(([name,glyph,label])=>`<button class="nav ${page===name?'active':''}" data-nav="${name}"><span class="glyph">${glyph}</span>${label}</button>`).join('')}<div class="sidebar-label">YOUR COMMUNITY</div><button class="nav" data-nav="Charts" style="color:#ef5145"><span class="glyph">♨</span>Trending songs</button><button class="nav" data-tab="Rising"><span class="glyph">✦</span>Rising artists</button><div class="side-bottom"><b>${currentUser?`@${esc(artistHandle)}`:'Your music belongs here.'}</b><p>${currentUser?'Upload a release and grow your subscribers.':'Create a free account to publish your music.'}</p><button class="btn primary" data-nav="Studio">${currentUser?'Upload music ↗':'Join & Upload ↗'}</button></div></aside><main class="main"><header class="topbar"><div class="topbrand"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div><div class="search">⌕ <input id="search" type="search" placeholder="Search songs, artists, genres" value="${esc(query)}" aria-label="Search music"></div><div class="topactions"><button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>${currentUser?`<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>`:`<button class="btn ghost" data-action="openauth">Log In / Sign Up</button>`}</div></header><div class="content">${page==='Home'?home():page==='Feed'?feed():page==='Charts'?charts():page==='Studio'?studio():page==='Library'?library():searchPage()}<div class="footer-note">SOUNDWAVE · Community Music Social Network</div></div></main></div>${t?`<div class="player"><button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button><div class="player-title" data-action="artist"><div class="track-name">${esc(t.title)} ${t.vip?'<span class="vip-badge">VIP</span>':''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div></div><button aria-label="Rate song" data-action="rate" style="font-size:18px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id]||''}</button><button aria-label="Save song" data-action="save" style="font-size:22px;color:${has('saved',t.id)?'#ed5eaf':'#9094a4'}">${has('saved',t.id)?'♥':'♡'}</button><button class="skip" aria-label="Previous track" data-action="prev">⏮</button><button class="play-circle" aria-label="Play or pause" data-action="play">${playing?'Ⅱ':'▶'}</button><button class="skip" aria-label="Next track" data-action="next">⏭</button><div class="progress-wrap"><div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div><span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime||135)}</span></div></div>`:''}<nav class="mobile-nav">${sections.map(([name,glyph,label])=>`<button class="${page===name?'active':''}" data-nav="${name}"><span>${glyph}</span>${label}</button>`).join('')}</nav>${modalHTML()}`;
+  $('#app').innerHTML=`<div class="app"><aside class="sidebar"><div class="brand"><span class="brand-mark">∿</span>soundwave<span class="brand-dot">.</span></div><div class="sidebar-label">MUSIC</div>${sections.map(([name,glyph,label])=>`<button class="nav ${page===name?'active':''}" data-nav="${name}"><span class="glyph">${glyph}</span>${label}</button>`).join('')}${currentUser?`<button class="nav ${page==='Artist'&&selectedArtist===artistHandle?'active':''}" data-openartist="${esc(artistHandle)}"><span class="glyph">@</span>My Artist Page</button>`:''}<div class="sidebar-label">YOUR COMMUNITY</div><button class="nav" data-nav="Charts" style="color:#ef5145"><span class="glyph">♨</span>Trending songs</button><button class="nav" data-tab="Rising"><span class="glyph">✦</span>Rising artists</button><div class="side-bottom"><b>${currentUser?`@${esc(artistHandle)}`:'Your music belongs here.'}</b><p>${currentUser?'Manage your artist page, post to fans & upload.':'Create a free account to claim your artist page.'}</p><button class="btn primary" data-nav="Studio">${currentUser?'Upload music ↗':'Join & Upload ↗'}</button></div></aside><main class="main"><header class="topbar"><div class="topbrand"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div><div class="search">⌕ <input id="search" type="search" placeholder="Search songs, artists, genres" value="${esc(query)}" aria-label="Search music"></div><div class="topactions"><button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>${currentUser?`<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>`:`<button class="btn ghost" data-action="openauth">Log In / Sign Up</button>`}</div></header><div class="content">${page==='Home'?home():page==='Feed'?feed():page==='Charts'?charts():page==='Studio'?studio():page==='Library'?library():page==='Artist'?artistPage():searchPage()}<div class="footer-note">SOUNDWAVE · Community Music Social Network</div></div></main></div>${t?`<div class="player"><button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button><div class="player-title" data-openartist="${esc(t.artist)}"><div class="track-name">${esc(t.title)} ${t.vip?'<span class="vip-badge">VIP</span>':''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div></div><button aria-label="Rate song" data-action="rate" style="font-size:18px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id]||''}</button><button aria-label="Save song" data-action="save" style="font-size:22px;color:${has('saved',t.id)?'#ed5eaf':'#9094a4'}">${has('saved',t.id)?'♥':'♡'}</button><button class="skip" aria-label="Previous track" data-action="prev">⏮</button><button class="play-circle" aria-label="Play or pause" data-action="play">${playing?'Ⅱ':'▶'}</button><button class="skip" aria-label="Next track" data-action="next">⏭</button><div class="progress-wrap"><div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div><span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime||135)}</span></div></div>`:''}<nav class="mobile-nav">${sections.map(([name,glyph,label])=>`<button class="${page===name?'active':''}" data-nav="${name}"><span>${glyph}</span>${label}</button>`).join('')}</nav>${modalHTML()}`;
   let el=$('#reel');
   if(el){
     let y=0,last=0;
@@ -388,7 +558,7 @@ function startPlaybackForCurrent(){
 function togglePlay(){
   const t=current();if(!t)return;
   userInteracted=true;
-  if(isLocked(t)){modal='artist';render();return toast(`Subscribe to @${t.artist} to unlock this VIP track`)}
+  if(isLocked(t)){openArtistPage(t.artist);return toast(`Subscribe to @${t.artist} to unlock this VIP track`)}
   if(playing){
     playing=false;
     audio.pause();
@@ -398,6 +568,34 @@ function togglePlay(){
     startPlaybackForCurrent();
     render();
   }
+}
+
+async function syncMockEngagement(trackObj,deltaVotes,deltaLikes,deltaRatingSum,deltaRatingCount){
+  if(!sb)return;
+  const {data:existing}=await sb.from('engagement').select('*').eq('item_id',trackObj.id).maybeSingle();
+  const payload={
+    item_id:trackObj.id,
+    votes:Math.max(0,(existing?.votes||0)+deltaVotes),
+    likes:Math.max(0,(existing?.likes||0)+deltaLikes),
+    rating_sum:Math.max(0,(existing?.rating_sum||0)+deltaRatingSum),
+    rating_count:Math.max(0,(existing?.rating_count||0)+deltaRatingCount)
+  };
+  await sb.from('engagement').upsert(payload);
+}
+
+function toggleSubscribeArtist(artistName){
+  const wasSubbed=has('follows',artistName);
+  flip('follows',artistName);
+  if(sb){
+    if(!wasSubbed){
+      liveSubCounts[artistName]=(liveSubCounts[artistName]||0)+1;
+      sb.from('subscriptions').upsert({artist:artistName,device_id:state.deviceId}).then();
+    }else{
+      liveSubCounts[artistName]=Math.max(0,(liveSubCounts[artistName]||1)-1);
+      sb.from('subscriptions').delete().match({artist:artistName,device_id:state.deviceId}).then();
+    }
+  }
+  toast(has('follows',artistName)?`Subscribed to @${artistName}! VIP access unlocked`:`Unsubscribed from @${artistName}`);
 }
 
 document.addEventListener('click',async e=>{
@@ -415,8 +613,17 @@ document.addEventListener('click',async e=>{
   if(e.target.closest('[data-action="tapplay"]')){
     togglePlay();return;
   }
-  let b=e.target.closest('button,[data-track]');if(!b)return;
+  let b=e.target.closest('button,[data-track],[data-openartist],[data-subartist]');if(!b)return;
   let d=b.dataset,a=d.action,t=current();
+
+  if(d.openartist){openArtistPage(d.openartist);return}
+  if(d.subartist){toggleSubscribeArtist(d.subartist);render();return}
+  if(d.copyartist){
+    const url=`${location.origin}/#@${encodeURIComponent(d.copyartist)}`;
+    navigator.clipboard?.writeText(url).then(()=>toast(`Artist page link copied: #@${d.copyartist}`)).catch(()=>toast(url));
+    return;
+  }
+  if(a==='togglebio'){editingBio=!editingBio;render();return}
 
   if(d.authmode){authMode=d.authmode;render();return}
   if(a==='openauth'){modal='auth';render();return}
@@ -432,49 +639,53 @@ document.addEventListener('click',async e=>{
     toast('Release deleted');return;
   }
 
-  if(d.nav){page=d.nav;modal='';genre='All';if(page==='Feed')tab='For You';render();scrollTo(0,0);return}
+  if(d.nav){page=d.nav;modal='';genre='All';if(page==='Feed')tab='For You';try{history.replaceState(null,'',location.pathname)}catch{}render();scrollTo(0,0);return}
   if(d.genre){genre=d.genre;render();return}
   if(d.tab){tab=d.tab;page='Feed';modal='';const p=pool();if(p.length)currentIndex=p[0].i;else{tab='For You';toast('Subscribe to an artist to build this feed')}render();return}
   if(d.track!==undefined){choose(Number(d.track));modal='player';render();return}
   if(d.rate!==undefined){currentIndex=Number(d.rate);modal='rate';render();return}
   if(d.setrate!==undefined){
     const stars=Number(d.setrate),prev=state.ratings[t.id]||0;
+    const deltaSum=stars-prev;
+    const deltaCount=prev?0:1;
     state.ratings[t.id]=stars;saveState();modal='';
+    t.ratingSum=(t.ratingSum||5)+deltaSum;
+    t.ratingCount=(t.ratingCount||1)+deltaCount;
     if(!t.isMock){
-      t.ratingSum=(t.ratingSum||5)-prev+stars;
-      if(!prev)t.ratingCount=(t.ratingCount||1)+1;
       if(sb)sb.from('tracks').update({rating_sum:t.ratingSum,rating_count:t.ratingCount}).eq('id',t.id).then();
+    }else{
+      syncMockEngagement(t,0,0,deltaSum,deltaCount);
     }
     render();toast(`Rated "${t.title}" ${stars} ★`);return;
   }
+  if(d.like!==undefined){
+    const target=tracks[Number(d.like)],wasLiked=has('likes',target.id);
+    const delta=wasLiked?-1:1;
+    flip('likes',target.id);
+    target.likes=Math.max(0,(target.likes||0)+delta);
+    if(!target.isMock){
+      if(sb)sb.from('tracks').update({likes:target.likes}).eq('id',target.id).then();
+    }else{
+      syncMockEngagement(target,0,delta,0,0);
+    }
+    render();return;
+  }
   if(d.vote!==undefined){
     const target=tracks[Number(d.vote)],wasVoted=has('votes',target.id);
+    const delta=wasVoted?-1:1;
     flip('votes',target.id);
+    target.votes=Math.max(0,(target.votes||0)+delta);
     if(!target.isMock){
-      target.votes=Math.max(0,(target.votes||0)+(wasVoted?-1:1));
       if(sb)sb.from('tracks').update({votes:target.votes}).eq('id',target.id).then();
+    }else{
+      syncMockEngagement(target,delta,0,0,0);
     }
     render();toast('Community chart vote updated');return;
   }
   if(a==='prev'||a==='next'){move(a==='next'?1:-1);return}
   if(a==='play'){togglePlay();return}
   if(a==='save'){flip('saved',t.id);toast(has('saved',t.id)?'Added to My Music':'Removed from My Music')}
-  if(a==='like')flip('likes',t.id);
-  if(a==='follow'){
-    const wasSubbed=has('follows',t.artist);
-    flip('follows',t.artist);
-    if(sb){
-      if(!wasSubbed){
-        liveSubCounts[t.artist]=(liveSubCounts[t.artist]||0)+1;
-        sb.from('subscriptions').upsert({artist:t.artist,device_id:state.deviceId}).then();
-      }else{
-        liveSubCounts[t.artist]=Math.max(0,(liveSubCounts[t.artist]||1)-1);
-        sb.from('subscriptions').delete().match({artist:t.artist,device_id:state.deviceId}).then();
-      }
-    }
-    toast(has('follows',t.artist)?`Subscribed to @${t.artist}! VIP tracks unlocked`:`Unsubscribed from @${t.artist}`);
-  }
-  if(['artist','player','comments','share','profile','promote','rate'].includes(a)){
+  if(['player','comments','share','profile','promote','rate'].includes(a)){
     modal=a;
     if(a==='comments'&&t)loadTrackComments(t.id);
   }
@@ -495,6 +706,47 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('submit',async e=>{
   e.preventDefault();
   const data=new FormData(e.target);
+
+  if(e.target.id==='bio-form'){
+    if(!currentUser||!sb)return;
+    const bio=String(data.get('bio')||'').trim();
+    const social_link=String(data.get('social_link')||'').trim();
+    const handle=getArtistDisplay();
+    await sb.from('profiles').upsert({id:currentUser.id,artist_name:handle,bio,social_link});
+    artistProfiles[handle]={id:currentUser.id,artist_name:handle,bio,social_link};
+    editingBio=false;render();
+    toast('Artist profile updated!');return;
+  }
+
+  if(e.target.id==='wall-post-form'){
+    if(!currentUser||!sb)return;
+    const body=String(data.get('body')||'').trim();
+    const vip_only=Boolean(data.get('vip_only'));
+    const handle=getArtistDisplay();
+    if(!body)return;
+    const {error}=await sb.from('artist_posts').insert({user_id:currentUser.id,artist:handle,body,vip_only});
+    if(!error){
+      e.target.reset();
+      await openArtistPage(handle);
+      toast('Posted to your community wall!');
+    }else toast(error.message);
+    return;
+  }
+
+  if(e.target.classList.contains('wall-reply-form')){
+    const pid=e.target.dataset.postid;
+    const replyTxt=String(data.get('reply')||'').trim();
+    if(replyTxt&&pid){
+      const prefix=userArtistName?`@${userArtistName}: `:'Fan: ';
+      const fullReply=prefix+replyTxt;
+      const key='post_'+pid;
+      (state.comments[key]??=[]).push(fullReply);
+      saveState();render();
+      if(sb)sb.from('comments').insert({track_id:key,body:fullReply}).then();
+      toast('Reply posted');
+    }
+    return;
+  }
 
   if(e.target.id==='auth-form'){
     if(!sb||authLoading)return;
