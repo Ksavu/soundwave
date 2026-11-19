@@ -1018,9 +1018,9 @@
     @media(max-width: 850px) {
       .sidebar { display: none; }
       .app { display: block; }
-      .topbrand { display: flex; font-weight: 850; align-items: center; gap: 7px; font-size: 21px; letter-spacing: -.8px; color: var(--sw-text); }
-      .topbrand .brand-mark { height: 30px; width: 30px; font-size: 18px; }
-      .home-layout { grid-template-columns: 1fr; }
+      .topbrand { display: flex; font-weight: 850; align-items: center; gap: 6px; font-size: 20px; letter-spacing: -.8px; color: var(--sw-text); flex-shrink: 0; }
+      .topbrand .brand-mark { height: 29px; width: 29px; font-size: 17px; }
+      .home-layout { grid-template-columns: minmax(0, 1fr); }
       .rail { display: grid; grid-template-columns: 1fr 1fr; }
       .player { left: 14px; right: 14px; bottom: 75px; }
       .mobile-nav {
@@ -1073,10 +1073,16 @@
       .topbar .top-upload, .player .time-label, .player .skip { display: none; }
       .player { left: 8px; right: 8px; bottom: 67px; height: 62px; }
       .reel-shell { min-height: 490px; }
-      .reel-bottom { left: 16px; right: 68px; bottom: 20px; }
-      .reel-actions { right: 12px; bottom: 20px; gap: 10px; }
-      .reel-arrows { right: 12px; top: 58px; gap: 6px; }
+      .reel-top { left: 12px; right: 12px; top: 14px; }
+      .reel-bottom { left: 14px; right: 62px; bottom: 18px; }
+      .reel-bottom h2 { font-size: 28px; }
+      .reel-actions { right: 10px; bottom: 18px; gap: 10px; }
+      .reel-arrows { right: 10px; top: 56px; gap: 6px; }
       .reel-arrows button { width: 33px; height: 33px; font-size: 16px; }
+      .topbar { padding: 0 12px; gap: 8px; }
+      .search { padding: 8px 12px; max-width: 155px; }
+      .topactions .btn { padding: 9px 13px; font-size: 11px; }
+      .content { padding: 20px 14px; }
     }
   </style>
 </head>
@@ -2128,7 +2134,7 @@
         <main class="main">
           <header class="topbar">
             <div class="topbrand" data-nav="Home"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div>
-            <div class="search">⌕ <input id="search" type="search" placeholder="Search songs, artists, genres" value="${esc(query)}" aria-label="Search music"></div>
+            <div class="search">⌕ <input id="search" type="search" placeholder="Search music..." value="${esc(query)}" aria-label="Search music"></div>
             <div class="topactions">
               <button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>
               ${currentUser
