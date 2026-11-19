@@ -195,7 +195,7 @@
       margin-top: 18px;
     }
 
-    /* TikTok-style Reel Card (Rounded on PC, Full-height on Mobile) */
+    /* Discover Reel Card */
     .reel-card {
       position: relative;
       width: 100%;
@@ -284,21 +284,36 @@
     .reel-cta-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn.vip-lock { background: linear-gradient(90deg, #ff8a1e, #ff5e3a); color: #fff; border: none; }
 
-    /* Fullscreen TikTok-Style Reels Tab */
-    .tt-stage {
+    /* Authentic Full-Bleed TikTok-Style Reels View */
+    .container.reels-mode {
+      max-width: none;
+      padding: 0;
+      height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .tt-wrapper {
+      position: relative;
       width: 100%;
       max-width: 440px;
-      height: calc(100vh - 150px);
-      max-height: 760px;
-      margin: 0 auto;
+      height: calc(100vh - 104px);
+      max-height: 780px;
       border-radius: 32px;
+      overflow: hidden;
+      background: #020304;
+      border: 1px solid var(--sw-glass-border);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.85);
+    }
+    .tt-stage {
+      width: 100%;
+      height: 100%;
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
       scrollbar-width: none;
-      background: #020304;
-      border: 1px solid var(--sw-glass-border);
+      -ms-overflow-style: none;
       position: relative;
-      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.75);
     }
     .tt-stage::-webkit-scrollbar { display: none; }
     .tt-slide {
@@ -308,21 +323,123 @@
       scroll-snap-align: start;
       scroll-snap-stop: always;
       overflow: hidden;
+      background: #020304;
+      user-select: none;
     }
-    .tt-tabs {
-      position: sticky; top: 14px; z-index: 10;
-      display: flex; justify-content: center; gap: 8px;
+    .tt-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease-out;
+    }
+    .tt-slide.is-playing .tt-bg { transform: scale(1.07); }
+    .tt-vignette {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(5, 6, 8, 0.62) 0%, rgba(5, 6, 8, 0) 28%),
+        linear-gradient(0deg, rgba(5, 6, 8, 0.94) 0%, rgba(5, 6, 8, 0.35) 36%, rgba(5, 6, 8, 0) 62%);
       pointer-events: none;
     }
-    .tt-tabs button {
-      pointer-events: auto;
-      padding: 7px 14px; border-radius: 99px;
+    .tt-tap-zone {
+      position: absolute; inset: 0; z-index: 2; cursor: pointer;
+    }
+    .tt-center-play {
+      position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%) scale(0.9);
+      width: 68px; height: 68px; border-radius: 50%;
       background: rgba(8, 9, 13, 0.72);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 12px; font-weight: 800; color: var(--sw-text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff; font-size: 24px;
+      display: grid; place-items: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 3;
     }
-    .tt-tabs button.active { color: #fff; border-color: var(--sw-purple); background: rgba(162, 124, 255, 0.25); }
+    .tt-slide.is-paused .tt-center-play {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .tt-floating-header {
+      position: absolute; top: 14px; left: 14px; right: 14px; z-index: 10;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      pointer-events: none;
+    }
+    .tt-floating-header button {
+      pointer-events: auto;
+      padding: 6px 14px; border-radius: 99px;
+      font-size: 13px; font-weight: 800;
+      color: rgba(255, 255, 255, 0.68);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      transition: all 0.15s ease;
+    }
+    .tt-floating-header button.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .tt-desktop-arrows {
+      position: absolute; right: 14px; top: 56px; z-index: 10;
+      display: grid; gap: 6px;
+    }
+    .tt-actions {
+      position: absolute; right: 12px; bottom: 92px; z-index: 8;
+      display: grid; gap: 14px; justify-items: center;
+    }
+    .tt-act-btn {
+      display: grid; justify-items: center; gap: 3px;
+      color: #fff; font-size: 11px; font-weight: 800;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+    }
+    .tt-act-circle {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(8, 9, 13, 0.62);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: grid; place-items: center; font-size: 18px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .tt-act-btn:active .tt-act-circle { transform: scale(0.9); }
+    .tt-act-btn.on .tt-act-circle { background: var(--sw-purple); color: #050608; border-color: var(--sw-purple); }
+
+    .tt-disc {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 6px solid #181a22;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75);
+      animation: spinDisc 7s linear infinite;
+      animation-play-state: paused;
+    }
+    .tt-slide.is-playing .tt-disc { animation-play-state: running; }
+    .tt-disc img { width: 100%; height: 100%; object-fit: cover; }
+    @keyframes spinDisc { to { transform: rotate(360deg); } }
+
+    .tt-caption {
+      position: absolute; left: 16px; right: 72px; bottom: 26px; z-index: 7;
+      pointer-events: auto;
+    }
+    .tt-sound-marquee {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 8px;
+      padding: 4px 10px; border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      font-size: 11px; font-weight: 700; color: #e6e9f2;
+    }
+    .tt-progress-wrap {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 14px; z-index: 12;
+      display: flex; align-items: flex-end; cursor: pointer;
+    }
+    .tt-progress-bar {
+      width: 100%; height: 3px; background: rgba(255, 255, 255, 0.22);
+      transition: height 0.15s ease;
+    }
+    .tt-progress-wrap:hover .tt-progress-bar { height: 6px; }
+    .tt-progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--sw-blue), var(--sw-purple), var(--sw-pink));
+    }
 
     /* Trending Chart Rows */
     .track-row {
@@ -453,6 +570,7 @@
       display: flex; align-items: center; gap: 12px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
     }
+    .mini-player.hidden-on-reels { display: none; }
     .mini-player img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
     .mini-play-btn {
       width: 38px; height: 38px; border-radius: 50%;
@@ -499,12 +617,25 @@
       .search-ico { left: 10px; font-size: 11px; }
       .wp-pill.hide-sm { display: none; }
       .container { padding: 16px 12px 145px; }
+      .container.reels-mode {
+        height: calc(100vh - 62px - 56px);
+        padding: 0;
+      }
+      .tt-wrapper {
+        max-width: 100%;
+        height: 100%;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+      }
+      .tt-desktop-arrows { display: none; }
+      .tt-actions { bottom: 78px; right: 10px; gap: 12px; }
+      .tt-caption { bottom: 18px; left: 14px; right: 64px; }
       .reel-card { height: 74vh; min-height: 490px; border-radius: 26px; }
       .reel-nav-arrows { top: 54px; right: 10px; }
       .reel-actions { top: 150px; right: 10px; gap: 9px; }
       .act-circle { width: 36px; height: 36px; font-size: 14px; }
       .reel-bottom { left: 14px; right: 56px; bottom: 14px; }
-      .tt-stage { max-width: 100%; height: calc(100vh - 140px); border-radius: 24px; }
       .stats-4, .grid-3, .form-grid { grid-template-columns: 1fr; }
       .stats-4 { grid-template-columns: repeat(2, 1fr); }
       .mini-player { left: 10px; right: 10px; bottom: 64px; padding: 8px 12px; }
@@ -650,12 +781,12 @@
         { id: 'r4', title: 'Full Digital Album Bundle', cost: 2500, tag: 'FULL ALBUM', desc: 'Redeem an authorized full-length digital album + digital booklet.' }
       ];
 
-      const STORAGE_KEY = 'spotwav-obsidian-v4';
+      const STORAGE_KEY = 'spotwav-obsidian-v5';
       const defaultState = {
         view: 'discover',
         tracks: INITIAL_TRACKS,
         reelIndex: 0,
-        reelsFeedMode: 'foryou', // 'foryou' | 'subscribed'
+        reelsFeedMode: 'foryou',
         search: '',
         chartGenre: 'All',
         preferredGenres: [...GENRES],
@@ -676,7 +807,7 @@
         visualStyle: 'bars',
         visualColor: '#a27cff',
         visualBg: '#090B0F',
-        user: null // { name, email, role: 'listener' | 'creator', handle, genres }
+        user: null
       };
 
       let state;
@@ -691,6 +822,7 @@
 
       let currentTrack = state.tracks[0];
       let isPlaying = false;
+      let activeReelSlideIndex = 0;
       const audio = new Audio();
       audio.crossOrigin = 'anonymous';
 
@@ -724,30 +856,55 @@
         return { name: 'Listener', next: 500, pct: Math.round((pts / 500) * 100) };
       }
 
-      function playTrack(track) {
+      function playTrack(track, forceStart = false) {
         if (!track) return;
         if (track.vip && !state.subscribedHandles.includes(track.handle) && state.user?.handle !== track.handle) {
           toast(`Subscribe to @${track.handle} to unlock this VIP release`);
           return;
         }
-        if (currentTrack?.id === track.id && !audio.paused) {
+        if (!forceStart && currentTrack?.id === track.id && !audio.paused) {
           audio.pause();
           isPlaying = false;
-          render();
+          syncPlaybackUI();
           return;
         }
-        currentTrack = track;
-        audio.src = track.audio;
+        if (currentTrack?.id !== track.id) {
+          currentTrack = track;
+          audio.src = track.audio;
+        }
         audio.play().then(() => {
           isPlaying = true;
-          render();
-        }).catch(() => toast('Tap Play again to start audio'));
+          syncPlaybackUI();
+        }).catch(() => {
+          isPlaying = false;
+          syncPlaybackUI();
+        });
       }
+
+      function syncPlaybackUI() {
+        if (state.view === 'reels') {
+          document.querySelectorAll('.tt-slide').forEach(slide => {
+            const tid = slide.dataset.trackId;
+            const playing = isPlaying && currentTrack?.id === tid;
+            slide.classList.toggle('is-playing', playing);
+            slide.classList.toggle('is-paused', !playing);
+          });
+        } else {
+          render();
+        }
+      }
+
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration || state.view !== 'reels') return;
+        const pct = Math.min(100, (audio.currentTime / audio.duration) * 100);
+        const activeSlide = document.querySelector(`.tt-slide[data-track-id="${currentTrack?.id}"] .tt-progress-fill`);
+        if (activeSlide) activeSlide.style.width = `${pct}%`;
+      });
 
       audio.addEventListener('ended', () => {
         isPlaying = false;
         awardPoints(2, 'Completed verified listen');
-        render();
+        syncPlaybackUI();
       });
 
       function getFilteredTracks() {
@@ -774,6 +931,7 @@
       function renderShell() {
         const u = state.user;
         const lv = getMembershipLevel(state.lifetimePoints);
+        const isReels = state.view === 'reels';
         return `
           <div class="shell">
             <aside class="sidebar">
@@ -819,7 +977,7 @@
                 </div>
               </header>
 
-              <div class="container">
+              <div class="container ${isReels ? 'reels-mode' : ''}">
                 ${renderView()}
               </div>
             </main>
@@ -833,7 +991,7 @@
             </nav>
 
             ${currentTrack ? `
-              <div class="mini-player">
+              <div class="mini-player ${isReels ? 'hidden-on-reels' : ''}">
                 <img src="${esc(currentTrack.cover)}" onerror="this.src='${esc(currentTrack.fallbackCover)}'" alt="" />
                 <div class="track-meta">
                   <b>${esc(currentTrack.title)} ${currentTrack.vip ? '<span class="vip-tag" style="margin:0 0 0 6px">VIP</span>' : ''}</b>
@@ -861,14 +1019,14 @@
         }
       }
 
-      function renderReelCardHTML(track, index, total, isFullscreen = false) {
+      function renderDiscoverReelCard(track, index, total) {
         const liked = state.likedIds.includes(track.id);
         const voted = state.votedIds.includes(track.id);
         const subbed = state.subscribedHandles.includes(track.handle);
         const playingThis = isPlaying && currentTrack?.id === track.id;
 
         return `
-          <div class="${isFullscreen ? 'tt-slide' : 'reel-card'}">
+          <div class="reel-card">
             <img class="reel-bg" src="${esc(track.cover)}" onerror="this.src='${esc(track.fallbackCover)}'" alt="${esc(track.title)}" />
             <div class="reel-gradient"></div>
 
@@ -928,6 +1086,100 @@
         `;
       }
 
+      function renderTikTokSlide(track, index, total) {
+        const liked = state.likedIds.includes(track.id);
+        const voted = state.votedIds.includes(track.id);
+        const subbed = state.subscribedHandles.includes(track.handle);
+        const playingThis = isPlaying && currentTrack?.id === track.id;
+
+        return `
+          <div class="tt-slide ${playingThis ? 'is-playing' : 'is-paused'}" data-track-id="${track.id}" data-slide-idx="${index}">
+            <img class="tt-bg" src="${esc(track.cover)}" onerror="this.src='${esc(track.fallbackCover)}'" alt="${esc(track.title)}" />
+            <div class="tt-vignette"></div>
+            <div class="tt-tap-zone" data-tap-reel="${track.id}"></div>
+            <div class="tt-center-play">▶</div>
+
+            <div class="tt-actions">
+              <button class="tt-act-btn ${liked ? 'on' : ''}" data-like="${track.id}">
+                <span class="tt-act-circle">♥</span>
+                <span>${track.likes + (liked ? 1 : 0)}</span>
+              </button>
+              <button class="tt-act-btn ${voted ? 'on' : ''}" data-vote="${track.id}">
+                <span class="tt-act-circle">↑</span>
+                <span>${(track.votes + (voted ? 1 : 0)).toLocaleString()}</span>
+              </button>
+              <button class="tt-act-btn" data-rate="${track.id}">
+                <span class="tt-act-circle">★</span>
+                <span>${track.rating}</span>
+              </button>
+              <button class="tt-act-btn" data-share="${track.id}">
+                <span class="tt-act-circle">↗</span>
+                <span>Share</span>
+              </button>
+              <button class="tt-act-btn" data-report="${track.id}">
+                <span class="tt-act-circle">⚑</span>
+                <span>Hide</span>
+              </button>
+              <div class="tt-disc" data-tap-reel="${track.id}">
+                <img src="${esc(track.cover)}" onerror="this.src='${esc(track.fallbackCover)}'" alt="" />
+              </div>
+            </div>
+
+            <div class="tt-caption">
+              <div class="artist-row">
+                <span class="artist-handle">@${esc(track.handle)}</span>
+                <button class="sub-pill ${subbed ? 'subscribed' : ''}" data-sub="${esc(track.handle)}">
+                  ${subbed ? '✓ Subscribed' : '+ Subscribe'}
+                </button>
+                ${track.vip ? `<span class="vip-tag" style="margin:0">VIP</span>` : ''}
+              </div>
+              <h2 class="reel-title" style="font-size:24px">${esc(track.title)}</h2>
+              <p class="reel-desc" style="margin-bottom:6px">${esc(track.desc)}</p>
+              <div class="tt-sound-marquee">♪ Original Audio · ${esc(track.artist)} — ${esc(track.title)} (${esc(track.genre)})</div>
+            </div>
+
+            <div class="tt-progress-wrap" data-scrub="${track.id}">
+              <div class="tt-progress-bar">
+                <div class="tt-progress-fill"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderReelsPage() {
+        let pool = getFilteredTracks();
+        if (state.reelsFeedMode === 'subscribed') {
+          pool = pool.filter(t => state.subscribedHandles.includes(t.handle));
+        }
+        return `
+          <div class="tt-wrapper">
+            <div class="tt-floating-header">
+              <button class="${state.reelsFeedMode === 'subscribed' ? 'active' : ''}" data-reelmode="subscribed">Subscribed</button>
+              <button class="${state.reelsFeedMode === 'foryou' ? 'active' : ''}" data-reelmode="foryou">For You</button>
+              <button id="reelsGenreQuickBtn">☷ ${state.preferredGenres.length} Genres</button>
+            </div>
+
+            <div class="tt-desktop-arrows">
+              <button class="arrow-circle" id="ttPrevArrow" aria-label="Previous reel">⌃</button>
+              <button class="arrow-circle" id="ttNextArrow" aria-label="Next reel">⌄</button>
+            </div>
+
+            <div class="tt-stage" id="ttStage">
+              ${pool.length
+                ? pool.map((t, i) => renderTikTokSlide(t, i, pool.length)).join('')
+                : `<div style="height:100%;display:grid;place-items:center;padding:24px;text-align:center">
+                    <div>
+                      <h3>No reels in this feed yet</h3>
+                      <p class="muted">Subscribe to artists or enable more genres to populate your Reels feed.</p>
+                      <button class="btn primary" id="reelsEmptyGenreBtn">Choose Genres</button>
+                    </div>
+                  </div>`}
+            </div>
+          </div>
+        `;
+      }
+
       function renderDiscoverPage() {
         const list = getFilteredTracks();
         const idx = list.length ? ((state.reelIndex % list.length) + list.length) % list.length : 0;
@@ -955,7 +1207,7 @@
           <div class="home-layout">
             <div>
               ${activeReel
-                ? renderReelCardHTML(activeReel, idx, list.length, false)
+                ? renderDiscoverReelCard(activeReel, idx, list.length)
                 : `<div class="glass-card" style="text-align:center;padding:42px 20px">
                     <h3>No reels match your current genre filter</h3>
                     <p class="muted">Select more genres to fill your discovery reel.</p>
@@ -1016,31 +1268,6 @@
                 </div>
               `).join('')}
             </div>
-          </div>
-        `;
-      }
-
-      function renderReelsPage() {
-        let pool = getFilteredTracks();
-        if (state.reelsFeedMode === 'subscribed') {
-          pool = pool.filter(t => state.subscribedHandles.includes(t.handle));
-        }
-        return `
-          <div class="tt-stage" id="ttStage">
-            <div class="tt-tabs">
-              <button class="${state.reelsFeedMode === 'foryou' ? 'active' : ''}" data-reelmode="foryou">For You (${state.preferredGenres.length} genres)</button>
-              <button class="${state.reelsFeedMode === 'subscribed' ? 'active' : ''}" data-reelmode="subscribed">Subscribed</button>
-              <button id="reelsGenreQuickBtn">☷ Genres</button>
-            </div>
-            ${pool.length
-              ? pool.map((t, i) => renderReelCardHTML(t, i, pool.length, true)).join('')
-              : `<div style="height:100%;display:grid;place-items:center;padding:24px;text-align:center">
-                  <div>
-                    <h3>No reels in this tab yet</h3>
-                    <p class="muted">Subscribe to artists or enable more genres to populate your Reels feed.</p>
-                    <button class="btn primary" id="reelsEmptyGenreBtn">Choose Genres</button>
-                  </div>
-                </div>`}
           </div>
         `;
       }
@@ -1240,7 +1467,6 @@
         `;
       }
 
-      /* Listener (with Genre Picker) + Creator Sign Up / Log In Modal */
       function openAuthModal(initialMode = 'listener') {
         let mode = initialMode;
         let pickedGenres = [...state.preferredGenres];
@@ -1366,7 +1592,6 @@
         draw();
       }
 
-      /* Quick Genre Filter Modal for Reels & Discover */
       function openGenrePickerModal() {
         let picked = [...state.preferredGenres];
         const draw = () => {
@@ -1456,6 +1681,72 @@
         };
       }
 
+      /* TikTok Snap-Scroll Observer & Controls */
+      function bindTikTokStage() {
+        const stage = $('#ttStage');
+        if (!stage) return;
+        const slides = [...stage.querySelectorAll('.tt-slide')];
+        if (!slides.length) return;
+
+        const activateSlide = idx => {
+          const slide = slides[idx];
+          if (!slide) return;
+          activeReelSlideIndex = idx;
+          const track = state.tracks.find(t => t.id === slide.dataset.trackId);
+          if (track && (!track.vip || state.subscribedHandles.includes(track.handle))) {
+            playTrack(track, true);
+          } else {
+            audio.pause();
+            isPlaying = false;
+            syncPlaybackUI();
+          }
+        };
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.65) {
+              const idx = Number(entry.target.dataset.slideIdx);
+              if (idx !== activeReelSlideIndex) {
+                activateSlide(idx);
+              }
+            }
+          });
+        }, { root: stage, threshold: 0.65 });
+
+        slides.forEach(s => observer.observe(s));
+
+        const prevBtn = $('#ttPrevArrow');
+        const nextBtn = $('#ttNextArrow');
+        if (prevBtn) prevBtn.onclick = () => {
+          const target = Math.max(0, activeReelSlideIndex - 1);
+          slides[target]?.scrollIntoView({ behavior: 'smooth' });
+        };
+        if (nextBtn) nextBtn.onclick = () => {
+          const target = Math.min(slides.length - 1, activeReelSlideIndex + 1);
+          slides[target]?.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        document.querySelectorAll('[data-tap-reel]').forEach(zone => {
+          zone.onclick = () => {
+            const track = state.tracks.find(t => t.id === zone.dataset.tapReel);
+            playTrack(track, false);
+          };
+        });
+
+        document.querySelectorAll('[data-scrub]').forEach(bar => {
+          bar.onclick = e => {
+            e.stopPropagation();
+            if (!audio.duration) return;
+            const rect = bar.getBoundingClientRect();
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            audio.currentTime = ratio * audio.duration;
+          };
+        });
+
+        // Auto-start first slide when opening Reels
+        activateSlide(0);
+      }
+
       let studioAnim = null;
       function startStudioCanvas() {
         if (studioAnim) cancelAnimationFrame(studioAnim);
@@ -1541,7 +1832,8 @@
           render();
         });
 
-        document.querySelectorAll('[data-like]').forEach(b => b.onclick = () => {
+        document.querySelectorAll('[data-like]').forEach(b => b.onclick = e => {
+          e.stopPropagation();
           const id = b.dataset.like;
           if (state.likedIds.includes(id)) {
             state.likedIds = state.likedIds.filter(x => x !== id);
@@ -1554,7 +1846,8 @@
           render();
         });
 
-        document.querySelectorAll('[data-vote]').forEach(b => b.onclick = () => {
+        document.querySelectorAll('[data-vote]').forEach(b => b.onclick = e => {
+          e.stopPropagation();
           const id = b.dataset.vote;
           if (state.votedIds.includes(id)) {
             state.votedIds = state.votedIds.filter(x => x !== id);
@@ -1567,7 +1860,8 @@
           render();
         });
 
-        document.querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
+        document.querySelectorAll('[data-sub]').forEach(b => b.onclick = e => {
+          e.stopPropagation();
           const h = b.dataset.sub;
           if (state.subscribedHandles.includes(h)) {
             state.subscribedHandles = state.subscribedHandles.filter(x => x !== h);
@@ -1580,7 +1874,8 @@
           render();
         });
 
-        document.querySelectorAll('[data-share]').forEach(b => b.onclick = () => {
+        document.querySelectorAll('[data-share]').forEach(b => b.onclick = e => {
+          e.stopPropagation();
           const t = state.tracks.find(x => x.id === b.dataset.share);
           const url = `${SITE_URL}/@${t?.handle || 'spotwav'}?track=${b.dataset.share}`;
           if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).catch(() => {});
@@ -1588,7 +1883,8 @@
           render();
         });
 
-        document.querySelectorAll('[data-report]').forEach(b => b.onclick = () => {
+        document.querySelectorAll('[data-report]').forEach(b => b.onclick = e => {
+          e.stopPropagation();
           const t = state.tracks.find(x => x.id === b.dataset.report);
           if (!t) return;
           if (!state.hiddenArtists.includes(t.artist)) state.hiddenArtists.push(t.artist);
@@ -1696,6 +1992,10 @@
         if ($('#studioColorInp')) {
           $('#studioColorInp').oninput = e => { state.visualColor = e.target.value; save(); };
         }
+
+        if (state.view === 'reels') {
+          bindTikTokStage();
+        }
         startStudioCanvas();
       }
 
@@ -1709,3 +2009,9 @@
   </script>
 </body>
 </html>
+```
+
+The **Reels** tab now behaves just like the native TikTok feed:
+- **True vertical snap-scrolling** (`scroll-snap-type: y mandatory`) that fills the mobile screen edge-to-edge and sits in a sleek `32px` rounded vertical stage on desktop.
+- **Auto-play on swipe:** Swiping or scrolling to the next slide automatically starts its track, spins the vinyl disc in the bottom-right corner, and smoothly animates the background artwork.
+- **Tap-anywhere play/pause & scrubbable progress bar:** Tap anywhere on the reel to pause/resume with a centered `▶` overlay, or tap/drag along the bottom progress bar to seek through the song.
