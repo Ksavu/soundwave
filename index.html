@@ -1,915 +1,2426 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0e1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Soundwave — Discover what’s next</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--ink:#151827;--muted:#777c90;--blue:#5168ff;--violet:#9559ec;--pink:#e36cbd;--fire:#ff4b44;--gold:#ffb400;--line:#e9ebf2;--paper:#f7f8fb}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{border:0;background:none;cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #a3a6ff;outline-offset:2px}button:disabled{opacity:.55;cursor:not-allowed}.app{display:grid;grid-template-columns:212px minmax(0,1fr);min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:27px 17px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:9px;font-size:23px;letter-spacing:-1.35px;font-weight:850;white-space:nowrap}.brand-mark{width:33px;height:33px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(130deg,#487fff,#805ff2 56%,#e76fb8);color:white;box-shadow:0 5px 16px #835af134;font-size:22px}.brand-dot{color:var(--pink)}.sidebar-label{margin:39px 12px 13px;font-size:10px;font-weight:800;letter-spacing:1.4px;color:#9ca1ad}.nav{display:flex;align-items:center;gap:13px;border-radius:13px;padding:13px 14px;text-align:left;width:100%;color:#727688;font-weight:620;margin:3px 0}.nav .glyph{font-size:20px;width:24px;text-align:center;font-weight:400}.nav.active{background:#eef0ff;color:#455cf0}.nav:hover{background:#f4f5fc}.side-bottom{margin-top:auto;border-radius:15px;padding:17px 14px;background:linear-gradient(140deg,#eef2ff,#f5edff);font-size:12px}.side-bottom b{font-size:14px}.side-bottom p{color:#747992;margin:7px 0 14px}.main{min-width:0;padding-bottom:96px}.topbar{height:77px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 clamp(20px,3vw,48px);border-bottom:1px solid var(--line);background:#ffffffd9;backdrop-filter:blur(20px)}.topbrand{display:none}.search{background:#f2f3f8;border:1px solid #ecedf4;border-radius:30px;padding:11px 17px;display:flex;gap:9px;align-items:center;max-width:330px;flex:1;color:#888da0}.search input{background:none;border:0;outline:none;color:var(--ink);width:100%;min-width:0;font-size:12px}.topactions{display:flex;align-items:center;gap:12px}.avatar{width:36px;height:36px;border-radius:50%;background:#e6e9fd;display:grid;place-items:center;color:#4f5e9f;font-size:11px;font-weight:800}.btn{border-radius:30px;padding:11px 17px;font-size:12px;font-weight:750;transition:transform .17s,box-shadow .17s;white-space:nowrap}.btn:hover{transform:translateY(-1px)}.btn.primary{background:#4a61f0;color:#fff;box-shadow:0 5px 13px #5366ef20}.btn.light{background:#fff;color:#151827}.btn.ghost{border:1px solid #dcdfea;background:#fff}.btn.dark{background:#202334;color:white}.btn.gold{background:linear-gradient(135deg,#ffb400,#ff7b00);color:#fff;box-shadow:0 5px 15px #ff990035}.btn.danger{background:#fee2e2;color:#dc2626}.content{max-width:1500px;margin:0 auto;padding:32px clamp(20px,3vw,48px)}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.55px;font-weight:800;color:#787fa0}.heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}.heading h1{margin:6px 0 4px;font-size:clamp(26px,3vw,39px);letter-spacing:-1.35px;line-height:1.12}.sub{color:#82879b;font-size:13px;margin:0}.dot{display:inline-block;width:7px;height:7px;background:#10b981;border-radius:100%;vertical-align:middle;margin-right:5px;box-shadow:0 0 9px #10b98190}.home-layout{display:grid;grid-template-columns:minmax(320px,1fr) minmax(275px,360px);gap:25px;align-items:start}.reel-wrap{min-width:0}.reel-shell{height:min(67vh,710px);min-height:540px;border-radius:24px;background:#121424;position:relative;overflow:hidden;color:#fff;box-shadow:0 16px 50px #11173921}.reel-media{position:absolute;inset:0}.reel-media img,.reel-media video{width:100%;height:100%;object-fit:cover;display:block}.reel-media video{background:#161829}.yt-frame{width:100%;height:100%;border:0;display:block;background:#000}.reel-dim{position:absolute;inset:0;background:linear-gradient(180deg,#11132260 0,transparent 29%,transparent 43%,#0e101e7c 72%,#0b0e1afa 100%);pointer-events:none}.reel-top{position:absolute;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:2}.glasslabel{border-radius:30px;padding:8px 13px;background:#0e102b88;backdrop-filter:blur(18px);border:1px solid #ffffff2a;font-size:11px;font-weight:760}.vip-badge{background:linear-gradient(135deg,#ffb400,#ea580c);color:#fff;padding:3px 8px;border-radius:20px;font-size:9px;font-weight:850;letter-spacing:.7px;text-transform:uppercase;display:inline-flex;align-items:center;gap:3px}.live-badge{background:#10b98126;border:1px solid #10b98166;color:#6ee7b7;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.6px}.yt-badge{background:#ef44442b;border:1px solid #ef444470;color:#fca5a5;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.5px}.reel-indicator{font-size:11px;color:#f4eefb;opacity:.9;background:#0e102b66;backdrop-filter:blur(12px);padding:6px 11px;border-radius:20px}.reel-bottom{position:absolute;left:24px;right:86px;bottom:26px;max-width:460px;z-index:2}.reel-bottom h2{font-size:clamp(30px,4vw,49px);letter-spacing:-1.8px;line-height:1.02;margin:9px 0 12px;text-shadow:0 3px 12px #0007}.artistline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-weight:750}.follow{font-weight:750;font-size:11px;padding:5px 11px;border:1px solid #ffffff85;color:white;border-radius:30px;background:#ffffff14;backdrop-filter:blur(8px)}.follow.subbed{background:#5168ff;border-color:#5168ff}.reel-description{color:#e4e4ee;font-size:12px;margin:0 0 18px;max-width:400px}.reel-btns{display:flex;gap:9px;flex-wrap:wrap}.reel-actions{position:absolute;right:18px;bottom:24px;display:flex;align-items:center;flex-direction:column;gap:12px;z-index:2}.action{color:#fff;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;min-width:44px;text-shadow:0 2px 7px #0009}.action .acticon{font-size:22px;line-height:1.05}.action.selected{color:#ff7ac6}.action.gold{color:#ffd166}.reel-arrows{position:absolute;right:18px;top:64px;display:flex;flex-direction:column;gap:8px;z-index:3}.reel-arrows button{display:grid;place-items:center;background:#14152988;color:#fff;border:1px solid #ffffff35;backdrop-filter:blur(12px);border-radius:50%;width:36px;height:36px;font-size:19px;transition:background .15s,transform .15s}.reel-arrows button:hover{background:#252847cc;transform:scale(1.06)}.rail{display:flex;flex-direction:column;gap:16px}.rail-card{background:#fff;border:1px solid #eaecf3;border-radius:20px;padding:21px 20px;box-shadow:0 5px 25px #28306407}.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.rail-head h2{margin:0;font-size:20px;letter-spacing:-.7px}.rail-note{margin:3px 0 15px;color:#898d9c;font-size:11px}.fire-label{color:#ee4443;font-size:10px;letter-spacing:1.1px;font-weight:850;text-transform:uppercase}.track-row{display:flex;gap:10px;align-items:center;border-top:1px solid #f0f1f6;padding:13px 0}.track-rank{width:18px;text-align:center;color:#9295a6;font-size:15px;font-weight:850}.track-rank.first{color:#ff4942}.cover{position:relative;aspect-ratio:1;background:#393451;overflow:hidden;border-radius:11px}.cover img{width:100%;height:100%;object-fit:cover}.cover-fallback{position:absolute;inset:0;display:grid;place-items:center;color:white;font-weight:850;font-size:17px}.track-cover{width:47px;height:47px;flex-shrink:0;cursor:pointer}.track-name{font-weight:760;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.track-small{font-size:11px;color:#8b8fa1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-body{flex:1;min-width:0;cursor:pointer}.vote{background:#f0f3ff;border:1px solid #e5e9ff;color:#4c65df;border-radius:30px;padding:7px 11px;font-size:10px;font-weight:850;white-space:nowrap}.vote.voted{background:#5069f3;color:#fff;border-color:#5069f3}.rate-pill{background:#fff8eb;border:1px solid #fde6b8;color:#b87503;border-radius:30px;padding:7px 10px;font-size:10px;font-weight:850;white-space:nowrap}.text-link{color:#4f62dc;font-size:12px;font-weight:750}.hot-link{color:#e74d47}.sponsor{border:1px solid #f0e4fa;background:linear-gradient(145deg,#fbfaff,#f7f4fd);border-radius:20px;padding:19px 20px;position:relative;overflow:hidden}.sponsor:after{content:'';position:absolute;width:150px;height:150px;border-radius:100%;background:#bd75f422;filter:blur(30px);right:-65px;top:-80px;pointer-events:none}.sponsor-tag{font-size:10px;font-weight:750;letter-spacing:1px;color:#8c79a1;text-transform:uppercase}.sponsor h3{font-size:19px;letter-spacing:-.6px;margin:9px 0 7px}.sponsor p{color:#7f8195;font-size:11px;margin:0 0 15px;max-width:270px}.promo-link{background:#23273c;color:white;border-radius:30px;padding:9px 13px;font-size:11px;font-weight:750}.bottom-strip{margin-top:25px;background:#fff;border:1px solid #ebeef5;border-radius:20px;padding:23px 25px}.strip-head{display:flex;justify-content:space-between;align-items:center;gap:13px;margin-bottom:17px}.strip-head h2{margin:5px 0 0;font-size:20px;letter-spacing:-.6px}.chips{display:flex;gap:7px;overflow:auto;padding-bottom:14px;scrollbar-width:none}.chip{border:1px solid #eceef5;background:#f8f9fc;padding:8px 13px;border-radius:30px;font-size:11px;font-weight:650;white-space:nowrap;color:#6e7488}.chip.active{background:#edf0ff;color:#4b62df;border-color:#dce2ff}.music-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.music-tile{text-align:left;min-width:0}.music-tile .cover{border-radius:14px}.music-tile .track-name{margin-top:9px}.section-lead{margin:0 0 21px}.board{background:white;padding:17px 22px;border-radius:22px;border:1px solid #e9ebf3}.board .track-row{padding:15px 0}.board .track-cover{width:55px;height:55px}.board .track-rank{width:38px}.board .track-name{font-size:14px}.board .track-small{font-size:12px}.board-intro{display:flex;justify-content:space-between;gap:20px;align-items:center;background:#fff5f4;border:1px solid #ffe5e2;padding:21px 24px;border-radius:20px;margin-bottom:20px}.board-intro h2{margin:3px 0;font-size:22px;letter-spacing:-.7px}.board-intro p{margin:3px 0;font-size:12px;color:#a17876}.board-intro .fire{font-size:38px}.studio-layout{display:grid;grid-template-columns:minmax(300px,670px) minmax(190px,300px);gap:22px}.panel{background:#fff;padding:23px;border-radius:20px;border:1px solid #e9ebf3}.panel h2{margin:0 0 4px;letter-spacing:-.4px}.field{display:flex;flex-direction:column;gap:7px;margin-top:16px;font-size:12px;font-weight:750}.field input,.field select,.field textarea{border:1px solid #e2e5ed;background:#fafbfe;border-radius:12px;padding:12px 13px;width:100%;color:var(--ink)}.field input[type=file]{font-size:12px}.note{font-size:11px;color:#9093a2}.empty{padding:30px;text-align:center;color:#8d90a0;font-size:13px}.player{position:fixed;bottom:13px;left:calc(212px + 18px);right:18px;max-width:1470px;margin:0 auto;background:#ffffffed;backdrop-filter:blur(20px);border:1px solid white;box-shadow:0 6px 37px #23294920;border-radius:20px;display:flex;align-items:center;gap:13px;padding:11px 15px;z-index:15;min-width:0}.player .cover{width:45px;height:45px;flex-shrink:0}.play-circle{background:#5369f4;color:white;width:40px;height:40px;border-radius:50%;font-size:17px;flex-shrink:0}.progress-wrap{flex:1;display:flex;align-items:center;gap:10px;min-width:60px}.progress{height:7px;border-radius:20px;background:#eaecf3;flex:1;overflow:hidden;cursor:pointer;position:relative}.progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#4a7bff,#9e6cef,#e77ac6);border-radius:20px;pointer-events:none}.time-label{font-size:11px;color:#888da0;font-variant-numeric:tabular-nums;white-space:nowrap}.player-title{min-width:110px;max-width:220px;flex:1;cursor:pointer}.player-title div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-nav{display:none}.modal-layer{position:fixed;inset:0;z-index:30;background:#17192bb0;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:18px}.modal{max-width:460px;width:100%;max-height:86vh;overflow:auto;background:white;border-radius:24px;padding:26px;box-shadow:0 30px 80px #0003}.modal h2{font-size:23px;letter-spacing:-.7px;margin:11px 0 4px}.modal p{font-size:13px;color:#7b7f92}.modal .cover{max-width:215px;margin:15px auto}.close{font-size:23px;float:right}.toast{position:fixed;z-index:100;bottom:105px;left:50%;transform:translateX(-50%);background:#23263d;color:white;border-radius:25px;padding:12px 20px;font-size:12px;font-weight:700;box-shadow:0 10px 35px #0003;white-space:nowrap}.footer-note{font-size:10px;color:#999eae;padding:20px 2px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px}.stat strong{display:block;font-size:22px;color:#5b66e1}.stat span{color:#9295a4;font-size:11px}.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:20px}.star-picker{display:flex;justify-content:center;gap:8px;margin:18px 0}.star-btn{font-size:34px;color:#d9dce8;transition:transform .15s,color .15s}.star-btn:hover,.star-btn.on{color:var(--gold);transform:scale(1.12)}.artist-hero{background:linear-gradient(135deg,#16182c 0%,#28204c 55%,#1d1936 100%);color:#fff;padding:30px 28px;border-radius:24px;margin-bottom:22px;position:relative;overflow:hidden;box-shadow:0 16px 45px #1a163822}.artist-hero-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.artist-avatar-lg{width:74px;height:74px;border-radius:22px;background:linear-gradient(135deg,#5168ff,#e36cbd);display:grid;place-items:center;font-size:26px;font-weight:850;color:#fff;flex-shrink:0;box-shadow:0 8px 24px #5168ff44}.artist-stats-bar{display:flex;gap:22px;margin:18px 0;padding:14px 18px;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:16px;flex-wrap:wrap}.artist-stats-bar div strong{display:block;font-size:19px;color:#fff}.artist-stats-bar div span{font-size:11px;color:#b8b4d8}.wall-post{border-top:1px solid #f0f1f6;padding:16px 0}.wall-post:first-child{border-top:0;padding-top:4px}.wall-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}.wall-body{font-size:13px;color:var(--ink);line-height:1.55;white-space:pre-wrap}.wall-replies{margin-top:10px;padding-left:12px;border-left:2px solid #e6e9fd;display:flex;flex-direction:column;gap:6px}.wall-reply{font-size:12px;color:#5a5f75;background:#f8f9fd;padding:7px 11px;border-radius:10px}.auth-tabs{display:flex;gap:8px;margin:14px 0}.auth-tab{flex:1;padding:10px;border-radius:12px;background:#f2f3f8;font-weight:750;font-size:12px;color:#727688}.auth-tab.active{background:#4a61f0;color:#fff}.tiktok-feed{display:none}
-@media(max-width:1180px){.app{grid-template-columns:174px minmax(0,1fr)}.sidebar{padding:24px 10px}.brand{font-size:19px}.home-layout{grid-template-columns:minmax(0,1fr) minmax(240px,300px);gap:15px}.music-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.player{left:192px}.content{padding:24px}.topbar{padding:0 24px}.reel-shell{min-height:540px}}
-@media(max-width:850px){.sidebar{display:none}.app{display:block}.topbrand{display:flex;font-weight:850;align-items:center;gap:7px;font-size:21px;letter-spacing:-.8px}.topbrand .brand-mark{height:30px;width:30px}.home-layout{grid-template-columns:1fr}.rail{display:grid;grid-template-columns:1fr 1fr}.reel-shell{height:630px}.player{left:14px;right:14px;bottom:75px}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(20px);z-index:20;justify-content:space-around;align-items:center;border-top:1px solid #ebeef4;padding:6px 4px calc(8px + env(safe-area-inset-bottom))}.mobile-nav button{display:flex;flex-direction:column;gap:3px;font-size:10px;color:#8e91a2;align-items:center;min-width:50px}.mobile-nav .active{color:#4c63ed;font-weight:800}.mobile-nav span{font-size:20px}.main{padding-bottom:158px}}
-@media(max-width:650px){
-  body.is-reels{background:#0b0e1a;overflow:hidden}
-  body.is-reels .topbar,body.is-reels .desktop-feed,body.is-reels .player,body.is-reels .footer-note{display:none!important}
-  body.is-reels .content{padding:0;max-width:none}
-  body.is-reels .main{padding-bottom:0}
-  body.is-reels .mobile-nav{background:#0b0e1ad9;border-top:1px solid #ffffff1a;color:#9ca3af}
-  body.is-reels .mobile-nav button{color:#9ca3af}
-  body.is-reels .mobile-nav .active{color:#fff}
-  body.is-reels .tiktok-feed{display:block;height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;background:#0b0e1a}
-  body.is-reels .tiktok-feed::-webkit-scrollbar{display:none}
-  .tt-slide{height:100dvh;width:100%;scroll-snap-align:start;scroll-snap-stop:always;position:relative;overflow:hidden;color:#fff;background:#0b0e1a}
-  .tt-slide .reel-media img,.tt-slide .reel-media video{width:100%;height:100%;object-fit:cover;object-position:center 28%}
-  .tt-top{position:fixed;top:calc(12px + env(safe-area-inset-top));left:16px;right:16px;z-index:18;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
-  .tt-tabs{display:flex;gap:14px;pointer-events:auto;background:#0b0e1a66;backdrop-filter:blur(14px);padding:6px 14px;border-radius:30px;border:1px solid #ffffff22}
-  .tt-tabs button{color:#ffffff99;font-size:13px;font-weight:750}
-  .tt-tabs button.active{color:#fff;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
-  .tt-center-play{position:absolute;inset:0;display:grid;place-items:center;z-index:2;pointer-events:none}
-  .tt-play-badge{width:64px;height:64px;border-radius:50%;background:#0b0e1a77;backdrop-filter:blur(12px);border:1px solid #ffffff40;display:grid;place-items:center;font-size:24px;color:#fff;box-shadow:0 8px 30px #0006}
-  .tt-bottom{position:absolute;left:16px;right:74px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:3}
-  .tt-bottom h2{font-size:28px;letter-spacing:-1px;line-height:1.06;margin:8px 0 8px;text-shadow:0 2px 12px #0009}
-  .tt-actions{position:absolute;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:14px;z-index:4}
-  .tt-progress{position:fixed;left:0;right:0;bottom:calc(54px + env(safe-area-inset-bottom));height:4px;background:#ffffff24;z-index:22;cursor:pointer}
-  .tt-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5168ff,#9559ec,#e36cbd)}
-  .topbar{padding:0 14px;height:63px;gap:8px}.topbar .top-upload{display:none}.search{max-width:165px;padding:9px 12px}.content{padding:19px 14px}.heading h1{font-size:27px}.heading .sub{font-size:11px}.home-layout{gap:15px}.reel-shell{height:min(72vh,620px);min-height:510px;border-radius:19px}.reel-bottom{left:16px;right:68px;bottom:20px}.reel-bottom h2{font-size:31px}.reel-actions{right:12px;bottom:20px;gap:10px}.action .acticon{font-size:20px}.reel-arrows{right:12px;top:58px;gap:6px}.reel-arrows button{width:33px;height:33px;font-size:17px}.rail{grid-template-columns:1fr}.rail-card{padding:18px}.sponsor{padding:18px}.music-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.bottom-strip{padding:18px}.strip-head h2{font-size:18px}.player{left:8px;right:8px;bottom:67px;padding:8px 10px;gap:8px;height:62px}.player .cover{width:39px;height:39px}.player-title{min-width:70px}.player-title .track-name{font-size:11px}.player .note,.player .time-label,.player .skip{display:none}.player .play-circle{width:34px;height:34px}.studio-layout,.two-col{grid-template-columns:1fr}.board-intro{padding:15px}.board .track-cover{width:45px;height:45px}.board .track-rank{width:23px}.statgrid{gap:7px}.stat{padding:14px}.artist-hero{padding:22px 18px}
-}
-.release-showcase{margin-top:24px;border-radius:23px;padding:24px 25px 26px;background:linear-gradient(135deg,#191a31 0%,#282149 60%,#201b35 100%);color:#fff;overflow:hidden;position:relative;box-shadow:0 15px 36px #29204618}
-.release-showcase:before{content:"";position:absolute;inset:auto -20% -80px 20%;height:200px;background:radial-gradient(ellipse,#6e4ec42b,transparent 65%);pointer-events:none}
-.release-showcase-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;position:relative}
-.release-showcase .eyebrow{color:#bbb0fa}.release-showcase h2{font-size:24px;letter-spacing:-.6px;margin:3px 0 2px}.release-showcase .sub{color:#b9bad0}.release-showcase .text-link{color:#d4c9ff}
-.release-showcase-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;position:relative}
-.release-big{border:1px solid #ffffff26;background:#2a2343;border-radius:17px;min-height:245px;position:relative;overflow:hidden;text-align:left;padding:0;isolation:isolate}
-.release-big>img{width:100%;height:100%;max-height:290px;object-fit:cover;object-position:center 44%;position:absolute;inset:0;transition:transform .4s}.release-big:hover>img{transform:scale(1.04)}
-.release-big:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 31%,#0a0815e3 100%);z-index:0}
-.release-big-meta{position:absolute;bottom:18px;left:19px;color:white;z-index:1;display:flex;gap:3px;flex-direction:column}.release-big-meta small{font-size:9px;letter-spacing:1.3px;color:#c4b3ff;font-weight:800}.release-big-meta strong{font-size:24px;letter-spacing:-.6px}.release-big-meta>span{font-size:11px;color:#e4dfff}
-.release-side{display:flex;flex-direction:column;gap:13px;min-width:0}.release-mini{display:flex;align-items:center;gap:15px;min-height:116px;padding:10px;border-radius:16px;background:#ffffff0b;border:1px solid #ffffff19;text-align:left;color:white}.release-mini img{height:94px;width:94px;object-fit:cover;border-radius:11px;flex-shrink:0}.release-mini span{display:flex;flex-direction:column;gap:5px;min-width:0}.release-mini strong{font-size:16px;line-height:1.1}.release-mini small{color:#bdb8d8;font-size:11px}
-.sponsor-art{height:84px;position:relative;overflow:hidden;border-radius:13px;background:#1b1836;margin:12px 0 14px}.sponsor-art img{width:100%;height:100%;object-fit:cover;opacity:.51;filter:saturate(.8)}.sponsor-art span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-weight:850;font-size:15px;letter-spacing:1.8px;text-shadow:0 2px 9px #000}
-.reel-media img{object-position:center 30%}.music-tile .cover img,.track-cover .cover img{transition:transform .25s}.music-tile:hover img,.track-cover:hover img{transform:scale(1.035)}
-@media(max-width:820px){.release-showcase-grid{grid-template-columns:1fr}.release-big{min-height:250px}.release-side{display:grid;grid-template-columns:1fr 1fr}.release-mini{min-width:0;gap:9px}.release-mini img{width:70px;height:80px}.release-mini strong{font-size:13px}}@media(max-width:520px){.release-showcase{padding:20px 16px}.release-showcase-head h2{font-size:21px}.release-showcase-head .text-link{font-size:10px}.release-side{grid-template-columns:1fr 1fr}.release-mini{display:block}.release-mini img{width:100%;height:120px;object-position:center 30%;margin-bottom:8px}.release-big{min-height:270px}.release-big-meta strong{font-size:22px}}
-</style></head><body><div id="app"></div><script>
-const SUPABASE_URL = 'https://qylznmnsiirqcdupwtgv.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable__WGmmiAskm-a7NiG3f8F8Q_iPZqwBZI';
-
-// Feature switches: flip either to false anytime as Soundwave grows
-const SHOW_MOCKS = true;
-const ALLOW_YOUTUBE = true;
-const MAX_MEDIA_MB = 15;
-const MAX_COVER_MB = 2;
-
-const hasSupabase = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
-const sb = hasSupabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-const $=(s)=>document.querySelector(s),esc=(x)=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const photo=(id)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=85`;
-const parseYouTubeId=(url)=>{
-  if(!url)return '';
-  const m=String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  return m?m[1]:'';
-};
-const demoAudio=[
-  'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
-  'https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3',
-  'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3',
-  'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3',
-  'https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3',
-  'https://cdn.pixabay.com/download/audio/2022/08/02/audio_884fe92c21.mp3'
-];
-const artistSubsBase={'LONEK':1420,'Tyler J':985,'Marlon Tega':740,'NOVA':610,'ELARA':530};
-const mockBios={
-  'LONEK':{bio:'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.',link:'https://soundwave-pearl.vercel.app/#@LONEK'},
-  'Tyler J':{bio:'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.',link:''},
-  'Marlon Tega':{bio:'Dancehall & island rhythms straight from the studio.',link:''},
-  'NOVA':{bio:'Analog synths & midnight electronic soundscapes.',link:''},
-  'ELARA':{bio:'Alternative R&B vocalist.',link:''}
-};
-const mockWallPosts={
-  'LONEK':[
-    {id:'mp1',artist:'LONEK',body:'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right below.',vip_only:false,created_at:new Date(Date.now()-86400000).toISOString()},
-    {id:'mp2',artist:'LONEK',body:'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!',vip_only:true,created_at:new Date(Date.now()-3600000).toISOString()}
-  ],
-  'Tyler J':[
-    {id:'mp3',artist:'Tyler J',body:'"Oh My Days" just crossed 2,800 community votes. Appreciate every single rating!',vip_only:false,created_at:new Date(Date.now()-43200000).toISOString()}
-  ]
-};
-
-const samples=[
-  ['LONEK','I Bet on Me','Hip-Hop',2842,'photo-1529139574466-a303027c1d8b','#3c3559',4.9,142,false,412],
-  ['Tyler J','Oh My Days','Hip-Hop',2841,'photo-1506794778202-cbf6067b4bc1','#416583',4.8,118,false,389],
-  ['Marlon Tega','Pom Pom Whine','Dancehall',2840,'photo-1500648767791-00dcc994a43e','#865b3d',4.7,96,false,310],
-  ['NOVA','Afterglow','Electronic',1986,'photo-1470229722913-7c0e2dbbafd3','#523c83',4.8,84,false,245],
-  ['LONEK','I Got You','Hip-Hop',1754,'photo-1503376780353-7e6692767b70','#355668',4.9,91,true,298],
-  ['ELARA','Velvet Skies','R&B',1482,'photo-1524504388940-b1c1722653e1','#b56e90',4.6,63,false,190]
-].map((s,i)=>({
-  id:'sample'+i,isMock:true,userId:null,artist:s[0],title:s[1],genre:s[2],votes:s[3],likes:s[9],
-  img:({0:'assets/ibet-cover.webp',1:'assets/ohmydays-cover.webp',4:'assets/igotyou-cover.webp'}[i]||photo(s[4])),
-  color:s[5],ratingSum:Math.round(s[6]*s[7]),ratingCount:s[7],vip:s[8],url:demoAudio[i],ytId:'',
-  description:['A new sound for the ones who never stopped believing.','For everybody waiting on better days.','An upbeat dancehall rhythm to move to.','Electronic textures for the night.','Subscribers-only VIP drop for the day-one supporters.','Late-night R&B with room to breathe.'][i]
-}));
-
-let state={deviceId:'',votes:[],saved:[],likes:[],follows:[],comments:{},ratings:{}};
-try{
-  const old=JSON.parse(localStorage.getItem('soundwave-state-v4')||'{}');
-  for(const k of ['votes','saved','likes','follows'])if(Array.isArray(old[k]))state[k]=old[k];
-  if(old.comments&&typeof old.comments==='object')state.comments=old.comments;
-  if(old.ratings&&typeof old.ratings==='object')state.ratings=old.ratings;
-  state.deviceId=old.deviceId||('dev_'+Math.random().toString(36).slice(2,11));
-}catch{state.deviceId='dev_'+Math.random().toString(36).slice(2,11)}
-const saveState=()=>{try{localStorage.setItem('soundwave-state-v4',JSON.stringify(state))}catch{}};
-const has=(key,v)=>state[key].includes(v),flip=(key,v)=>{state[key]=has(key,v)?state[key].filter(x=>x!==v):[...state[key],v];saveState()};
-
-let currentUser=null,userArtistName='',authMode='signup',authLoading=false,uploadSource='youtube';
-let tracks=SHOW_MOCKS?[...samples]:[],liveSubCounts={},artistProfiles={},artistPosts=[],selectedArtist='',editingBio=false;
-let page='Home',currentIndex=0,genre='All',tab='For You',modal='',query='',playing=false,userInteracted=false,progress=0,curTime=0,durTime=0,uploading=false;
-const audio=new Audio();audio.crossOrigin='anonymous';
-const sections=[['Home','⌂','Discover'],['Feed','▷','Reels'],['Charts','♨','Top Charts'],['Library','♡','My Music'],['Studio','⊕','Upload']];
-const genres=['All','Hip-Hop','R&B','Dancehall','Electronic','Pop','Rock','Other'];
-const all=()=>tracks.map((t,i)=>({t,i})),current=()=>tracks[currentIndex]||tracks[0];
-
-const getArtistDisplay=()=>userArtistName||currentUser?.user_metadata?.artist_name||currentUser?.email?.split('@')[0]||'';
-const getTrackRating=(t)=>{
-  const sum=t.ratingSum||5;
-  const count=t.ratingCount||1;
-  return {avg:(sum/count).toFixed(1),count};
-};
-const subCount=(artist)=>(artistSubsBase[artist]||0)+(liveSubCounts[artist]||0);
-const isLocked=(t)=>t.vip&&!has('follows',t.artist)&&!(currentUser&&t.userId===currentUser.id);
-const fmtTime=(s)=>{if(!s||isNaN(s))return '0:00';const m=Math.floor(s/60),sec=Math.floor(s%60);return `${m}:${sec<10?'0':''}${sec}`};
-const timeAgo=(iso)=>{if(!iso)return 'Just now';const sec=Math.floor((Date.now()-new Date(iso))/1000);if(sec<60)return 'Just now';if(sec<3600)return Math.floor(sec/60)+'m ago';if(sec<86400)return Math.floor(sec/3600)+'h ago';return Math.floor(sec/86400)+'d ago'};
-const rank=()=>all().filter(x=>genre==='All'||x.t.genre===genre).sort((a,b)=>(b.t.votes||0)-(a.t.votes||0));
-const cover=t=>`<div class="cover" style="background:${t.color||'#403b71'}"><span class="cover-fallback">${esc(t.artist.slice(0,2).toUpperCase())}</span>${t.img?`<img src="${esc(t.img)}" alt="Cover artwork for ${esc(t.title)}" onerror="this.remove()">`:''}</div>`;
-const row=(x,n)=>{
-  const r=getTrackRating(x.t);
-  const isOwner=currentUser&&x.t.userId===currentUser.id;
-  return `<div class="track-row"><span class="track-rank ${n===0?'first':''}">${String(n+1).padStart(2,'0')}</span><button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button><div class="track-body"><div class="track-name" data-track="${x.i}">${esc(x.t.title)} ${x.t.ytId?'<span class="yt-badge">▶ YT</span>':(!x.t.isMock?'<span class="live-badge">LIVE</span>':'')} ${x.t.vip?'<span class="vip-badge">★ VIP</span>':''}</div><div class="track-small"><span data-openartist="${esc(x.t.artist)}" style="color:#4a61f0;font-weight:700">@${esc(x.t.artist)}</span> · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})</div></div>${isOwner?`<button class="btn danger" style="padding:6px 10px;font-size:10px" data-deltrack="${x.t.id}" title="Delete your track">Delete</button>`:''}<button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id]||r.avg}</button><button class="vote ${has('votes',x.t.id)?'voted':''}" data-vote="${x.i}">${has('votes',x.t.id)?'✓ ':'↑ '}${(x.t.votes||0).toLocaleString()}</button></div>`;
-};
-const chips=()=>`<div class="chips">${genres.map(g=>`<button class="chip ${genre===g?'active':''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
-
-async function syncUserSession(){
-  if(!sb)return;
-  const {data:{session}}=await sb.auth.getSession();
-  currentUser=session?.user||null;
-  if(currentUser){
-    const {data:prof}=await sb.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
-    userArtistName=prof?.artist_name||currentUser.user_metadata?.artist_name||currentUser.email.split('@')[0];
-    if(prof)artistProfiles[userArtistName]=prof;
-  }else{
-    userArtistName='';
-  }
-  render();
-}
-
-async function syncFromSupabase(){
-  if(!sb)return;
-  try{
-    const [{data:dbTracks},{data:dbSubs},{data:dbProfs},{data:dbEng}]=await Promise.all([
-      sb.from('tracks').select('*').order('created_at',{ascending:false}),
-      sb.from('subscriptions').select('*'),
-      sb.from('profiles').select('*'),
-      sb.from('engagement').select('*')
-    ]);
-    liveSubCounts={};
-    const myRemoteSubs=[];
-    (dbSubs||[]).forEach(s=>{
-      liveSubCounts[s.artist]=(liveSubCounts[s.artist]||0)+1;
-      if(s.device_id===state.deviceId)myRemoteSubs.push(s.artist);
-    });
-    if(myRemoteSubs.length){
-      state.follows=Array.from(new Set([...state.follows,...myRemoteSubs]));
-      saveState();
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090a11">
+  <title>Soundwave — Discover what’s next</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #f4f6ff;
+      --muted: #8e94b0;
+      --blue: #5e74ff;
+      --violet: #9b62f7;
+      --pink: #ec6ec4;
+      --fire: #ff524a;
+      --gold: #ffb81c;
+      --line: #1f2338;
+      --paper: #090a11;
+      --card: #11131f;
+      --card-hi: #171a2b;
+      --glass: #11131fe6;
     }
-    (dbProfs||[]).forEach(p=>{artistProfiles[p.artist_name]=p});
-    const engMap={};
-    (dbEng||[]).forEach(e=>{engMap[e.item_id]=e});
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; color-scheme: dark; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 18% 0%, #16182e 0%, #090a11 52%);
+      color: var(--ink);
+      font: 14px/1.5 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { border: 0; background: none; cursor: pointer; color: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid #6b7cff;
+      outline-offset: 2px;
+    }
+    button:disabled { opacity: .55; cursor: not-allowed; }
 
-    const realTracks=(dbTracks||[]).map(r=>{
-      const ytId=parseYouTubeId(r.audio_url);
-      return {
-        id:r.id,isMock:false,userId:r.user_id,artist:r.artist,title:r.title,genre:r.genre,
-        description:r.description,url:r.audio_url,ytId,
-        img:r.cover_url||(ytId?`https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`:''),
-        video:r.is_video,vip:r.vip,votes:r.votes||1,likes:r.likes||0,
-        ratingSum:r.rating_sum||5,ratingCount:r.rating_count||1,color:'#4a61f0'
+    /* Layout Shell */
+    .app { display: grid; grid-template-columns: 222px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      background: #0c0e17;
+      border-right: 1px solid var(--line);
+      padding: 27px 17px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 23px;
+      letter-spacing: -1.35px;
+      font-weight: 850;
+      white-space: nowrap;
+      color: #fff;
+      cursor: pointer;
+    }
+    .brand-mark {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(130deg, #487fff, #805ff2 56%, #e76fb8);
+      color: white;
+      box-shadow: 0 5px 20px #835af155;
+      font-size: 20px;
+    }
+    .brand-dot { color: var(--pink); }
+    .sidebar-label {
+      margin: 32px 12px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #5c627d;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border-radius: 13px;
+      padding: 12px 14px;
+      text-align: left;
+      width: 100%;
+      color: #9399b5;
+      font-weight: 600;
+      margin: 3px 0;
+      transition: background .15s, color .15s;
+      border: 1px solid transparent;
+    }
+    .nav .glyph { font-size: 18px; width: 22px; text-align: center; font-weight: 400; }
+    .nav.active {
+      background: linear-gradient(135deg, #5e74ff26, #9b62f722);
+      color: #fff;
+      border-color: #5e74ff44;
+    }
+    .nav:hover { background: #161929; color: #fff; }
+    .side-bottom {
+      margin-top: auto;
+      border-radius: 16px;
+      padding: 17px 14px;
+      background: linear-gradient(145deg, #16192c, #1d1733);
+      border: 1px solid #2b2f4c;
+      font-size: 12px;
+    }
+    .side-bottom b { font-size: 14px; color: #fff; }
+    .side-bottom p { color: #9ca2be; margin: 7px 0 14px; }
+
+    /* Topbar & Main */
+    .main { min-width: 0; padding-bottom: 108px; }
+    .topbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 0 clamp(20px, 3vw, 48px);
+      border-bottom: 1px solid var(--line);
+      background: #090a11cc;
+      backdrop-filter: blur(22px);
+      position: sticky;
+      top: 0;
+      z-index: 12;
+    }
+    .topbrand { display: none; }
+    .search {
+      background: #131625;
+      border: 1px solid #23273e;
+      border-radius: 30px;
+      padding: 10px 17px;
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      max-width: 340px;
+      flex: 1;
+      color: #7e85a3;
+    }
+    .search:focus-within { border-color: #5e74ff; box-shadow: 0 0 0 3px #5e74ff22; }
+    .search input { background: none; border: 0; outline: none; color: #fff; width: 100%; min-width: 0; font-size: 12px; }
+    .search input::placeholder { color: #666d8c; }
+    .topactions { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #252b48, #372859);
+      border: 1px solid #4c568a;
+      display: grid;
+      place-items: center;
+      color: #d6dcff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* Buttons & Badges */
+    .btn {
+      border-radius: 30px;
+      padding: 11px 17px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: transform .17s, box-shadow .17s, background .17s;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: #fff;
+      box-shadow: 0 6px 20px #5e74ff38;
+    }
+    .btn.light { background: #fff; color: #0e101c; }
+    .btn.ghost { border: 1px solid #282d47; background: #141726; color: #e3e7ff; }
+    .btn.ghost:hover { background: #1b1f33; }
+    .btn.gold {
+      background: linear-gradient(135deg, #ffb81c, #ff6a00);
+      color: #fff;
+      box-shadow: 0 6px 20px #ff990040;
+    }
+    .btn.danger { background: #3a151b; border: 1px solid #6b212c; color: #fca5a5; }
+
+    .vip-badge {
+      background: linear-gradient(135deg, #ffb81c, #ea580c);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .live-badge {
+      background: #10b98122;
+      border: 1px solid #10b98155;
+      color: #6ee7b7;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .6px;
+    }
+    .yt-badge {
+      background: #ef444426;
+      border: 1px solid #ef444466;
+      color: #fca5a5;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    /* Headings & Content */
+    .content { max-width: 1500px; margin: 0 auto; padding: 30px clamp(20px, 3vw, 48px); }
+    .eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      font-weight: 800;
+      color: #8e96bd;
+    }
+    .heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+    .heading h1 {
+      margin: 6px 0 4px;
+      font-size: clamp(26px, 3vw, 39px);
+      letter-spacing: -1.35px;
+      line-height: 1.12;
+      color: #fff;
+    }
+    .sub { color: var(--muted); font-size: 13px; margin: 0; }
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: #10b981;
+      border-radius: 100%;
+      vertical-align: middle;
+      margin-right: 6px;
+      box-shadow: 0 0 11px #10b981;
+    }
+
+    /* Home Grid & Vertical Reel Stage */
+    .home-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(290px, 375px);
+      gap: 25px;
+      align-items: start;
+    }
+    .reel-wrap { min-width: 0; }
+    .reel-shell {
+      height: min(68vh, 700px);
+      min-height: 540px;
+      border-radius: 24px;
+      background: #0d0f1a;
+      border: 1px solid #242942;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      box-shadow: 0 22px 60px #00000075;
+    }
+    .reel-media { position: absolute; inset: 0; }
+    .reel-media img, .reel-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .reel-shell.is-playing .reel-media img {
+      transform: scale(1.04);
+    }
+    .yt-frame { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+    .reel-dim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #090a1190 0%, transparent 28%, transparent 42%, #090a11a6 70%, #07080ef8 100%);
+      pointer-events: none;
+    }
+    .reel-top {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      z-index: 2;
+    }
+    .glasslabel {
+      border-radius: 30px;
+      padding: 8px 13px;
+      background: #0b0d18a6;
+      backdrop-filter: blur(18px);
+      border: 1px solid #ffffff24;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .reel-indicator {
+      font-size: 11px;
+      color: #f4eefb;
+      background: #0b0d1899;
+      border: 1px solid #ffffff1c;
+      backdrop-filter: blur(12px);
+      padding: 6px 11px;
+      border-radius: 20px;
+    }
+    .reel-arrows {
+      position: absolute;
+      right: 18px;
+      top: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 3;
+    }
+    .reel-arrows button {
+      display: grid;
+      place-items: center;
+      background: #0d0f1cb0;
+      color: #fff;
+      border: 1px solid #ffffff2e;
+      backdrop-filter: blur(12px);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 18px;
+      transition: background .15s, transform .15s;
+    }
+    .reel-arrows button:hover {
+      background: #5e74ff55;
+      border-color: #788bff;
+      transform: scale(1.06);
+    }
+    .reel-bottom {
+      position: absolute;
+      left: 24px;
+      right: 86px;
+      bottom: 26px;
+      max-width: 470px;
+      z-index: 2;
+    }
+    .reel-bottom h2 {
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing: -1.6px;
+      line-height: 1.04;
+      margin: 9px 0 10px;
+      text-shadow: 0 4px 18px #000b;
+    }
+    .artistline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-weight: 700; }
+    .follow {
+      font-weight: 700;
+      font-size: 11px;
+      padding: 5px 11px;
+      border: 1px solid #ffffff66;
+      color: white;
+      border-radius: 30px;
+      background: #ffffff14;
+      backdrop-filter: blur(8px);
+      transition: all .15s;
+    }
+    .follow.subbed { background: var(--blue); border-color: var(--blue); }
+    .reel-description { color: #d7daf0; font-size: 12px; margin: 0 0 16px; max-width: 410px; }
+    .reel-btns { display: flex; gap: 9px; flex-wrap: wrap; }
+
+    /* Right-side Reel Actions */
+    .reel-actions {
+      position: absolute;
+      right: 18px;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 2;
+    }
+    .action {
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 10px;
+      font-weight: 600;
+      min-width: 44px;
+      text-shadow: 0 2px 8px #000b;
+      transition: transform .15s;
+    }
+    .action:hover { transform: scale(1.08); }
+    .action .acticon { font-size: 22px; line-height: 1.05; }
+    .action.selected { color: var(--pink); }
+    .action.gold { color: #ffd166; }
+
+    /* Equalizer Bars when playing */
+    .eq-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+      margin-right: 4px;
+    }
+    .eq-bars i {
+      width: 2.5px;
+      background: #10b981;
+      border-radius: 2px;
+      animation: eq 0.7s infinite ease-in-out alternate;
+    }
+    .eq-bars i:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bars i:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes eq { 0% { height: 3px; } 100% { height: 12px; } }
+
+    /* Right Rail & Cards */
+    .rail { display: flex; flex-direction: column; gap: 16px; }
+    .rail-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 21px 20px;
+      box-shadow: 0 12px 35px #00000040;
+    }
+    .rail-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .rail-head h2 { margin: 0; font-size: 20px; letter-spacing: -.7px; color: #fff; }
+    .rail-note { margin: 3px 0 14px; color: var(--muted); font-size: 11px; }
+    .fire-label { color: #ff5b54; font-size: 10px; letter-spacing: 1.1px; font-weight: 800; text-transform: uppercase; }
+
+    /* Track Rows */
+    .track-row { display: flex; gap: 10px; align-items: center; border-top: 1px solid #1b1f33; padding: 12px 0; }
+    .track-rank { width: 20px; text-align: center; color: #687091; font-size: 14px; font-weight: 800; }
+    .track-rank.first { color: #ff564f; }
+    .cover {
+      position: relative;
+      aspect-ratio: 1;
+      background: #24213b;
+      overflow: hidden;
+      border-radius: 11px;
+      border: 1px solid #ffffff12;
+    }
+    .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
+    .cover-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: white; font-weight: 800; font-size: 16px; }
+    .track-cover { width: 47px; height: 47px; flex-shrink: 0; cursor: pointer; }
+    .track-cover:hover img, .music-tile:hover img { transform: scale(1.04); }
+    .track-name {
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #f3f5ff;
+    }
+    .track-small { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-body { flex: 1; min-width: 0; cursor: pointer; }
+
+    .vote {
+      background: #191f38;
+      border: 1px solid #2b355e;
+      color: #8fa2ff;
+      border-radius: 30px;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .vote:hover { border-color: var(--blue); color: #fff; }
+    .vote.voted {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px #5e74ff44;
+    }
+    .rate-pill {
+      background: #261f12;
+      border: 1px solid #4d3b18;
+      color: #ffca57;
+      border-radius: 30px;
+      padding: 6px 9px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .text-link { color: #8fa2ff; font-size: 12px; font-weight: 700; }
+    .hot-link { color: #ff6b64; }
+
+    /* Sponsored Card */
+    .sponsor {
+      border: 1px solid #2f2447;
+      background: linear-gradient(145deg, #151326, #1c1630);
+      border-radius: 20px;
+      padding: 19px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sponsor:after {
+      content: '';
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 100%;
+      background: #9b62f728;
+      filter: blur(32px);
+      right: -65px;
+      top: -80px;
+      pointer-events: none;
+    }
+    .sponsor-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #a595c4; text-transform: uppercase; }
+    .sponsor h3 { font-size: 19px; letter-spacing: -.6px; margin: 9px 0 7px; color: #fff; }
+    .sponsor p { color: #9a9cb8; font-size: 11px; margin: 0 0 15px; max-width: 270px; }
+    .promo-link { background: #272b45; border: 1px solid #3c4269; color: white; border-radius: 30px; padding: 9px 13px; font-size: 11px; font-weight: 700; }
+    .sponsor-art {
+      height: 84px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 13px;
+      background: #110f24;
+      border: 1px solid #2b2447;
+      margin: 12px 0 14px;
+    }
+    .sponsor-art img { width: 100%; height: 100%; object-fit: cover; opacity: .55; filter: saturate(.85); }
+    .sponsor-art span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      font-weight: 850;
+      font-size: 14px;
+      letter-spacing: 1.8px;
+      text-shadow: 0 2px 9px #000;
+    }
+
+    /* Genre Browse Grid & Showcase */
+    .bottom-strip {
+      margin-top: 25px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 23px 25px;
+    }
+    .strip-head { display: flex; justify-content: space-between; align-items: center; gap: 13px; margin-bottom: 17px; }
+    .strip-head h2 { margin: 5px 0 0; font-size: 20px; letter-spacing: -.6px; color: #fff; }
+    .chips { display: flex; gap: 7px; overflow: auto; padding-bottom: 14px; scrollbar-width: none; }
+    .chip {
+      border: 1px solid #232840;
+      background: #161929;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      color: #9399b5;
+    }
+    .chip:hover { color: #fff; border-color: #384066; }
+    .chip.active { background: #5e74ff26; color: #fff; border-color: var(--blue); }
+    .music-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+    .music-tile { text-align: left; min-width: 0; }
+    .music-tile .cover { border-radius: 14px; }
+    .music-tile .track-name { margin-top: 9px; }
+
+    .release-showcase {
+      margin-top: 24px;
+      border-radius: 23px;
+      padding: 24px 25px 26px;
+      background: linear-gradient(135deg, #131526 0%, #221b40 60%, #171429 100%);
+      border: 1px solid #292a4a;
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 18px 45px #00000050;
+    }
+    .release-showcase-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .release-showcase .eyebrow { color: #bbb0fa; }
+    .release-showcase h2 { font-size: 24px; letter-spacing: -.6px; margin: 3px 0 2px; }
+    .release-showcase-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 14px; }
+    .release-big {
+      border: 1px solid #ffffff22;
+      background: #1e1933;
+      border-radius: 17px;
+      min-height: 245px;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+      padding: 0;
+      isolation: isolate;
+    }
+    .release-big > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      position: absolute;
+      inset: 0;
+      transition: transform .4s;
+    }
+    .release-big:hover > img { transform: scale(1.04); }
+    .release-big:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 31%, #07060fe8 100%);
+      z-index: 0;
+    }
+    .release-big-meta {
+      position: absolute;
+      bottom: 18px;
+      left: 19px;
+      color: white;
+      z-index: 1;
+      display: flex;
+      gap: 3px;
+      flex-direction: column;
+    }
+    .release-big-meta small { font-size: 9px; letter-spacing: 1.3px; color: #c4b3ff; font-weight: 800; }
+    .release-big-meta strong { font-size: 24px; letter-spacing: -.6px; }
+    .release-big-meta > span { font-size: 11px; color: #e4dfff; }
+    .release-side { display: flex; flex-direction: column; gap: 13px; min-width: 0; }
+    .release-mini {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      min-height: 116px;
+      padding: 10px;
+      border-radius: 16px;
+      background: #ffffff09;
+      border: 1px solid #ffffff16;
+      text-align: left;
+      color: white;
+      transition: background .15s;
+    }
+    .release-mini:hover { background: #ffffff14; }
+    .release-mini img { height: 94px; width: 94px; object-fit: cover; border-radius: 11px; flex-shrink: 0; }
+    .release-mini span { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+    .release-mini strong { font-size: 16px; line-height: 1.1; display: flex; align-items: center; gap: 6px; }
+    .release-mini small { color: #bdb8d8; font-size: 11px; }
+
+    /* Charts, Studio, Artist Hub */
+    .board { background: var(--card); padding: 17px 22px; border-radius: 22px; border: 1px solid var(--line); }
+    .board .track-row { padding: 15px 0; }
+    .board .track-cover { width: 55px; height: 55px; }
+    .board .track-rank { width: 36px; }
+    .board .track-name { font-size: 14px; }
+    .board-intro {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      background: linear-gradient(135deg, #241319, #1b1426);
+      border: 1px solid #44222c;
+      padding: 21px 24px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .board-intro h2 { margin: 3px 0; font-size: 22px; letter-spacing: -.7px; color: #fff; }
+    .board-intro p { margin: 3px 0; font-size: 12px; color: #c99aa2; }
+
+    .studio-layout { display: grid; grid-template-columns: minmax(300px, 670px) minmax(220px, 320px); gap: 22px; }
+    .panel { background: var(--card); padding: 23px; border-radius: 20px; border: 1px solid var(--line); }
+    .panel h2, .panel h3 { margin: 0 0 4px; letter-spacing: -.4px; color: #fff; }
+    .field { display: flex; flex-direction: column; gap: 7px; margin-top: 16px; font-size: 12px; font-weight: 700; color: #d6dbf2; }
+    .field input, .field select, .field textarea {
+      border: 1px solid #262b45;
+      background: #161929;
+      border-radius: 12px;
+      padding: 12px 13px;
+      width: 100%;
+      color: #fff;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue); }
+    .note { font-size: 11px; color: #787f9e; }
+    .empty { padding: 30px; text-align: center; color: #747b99; font-size: 13px; }
+
+    .statgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 17px; padding: 16px; }
+    .stat strong { display: block; font-size: 22px; color: #8fa2ff; }
+    .stat span { color: var(--muted); font-size: 11px; }
+    .two-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 330px); gap: 20px; }
+
+    /* Artist Hub & Wall */
+    .artist-hero {
+      background: linear-gradient(135deg, #14172b 0%, #261d4a 55%, #18152e 100%);
+      border: 1px solid #2e2c54;
+      color: #fff;
+      padding: 30px 28px;
+      border-radius: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 18px 50px #00000055;
+    }
+    .artist-hero-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .artist-avatar-lg {
+      width: 74px;
+      height: 74px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #5168ff, #e36cbd);
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      font-weight: 850;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 8px 28px #5168ff55;
+    }
+    .artist-stats-bar {
+      display: flex;
+      gap: 24px;
+      margin: 18px 0 0;
+      padding: 14px 18px;
+      background: #0a0c1780;
+      border: 1px solid #ffffff16;
+      border-radius: 16px;
+      flex-wrap: wrap;
+    }
+    .artist-stats-bar div strong { display: block; font-size: 19px; color: #fff; }
+    .artist-stats-bar div span { font-size: 11px; color: #9da3c7; }
+    .wall-post { border-top: 1px solid #1e2238; padding: 16px 0; }
+    .wall-post:first-child { border-top: 0; padding-top: 4px; }
+    .wall-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; color: #fff; }
+    .wall-body { font-size: 13px; color: #dde1f7; line-height: 1.55; white-space: pre-wrap; }
+    .wall-replies { margin-top: 10px; padding-left: 12px; border-left: 2px solid #2f3866; display: flex; flex-direction: column; gap: 6px; }
+    .wall-reply { font-size: 12px; color: #c7cde8; background: #171a2b; border: 1px solid #232842; padding: 7px 11px; border-radius: 10px; }
+
+    .auth-tabs { display: flex; gap: 8px; margin: 14px 0; }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      border-radius: 12px;
+      background: #171a2b;
+      border: 1px solid #252a45;
+      font-weight: 700;
+      font-size: 12px;
+      color: #8e94b0;
+    }
+    .auth-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* Bottom Persistent Audio Player */
+    .player {
+      position: fixed;
+      bottom: 13px;
+      left: calc(222px + 18px);
+      right: 18px;
+      max-width: 1470px;
+      margin: 0 auto;
+      background: #121422eb;
+      backdrop-filter: blur(24px);
+      border: 1px solid #282e4a;
+      box-shadow: 0 12px 45px #00000080;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 11px 15px;
+      z-index: 15;
+      min-width: 0;
+    }
+    .player .cover { width: 45px; height: 45px; flex-shrink: 0; }
+    .play-circle {
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px #5e74ff55;
+      display: grid;
+      place-items: center;
+    }
+    .progress-wrap { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 60px; }
+    .progress { height: 7px; border-radius: 20px; background: #22263d; flex: 1; overflow: hidden; cursor: pointer; position: relative; }
+    .progress i { display: block; width: 0; height: 100%; background: linear-gradient(90deg, #4a7bff, #9e6cef, #e77ac6); border-radius: 20px; pointer-events: none; }
+    .time-label { font-size: 11px; color: #8e94b0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .player-title { min-width: 110px; max-width: 220px; flex: 1; cursor: pointer; }
+    .player-title div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Modals & Toast */
+    .modal-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      background: #05060cc7;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .modal {
+      max-width: 460px;
+      width: 100%;
+      max-height: 86vh;
+      overflow: auto;
+      background: #131624;
+      border: 1px solid #292f4d;
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 30px 80px #0009;
+      color: #fff;
+    }
+    .modal h2 { font-size: 22px; letter-spacing: -.7px; margin: 11px 0 4px; color: #fff; }
+    .modal p { font-size: 13px; color: var(--muted); }
+    .close { font-size: 23px; float: right; color: #8e94b0; }
+    .star-picker { display: flex; justify-content: center; gap: 8px; margin: 18px 0; }
+    .star-btn { font-size: 34px; color: #2e3452; transition: transform .15s, color .15s; }
+    .star-btn:hover, .star-btn.on { color: var(--gold); transform: scale(1.12); }
+    .toast {
+      position: fixed;
+      z-index: 100;
+      bottom: 105px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1d2238;
+      border: 1px solid #3c4675;
+      color: white;
+      border-radius: 25px;
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 12px 38px #0008;
+      white-space: nowrap;
+    }
+    .footer-note { font-size: 10px; color: #5e6480; padding: 20px 2px; }
+    .mobile-nav { display: none; }
+
+    /* Universal TikTok-Style Vertical Snap-Scroll Reels (Desktop, Tablet & Mobile) */
+    .tiktok-stage {
+      position: relative;
+      max-width: 520px;
+      height: calc(100vh - 122px);
+      min-height: 540px;
+      margin: 0 auto;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #090a11;
+      border: 1px solid #242942;
+      box-shadow: 0 24px 65px #00000085;
+    }
+    .tiktok-feed {
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      background: #090a11;
+    }
+    .tiktok-feed::-webkit-scrollbar { display: none; }
+    .tt-slide {
+      height: 100%;
+      width: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background: #090a11;
+    }
+    .tt-slide .reel-media img, .tt-slide .reel-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+      transition: transform 0.6s ease;
+    }
+    .tt-slide.is-playing .reel-media img { transform: scale(1.04); }
+    .tt-top {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      z-index: 18;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+    .tt-tabs {
+      display: flex;
+      gap: 14px;
+      pointer-events: auto;
+      background: #090a1199;
+      backdrop-filter: blur(16px);
+      padding: 7px 15px;
+      border-radius: 30px;
+      border: 1px solid #ffffff24;
+    }
+    .tt-tabs button { color: #ffffff99; font-size: 13px; font-weight: 700; }
+    .tt-tabs button.active {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-thickness: 2px;
+    }
+    .tt-center-play {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .tt-play-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #090a1199;
+      backdrop-filter: blur(12px);
+      border: 1px solid #ffffff40;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      color: #fff;
+      box-shadow: 0 8px 30px #0008;
+      transition: transform 0.15s;
+    }
+    .tt-center-play:hover .tt-play-badge { transform: scale(1.08); }
+    .tt-bottom {
+      position: absolute;
+      left: 20px;
+      right: 78px;
+      bottom: 26px;
+      z-index: 3;
+    }
+    .tt-bottom h2 {
+      font-size: clamp(26px, 3vw, 34px);
+      letter-spacing: -1.1px;
+      line-height: 1.06;
+      margin: 8px 0 8px;
+      text-shadow: 0 2px 12px #000b;
+    }
+    .tt-actions {
+      position: absolute;
+      right: 14px;
+      bottom: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      z-index: 4;
+    }
+    .tt-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: #ffffff24;
+      z-index: 22;
+      cursor: pointer;
+    }
+    .tt-progress i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #5168ff, #9559ec, #e36cbd);
+    }
+
+    @media(max-width: 1180px) {
+      .app { grid-template-columns: 180px minmax(0, 1fr); }
+      .home-layout { grid-template-columns: minmax(0, 1fr) minmax(250px, 310px); gap: 15px; }
+      .music-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .player { left: 198px; }
+    }
+    @media(max-width: 850px) {
+      .sidebar { display: none; }
+      .app { display: block; }
+      .topbrand { display: flex; font-weight: 850; align-items: center; gap: 7px; font-size: 21px; letter-spacing: -.8px; color: #fff; }
+      .topbrand .brand-mark { height: 30px; width: 30px; font-size: 18px; }
+      .home-layout { grid-template-columns: 1fr; }
+      .rail { display: grid; grid-template-columns: 1fr 1fr; }
+      .player { left: 14px; right: 14px; bottom: 75px; }
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #0c0e17eb;
+        backdrop-filter: blur(22px);
+        z-index: 20;
+        justify-content: space-around;
+        align-items: center;
+        border-top: 1px solid var(--line);
+        padding: 6px 4px calc(8px + env(safe-area-inset-bottom));
+      }
+      .mobile-nav button { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: #7b819e; align-items: center; min-width: 50px; }
+      .mobile-nav .active { color: #fff; font-weight: 800; }
+      .mobile-nav span { font-size: 20px; }
+      .main { padding-bottom: 158px; }
+      .tiktok-stage { height: calc(100dvh - 155px); }
+    }
+    @media(max-width: 650px) {
+      body.is-reels { background: #090a11; overflow: hidden; }
+      body.is-reels .topbar, body.is-reels .player, body.is-reels .footer-note { display: none !important; }
+      body.is-reels .content { padding: 0; max-width: none; }
+      body.is-reels .main { padding-bottom: 0; }
+      body.is-reels .mobile-nav { background: #090a11e6; border-top: 1px solid #ffffff1a; }
+      body.is-reels .tiktok-stage {
+        max-width: none;
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        border-radius: 0;
+        border: 0;
+        box-shadow: none;
+      }
+      body.is-reels .tt-top { top: calc(12px + env(safe-area-inset-top)); }
+      body.is-reels .tt-bottom { bottom: calc(74px + env(safe-area-inset-bottom)); }
+      body.is-reels .tt-actions { bottom: calc(76px + env(safe-area-inset-bottom)); }
+      body.is-reels .tt-progress { bottom: calc(54px + env(safe-area-inset-bottom)); }
+      .rail, .studio-layout, .two-col, .release-showcase-grid { grid-template-columns: 1fr; }
+      .music-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; }
+      .topbar .top-upload, .player .time-label, .player .skip { display: none; }
+      .player { left: 8px; right: 8px; bottom: 67px; height: 62px; }
+      .reel-shell { min-height: 490px; }
+      .reel-bottom { left: 16px; right: 68px; bottom: 20px; }
+      .reel-actions { right: 12px; bottom: 20px; gap: 10px; }
+      .reel-arrows { right: 12px; top: 58px; gap: 6px; }
+      .reel-arrows button { width: 33px; height: 33px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+  const $ = (s) => document.querySelector(s);
+  const esc = (x) => String(x ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const photo = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1000&q=85`;
+
+  const parseYouTubeId = (url) => {
+    if (!url) return '';
+    const m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : '';
+  };
+
+  const artistSubsBase = { 'LONEK': 1420, 'Tyler J': 985, 'Marlon Tega': 740, 'NOVA': 610, 'ELARA': 530 };
+
+  const artistProfiles = {
+    'LONEK': {
+      bio: 'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.',
+      link: 'https://soundwave.app/@LONEK'
+    },
+    'Tyler J': {
+      bio: 'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.',
+      link: 'https://youtube.com/@TylerJMusic'
+    },
+    'Marlon Tega': {
+      bio: 'Dancehall & island rhythms straight from the studio.',
+      link: ''
+    },
+    'NOVA': {
+      bio: 'Analog synths & midnight electronic soundscapes.',
+      link: ''
+    },
+    'ELARA': {
+      bio: 'Alternative R&B vocalist crafting late-night frequencies.',
+      link: ''
+    }
+  };
+
+  let wallPosts = {
+    'LONEK': [
+      {
+        id: 'mp1',
+        artist: 'LONEK',
+        body: 'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right above.',
+        vip_only: false,
+        time: '2h ago'
+      },
+      {
+        id: 'mp2',
+        artist: 'LONEK',
+        body: 'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!',
+        vip_only: true,
+        time: '1d ago'
+      }
+    ],
+    'Tyler J': [
+      {
+        id: 'mp3',
+        artist: 'Tyler J',
+        body: '"Oh My Days" just crossed 2,840 community votes. Appreciate every single rating!',
+        vip_only: false,
+        time: '5h ago'
+      }
+    ]
+  };
+
+  let tracks = [
+    {
+      id: 'sample0',
+      isMock: true,
+      artist: 'LONEK',
+      title: 'I Bet on Me',
+      genre: 'Hip-Hop',
+      votes: 2842,
+      likes: 412,
+      img: photo('photo-1514525253161-7a46d19cd819'),
+      color: '#3c3559',
+      ratingSum: 696,
+      ratingCount: 142,
+      vip: false,
+      ytId: '',
+      freq: [110, 146.83, 164.81, 220],
+      description: 'A new sound for the ones who never stopped believing.'
+    },
+    {
+      id: 'sample1',
+      isMock: true,
+      artist: 'Tyler J',
+      title: 'Oh My Days',
+      genre: 'Hip-Hop',
+      votes: 2841,
+      likes: 389,
+      img: photo('photo-1493225457124-a3eb161ffa5f'),
+      color: '#416583',
+      ratingSum: 566,
+      ratingCount: 118,
+      vip: false,
+      ytId: '',
+      freq: [130.81, 164.81, 196, 246.94],
+      description: 'For everybody waiting on better days.'
+    },
+    {
+      id: 'sample2',
+      isMock: true,
+      artist: 'Marlon Tega',
+      title: 'Pom Pom Whine',
+      genre: 'Dancehall',
+      votes: 2840,
+      likes: 310,
+      img: photo('photo-1511671782779-c97d3d27a1d4'),
+      color: '#865b3d',
+      ratingSum: 451,
+      ratingCount: 96,
+      vip: false,
+      ytId: '',
+      freq: [98, 123.47, 146.83, 196],
+      description: 'An upbeat dancehall rhythm to move to.'
+    },
+    {
+      id: 'sample3',
+      isMock: true,
+      artist: 'NOVA',
+      title: 'Afterglow',
+      genre: 'Electronic',
+      votes: 1986,
+      likes: 245,
+      img: photo('photo-1470225620780-dba8ba36b745'),
+      color: '#523c83',
+      ratingSum: 403,
+      ratingCount: 84,
+      vip: false,
+      ytId: '',
+      freq: [146.83, 174.61, 220, 261.63],
+      description: 'Electronic textures for the night.'
+    },
+    {
+      id: 'sample4',
+      isMock: true,
+      artist: 'LONEK',
+      title: 'I Got You',
+      genre: 'Hip-Hop',
+      votes: 1754,
+      likes: 298,
+      img: photo('photo-1571330735066-03aaa9429d89'),
+      color: '#355668',
+      ratingSum: 446,
+      ratingCount: 91,
+      vip: true,
+      ytId: '',
+      freq: [116.54, 146.83, 174.61, 233.08],
+      description: 'Subscribers-only VIP drop for the day-one supporters.'
+    },
+    {
+      id: 'sample5',
+      isMock: true,
+      artist: 'ELARA',
+      title: 'Velvet Skies',
+      genre: 'R&B',
+      votes: 1482,
+      likes: 190,
+      img: photo('photo-1516280440614-37939bbacd81'),
+      color: '#b56e90',
+      ratingSum: 290,
+      ratingCount: 63,
+      vip: false,
+      ytId: '',
+      freq: [123.47, 155.56, 185, 246.94],
+      description: 'Late-night R&B with room to breathe.'
+    }
+  ];
+
+  let state = {
+    votes: ['sample0'],
+    saved: ['sample0', 'sample3'],
+    likes: ['sample0'],
+    follows: ['Tyler J'],
+    comments: {
+      'sample0': ['@TylerJ: Beat switch at 0:45 is crazy 🔥', '@NOVA: Pure studio energy!'],
+      'sample1': ['@LONEK: Classic anthem bro!'],
+      'post_mp1': ['Fan: Already subscribed! Cannot wait for the weekend drop.']
+    },
+    ratings: { 'sample0': 5 }
+  };
+
+  let currentUser = null;
+  let authMode = 'signup';
+  let uploadSource = 'youtube';
+  let selectedArtist = 'LONEK';
+  let editingBio = false;
+  let page = 'Home';
+  let currentIndex = 0;
+  let genre = 'All';
+  let tab = 'For You';
+  let modal = '';
+  let query = '';
+  let playing = false;
+  let userInteracted = false;
+  let progress = 24;
+  let curTime = 32;
+  let durTime = 135;
+
+  const sections = [
+    ['Home', '⌂', 'Discover'],
+    ['Feed', '▷', 'Reels'],
+    ['Charts', '♨', 'Top Charts'],
+    ['Library', '♡', 'My Music'],
+    ['Studio', '⊕', 'Upload']
+  ];
+  const genres = ['All', 'Hip-Hop', 'R&B', 'Dancehall', 'Electronic', 'Pop', 'Rock', 'Other'];
+
+  const all = () => tracks.map((t, i) => ({ t, i }));
+  const current = () => tracks[currentIndex] || tracks[0];
+  const has = (key, v) => state[key].includes(v);
+  const flip = (key, v) => {
+    state[key] = has(key, v) ? state[key].filter(x => x !== v) : [...state[key], v];
+  };
+
+  // Web Audio Synth Preview so Play button produces real musical chords without external CORS audio issues
+  let audioCtx = null;
+  let synthTimer = null;
+
+  function startSynthPreview(track) {
+    stopSynthPreview();
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const notes = track.freq || [130.81, 164.81, 196, 246.94];
+      let step = 0;
+      const playStep = () => {
+        if (!playing || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = step % 4 === 0 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.55);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.58);
+        step++;
       };
-    });
-
-    const syncedSamples=samples.map(s=>{
-      const e=engMap[s.id];
-      if(!e)return {...s};
-      return {
-        ...s,
-        votes:s.votes+(e.votes||0),
-        likes:s.likes+(e.likes||0),
-        ratingSum:s.ratingSum+(e.rating_sum||0),
-        ratingCount:s.ratingCount+(e.rating_count||0)
-      };
-    });
-
-    const prevId=current()?.id;
-    tracks=SHOW_MOCKS?[...realTracks,...syncedSamples]:realTracks;
-    const foundIdx=tracks.findIndex(x=>x.id===prevId);
-    currentIndex=foundIdx>=0?foundIdx:0;
-    if(location.hash.startsWith('#@')){
-      const hName=decodeURIComponent(location.hash.slice(2));
-      if(hName)openArtistPage(hName);
-    }else{
-      render();
-    }
-  }catch(err){console.error('Supabase sync error:',err)}
-}
-
-async function loadTrackComments(trackId){
-  if(!sb)return;
-  const {data}=await sb.from('comments').select('*').eq('track_id',trackId).order('created_at',{ascending:false});
-  if(data){
-    state.comments[trackId]=data.map(c=>c.body);
-    saveState();
-    render();
-  }
-}
-
-async function openArtistPage(name){
-  selectedArtist=name;
-  editingBio=false;
-  page='Artist';
-  modal='';
-  try{history.replaceState(null,'',`#@${encodeURIComponent(name)}`)}catch{}
-  render();
-  scrollTo(0,0);
-  if(!sb)return;
-  const [{data:prof},{data:posts}]=await Promise.all([
-    sb.from('profiles').select('*').eq('artist_name',name).maybeSingle(),
-    sb.from('artist_posts').select('*').eq('artist',name).order('created_at',{ascending:false})
-  ]);
-  if(prof)artistProfiles[name]=prof;
-  artistPosts=posts||[];
-  const combined=[...artistPosts,...(mockWallPosts[name]||[])];
-  const postKeys=combined.map(p=>'post_'+p.id);
-  if(postKeys.length){
-    const {data:allReplies}=await sb.from('comments').select('*').in('track_id',postKeys).order('created_at',{ascending:true});
-    if(allReplies){
-      postKeys.forEach(k=>{state.comments[k]=[]});
-      allReplies.forEach(r=>{state.comments[r.track_id].push(r.body)});
-      saveState();
+      playStep();
+      synthTimer = setInterval(playStep, 600);
+    } catch (err) {
+      // Fallback visual playback if audio context blocked
     }
   }
-  render();
-}
 
-function renderMediaStage(t,idx,isSlide){
-  const locked=isLocked(t);
-  if(t.ytId&&!locked&&(playing||isSlide)){
-    const auto=playing&&idx===currentIndex?1:0;
-    return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=${auto}&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(t.title)}"></iframe>`;
+  function stopSynthPreview() {
+    if (synthTimer) {
+      clearInterval(synthTimer);
+      synthTimer = null;
+    }
   }
-  if(t.video){
-    return `<video ${isSlide?`class="tt-vid" data-vididx="${idx}"`:'id="reel-video"'} src="${esc(t.url)}" playsinline loop muted ${isSlide?'':'autoplay'}></video>`;
-  }
-  return t.img?`<img src="${esc(t.img)}" alt="Release artwork for ${esc(t.artist)} — ${esc(t.title)}">`:cover(t);
-}
 
-function reel(){
-  const t=current();if(!t)return '<div class="empty">No tracks yet. Upload the first track in Artist Studio!</div>';
-  const i=currentIndex,r=getTrackRating(t),locked=isLocked(t);
-  return `<div class="reel-shell" id="reel"><div class="reel-media">${renderMediaStage(t,i,false)}</div><div class="reel-dim"></div><div class="reel-top"><span class="glasslabel">✦ &nbsp; ${t.ytId?'YOUTUBE RELEASE':(t.isMock?'FEATURED CATALOG':'VERIFIED UPLOAD')} ${t.vip?'&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>':''}</span><span class="reel-indicator">★ ${r.avg} (${r.count}) &nbsp;·&nbsp; ${i+1} / ${tracks.length}</span></div><div class="reel-arrows"><button data-action="prev" aria-label="Previous reel">⌃</button><button data-action="next" aria-label="Next reel">⌄</button></div><div class="reel-bottom"><div class="artistline"><button data-openartist="${esc(t.artist)}" style="font-weight:800">@${esc(t.artist.replace(/\s/g,''))}</button><button class="follow ${has('follows',t.artist)?'subbed':''}" data-subartist="${esc(t.artist)}">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button></div><h2>${esc(t.title)}</h2><p class="reel-description">${esc(t.description||'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g,''))}</span></p><div class="reel-btns">${locked?`<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`:`<button class="btn light" data-action="play">${playing?'Ⅱ Pause':'▶ Play full track'}</button>`}<button class="btn" style="background:#ffffff23;border:1px solid #ffffff50;color:white;backdrop-filter:blur(12px)" data-action="save">${has('saved',t.id)?'✓ Saved':'+ Save song'}</button></div></div><div class="reel-actions"><button class="action ${has('likes',t.id)?'selected':''}" data-like="${i}"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>${(t.likes||0).toLocaleString()}</button><button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id]?state.ratings[t.id]+'/5':r.avg}</button><button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id]||[]).length||'Chat'}</button><button class="action" data-action="share"><span class="acticon">↗</span>Share</button><button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes',t.id)?'Voted':'Vote'}</button></div></div>`;
-}
-function trending(){const r=rank().slice(0,4);return `<section class="rail-card" aria-label="Top trending"><div class="rail-head"><div><div class="fire-label">🔥 &nbsp; COMMUNITY CHART</div><h2>Top Trending</h2></div><button class="text-link hot-link" data-nav="Charts">View all ↗</button></div><p class="rail-note">Songs climbing through listener votes & community ratings.</p>${r.map((x,n)=>row(x,n)).join('')}</section>`}
-function sponsor(){return `<section class="sponsor" aria-label="Sponsored placement"><div class="sponsor-tag">✧ Sponsored placement</div><div class="sponsor-art"><img src="assets/ibet-promo.webp" alt="Promotional format"><span>YOUR RELEASE<br>HERE</span></div><h3>Your next release,<br>front and center.</h3><p>Artists and brands can reserve clearly labeled promotional spots beside music discovery.</p><button class="promo-link" data-action="promote">Promote a release ↗</button></section>`}
-function releaseSpotlight(){return `<section class="release-showcase" aria-label="Featured release artwork"><div class="release-showcase-head"><div><div class="eyebrow">REAL ARTWORK · FEATURED RELEASES</div><h2>Sounds with a story.</h2><p class="sub">Discover the visuals behind the releases.</p></div><button class="text-link" data-nav="Feed">Watch reels ↗</button></div><div class="release-showcase-grid"><button class="release-big" data-track="0"><img src="assets/ibet-cover.webp" alt="LONEK I Bet on Me release artwork"><span class="release-big-meta"><small>FEATURED RELEASE</small><strong>I Bet on Me</strong><span>LONEK · Hip-Hop · ★ 4.9</span></span></button><div class="release-side"><button class="release-mini" data-track="1"><img src="assets/ohmydays-cover.webp" alt="Tyler J Oh My Days artwork"><span><strong>Oh My Days</strong><small>Tyler J · ★ 4.8</small></span></button><button class="release-mini" data-track="4"><img src="assets/igotyou-cover.webp" alt="LONEK I Got You artwork"><span><strong>I Got You <span class="vip-badge">VIP</span></strong><small>LONEK · Subscribers Only</small></span></button></div></div></section>`}
-function home(){return `<div class="heading"><div><div class="eyebrow"><span class="dot"></span> LIVE COMMUNITY NETWORK</div><h1>Your next favorite starts here.</h1><p class="sub">Upload your music. Subscribe to rising artists. Rate & vote for the songs you love.</p></div></div><div class="home-layout"><section class="reel-wrap" aria-label="Music reels">${reel()}<p class="note" style="margin:10px 5px 0">Use ↑ / ↓ or swipe to explore the next reel.</p></section><aside class="rail">${trending()}${sponsor()}</aside></div><section class="bottom-strip"><div class="strip-head"><div><div class="eyebrow">BROWSE BY GENRE</div><h2>Discover more music</h2></div><button class="text-link" data-nav="Feed">See all reels ↗</button></div>${chips()}<div class="music-grid">${all().filter(x=>genre==='All'||x.t.genre===genre).slice(0,5).map(x=>`<button class="music-tile" data-track="${x.i}">${cover(x.t)}<div class="track-name">${esc(x.t.title)} ${x.t.vip?'<span class="vip-badge">VIP</span>':''}</div><div class="track-small">${esc(x.t.artist)} · ★ ${getTrackRating(x.t).avg}</div></button>`).join('')||'<p class="empty">No tracks in this genre yet.</p>'}</div></section>${releaseSpotlight()}`}
+  const getTrackRating = (t) => {
+    const sum = t.ratingSum || 5;
+    const count = t.ratingCount || 1;
+    return { avg: (sum / count).toFixed(1), count };
+  };
 
-function feed(){
-  const p=pool();
-  const slides=(p.length?p:all()).map(x=>{
-    const t=x.t,i=x.i,r=getTrackRating(t),locked=isLocked(t),activeSlide=i===currentIndex;
-    return `<article class="tt-slide" data-slideidx="${i}">
-      <div class="reel-media" data-action="tapplay">${renderMediaStage(t,i,true)}</div>
-      <div class="reel-dim"></div>
-      ${t.ytId?'':`<div class="tt-center-play" data-action="tapplay">${activeSlide&&playing?'':`<span class="tt-play-badge">${locked?'🔒':'▶'}</span>`}</div>`}
-      <div class="tt-bottom">
-        <div class="artistline">
-          <button data-openartist="${esc(t.artist)}" style="font-weight:850;font-size:15px">@${esc(t.artist.replace(/\s/g,''))}</button>
-          <button class="follow ${has('follows',t.artist)?'subbed':''}" data-subartist="${esc(t.artist)}">${has('follows',t.artist)?'✓ Subscribed':'+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button>
-          ${t.vip?'<span class="vip-badge">★ VIP</span>':''}
-        </div>
-        <h2>${esc(t.title)}</h2>
-        <p class="reel-description" style="margin-bottom:0">${esc(t.description||'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g,''))}</span></p>
-      </div>
-      <div class="tt-actions">
-        <button class="action ${has('likes',t.id)?'selected':''}" data-like="${i}"><span class="acticon">${has('likes',t.id)?'♥':'♡'}</span>${(t.likes||0).toLocaleString()}</button>
-        <button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id]?state.ratings[t.id]+'/5':r.avg}</button>
-        <button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id]||[]).length||'Chat'}</button>
-        <button class="action" data-action="save"><span class="acticon">${has('saved',t.id)?'✓':'+'}</span>Save</button>
-        <button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes',t.id)?'Voted':'Vote'}</button>
-      </div>
-    </article>`;
-  }).join('');
+  const subCount = (artist) => (artistSubsBase[artist] || 120) + (has('follows', artist) ? 1 : 0);
+  const isLocked = (t) => t.vip && !has('follows', t.artist) && !(currentUser && currentUser.artist.toLowerCase() === t.artist.toLowerCase());
+  const fmtTime = (s) => {
+    if (!s || isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+  };
 
-  return `<div class="desktop-feed"><div class="heading"><div><div class="eyebrow">THE MUSIC FEED</div><h1>Just music. Keep scrolling.</h1><p class="sub">New community uploads, YouTube releases, subscriber-only drops and previews.</p></div></div><div style="max-width:710px;margin:auto">${reel()}<p class="note" style="text-align:center">Swipe or scroll in the reel to discover more.</p></div></div>
-  <div class="tiktok-feed" id="tt-feed">
-    <div class="tt-top">
-      <div class="tt-tabs">
-        <button class="${tab==='For You'?'active':''}" data-tab="For You">For You</button>
-        <button class="${tab==='Following'?'active':''}" data-tab="Following">Subscribed</button>
-      </div>
-      <button class="glasslabel" data-nav="Studio">＋ Upload</button>
-    </div>
-    ${slides}
-    <div class="tt-progress" id="scrub"><i style="width:${progress}%"></i></div>
-  </div>`;
-}
+  const rank = () => all()
+    .filter(x => genre === 'All' || x.t.genre === genre)
+    .sort((a, b) => (b.t.votes || 0) - (a.t.votes || 0));
 
-function artistPage(){
-  const name=selectedArtist||getArtistDisplay()||'LONEK';
-  const handleSlug=name.replace(/\s/g,'');
-  const artistTracks=all().filter(x=>x.t.artist.toLowerCase()===name.toLowerCase());
-  const isOwner=currentUser&&getArtistDisplay().toLowerCase()===name.toLowerCase();
-  const prof=artistProfiles[name]||mockBios[name]||{bio:'Independent creator on Soundwave.',link:''};
-  const totalVotes=artistTracks.reduce((sum,x)=>sum+(x.t.votes||0),0);
-  const avgRating=artistTracks.length?(artistTracks.reduce((s,x)=>s+Number(getTrackRating(x.t).avg),0)/artistTracks.length).toFixed(1):'5.0';
-  const combinedPosts=[...artistPosts,...(mockWallPosts[name]||[])];
+  const cover = (t) => `
+    <div class="cover" style="background:${t.color || '#24213b'}">
+      <span class="cover-fallback">${esc(t.artist.slice(0, 2).toUpperCase())}</span>
+      ${t.img ? `<img src="${esc(t.img)}" alt="Cover artwork for ${esc(t.title)}" onerror="this.remove()">` : ''}
+    </div>`;
 
-  return `<div class="artist-hero">
-    <div class="artist-hero-top">
-      <div style="display:flex;align-items:center;gap:16px">
-        <div class="artist-avatar-lg">${esc(name.slice(0,2).toUpperCase())}</div>
-        <div>
-          <div class="eyebrow" style="color:#c4b3ff">VERIFIED ARTIST HUB</div>
-          <h1 style="margin:3px 0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1px">@${esc(handleSlug)}</h1>
-          <p style="color:#d6d2f0;margin:0;max-width:520px;font-size:13px">${esc(prof.bio||'Independent creator on Soundwave.')}</p>
-          ${prof.social_link||prof.link?`<a href="${esc(prof.social_link||prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.social_link||prof.link)}</a>`:''}
-        </div>
-      </div>
-      <div style="display:flex;gap:9px;flex-wrap:wrap">
-        ${isOwner?`<button class="btn light" data-action="togglebio">${editingBio?'Cancel Edit':'✎ Edit Bio & Link'}</button>`:`<button class="btn ${has('follows',name)?'light':'gold'}" data-subartist="${esc(name)}">${has('follows',name)?'✓ Subscribed (VIP Unlocked)':'+ Subscribe for VIP Drops'}</button>`}
-        <button class="btn" style="background:#ffffff1f;border:1px solid #ffffff38;color:#fff" data-copyartist="${esc(name)}">↗ Share Page</button>
-      </div>
-    </div>
-    <div class="artist-stats-bar">
-      <div><strong>${subCount(name).toLocaleString()}</strong><span>Subscribers</span></div>
-      <div><strong>${artistTracks.length}</strong><span>Releases</span></div>
-      <div><strong>${totalVotes.toLocaleString()}</strong><span>Community Votes</span></div>
-      <div><strong>★ ${avgRating}</strong><span>Avg Rating</span></div>
-    </div>
-    ${isOwner&&editingBio?`<form id="bio-form" style="background:#ffffff12;padding:16px;border-radius:16px;margin-top:12px">
-      <label class="field" style="margin-top:0;color:#fff">Artist Bio <textarea name="bio" rows="2" maxlength="240" placeholder="Tell fans about your sound, upcoming drops, or booking info">${esc(prof.bio||'')}</textarea></label>
-      <label class="field" style="color:#fff">Social / Streaming Link <input type="url" name="social_link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.social_link||prof.link||'')}"></label>
-      <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
-    </form>`:''}
-  </div>
-
-  <div class="two-col">
-    <section>
-      <div class="panel" style="margin-bottom:20px">
-        <div class="eyebrow">DISCOGRAPHY & VIP DROPS</div>
-        <h2>Releases by @${esc(handleSlug)}</h2>
-        ${artistTracks.map((x,n)=>row(x,n)).join('')||'<div class="empty">No releases uploaded yet.</div>'}
-      </div>
-
-      <div class="panel">
-        <div class="eyebrow">CREATOR COMMUNITY WALL</div>
-        <h2>Updates & Fan Chat</h2>
-        <p class="sub" style="margin-bottom:14px">Direct updates from @${esc(handleSlug)} and live replies from fans.</p>
-        ${isOwner?`<form id="wall-post-form" style="background:#f8f9fd;padding:15px;border-radius:15px;margin-bottom:18px;border:1px solid #eaecf3">
-          <textarea name="body" rows="2" required maxlength="400" placeholder="Post an update, drop date, or message to your fans..." style="width:100%;border:1px solid #e2e5ed;border-radius:10px;padding:10px;background:#fff"></textarea>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
-            <label style="font-size:11px;font-weight:750;color:#b87503;display:flex;align-items:center;gap:6px"><input type="checkbox" name="vip_only"> ★ Subscribers-Only VIP Post</label>
-            <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
+  const row = (x, n) => {
+    const r = getTrackRating(x.t);
+    const isOwner = currentUser && currentUser.artist.toLowerCase() === x.t.artist.toLowerCase() && !x.t.isMock;
+    return `
+      <div class="track-row">
+        <span class="track-rank ${n === 0 ? 'first' : ''}">${String(n + 1).padStart(2, '0')}</span>
+        <button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button>
+        <div class="track-body">
+          <div class="track-name" data-track="${x.i}">
+            ${esc(x.t.title)}
+            ${x.t.ytId ? '<span class="yt-badge">▶ YT</span>' : (!x.t.isMock ? '<span class="live-badge">LIVE</span>' : '')}
+            ${x.t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}
           </div>
-        </form>`:''}
-        ${combinedPosts.map(p=>{
-          const postLocked=p.vip_only&&!has('follows',name)&&!isOwner;
-          const replies=state.comments['post_'+p.id]||[];
-          return `<div class="wall-post">
-            <div class="wall-head">
-              <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only?'<span class="vip-badge">★ VIP ONLY</span>':''}</strong>
-              <span class="note">${timeAgo(p.created_at)}</span>
-            </div>
-            ${postLocked?`<div style="background:#fff8eb;border:1px solid #fde6b8;padding:12px;border-radius:12px;font-size:12px;color:#9a6200">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>`:`<div class="wall-body">${esc(p.body)}</div>
-            <div class="wall-replies">
-              ${replies.map(rep=>`<div class="wall-reply">${esc(rep)}</div>`).join('')}
-              <form class="wall-reply-form" data-postid="${esc(p.id)}" style="display:flex;gap:7px;margin-top:4px">
-                <input name="reply" maxlength="200" required placeholder="Reply to @${esc(handleSlug)}..." style="flex:1;border:1px solid #e2e5ed;border-radius:20px;padding:6px 12px;font-size:11px;background:#fff">
-                <button type="submit" class="btn ghost" style="padding:5px 12px;font-size:11px">Reply</button>
-              </form>
+          <div class="track-small">
+            <span data-openartist="${esc(x.t.artist)}" style="color:#8fa2ff;font-weight:700">@${esc(x.t.artist)}</span> · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})
+          </div>
+        </div>
+        ${isOwner ? `<button class="btn danger" style="padding:5px 9px;font-size:10px" data-deltrack="${x.t.id}">Delete</button>` : ''}
+        <button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id] || r.avg}</button>
+        <button class="vote ${has('votes', x.t.id) ? 'voted' : ''}" data-vote="${x.i}">${has('votes', x.t.id) ? '✓ ' : '↑ '}${(x.t.votes || 0).toLocaleString()}</button>
+      </div>`;
+  };
+
+  const chips = () => `<div class="chips">${genres.map(g => `<button class="chip ${genre === g ? 'active' : ''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
+
+  function renderMediaStage(t, idx = currentIndex, isSlide = false) {
+    const locked = isLocked(t);
+    if (t.ytId && !locked && (playing || isSlide)) {
+      const auto = playing && idx === currentIndex ? 1 : 0;
+      return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=${auto}&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(t.title)}"></iframe>`;
+    }
+    return t.img ? `<img src="${esc(t.img)}" alt="${esc(t.title)}">` : cover(t);
+  }
+
+  function reel() {
+    const t = current();
+    if (!t) return '<div class="empty">No tracks yet.</div>';
+    const i = currentIndex;
+    const r = getTrackRating(t);
+    const locked = isLocked(t);
+    return `
+      <div class="reel-shell ${playing ? 'is-playing' : ''}" id="reel">
+        <div class="reel-media">${renderMediaStage(t, i, false)}</div>
+        <div class="reel-dim"></div>
+        <div class="reel-top">
+          <span class="glasslabel">
+            ${playing ? '<span class="eq-bars"><i></i><i></i><i></i></span> PLAYING' : '✦ FEATURED REEL'}
+            ${t.ytId ? '&nbsp;<span class="yt-badge">YOUTUBE</span>' : ''}
+            ${t.vip ? '&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>' : ''}
+          </span>
+          <span class="reel-indicator">★ ${r.avg} (${r.count}) · ${i + 1} / ${tracks.length}</span>
+        </div>
+        <div class="reel-arrows">
+          <button data-action="prev" aria-label="Previous reel">⌃</button>
+          <button data-action="next" aria-label="Next reel">⌄</button>
+        </div>
+        <div class="reel-bottom">
+          <div class="artistline">
+            <button data-openartist="${esc(t.artist)}" style="font-weight:800">@${esc(t.artist.replace(/\s/g, ''))}</button>
+            <button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">
+              ${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}
+            </button>
+          </div>
+          <h2>${esc(t.title)}</h2>
+          <p class="reel-description">${esc(t.description)} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
+          <div class="reel-btns">
+            ${locked
+              ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`
+              : `<button class="btn light" data-action="play">${playing ? 'Ⅱ Pause' : '▶ Play full track'}</button>`}
+            <button class="btn" style="background:#ffffff1a;border:1px solid #ffffff38;color:white;backdrop-filter:blur(12px)" data-action="save">
+              ${has('saved', t.id) ? '✓ Saved' : '+ Save song'}
+            </button>
+          </div>
+        </div>
+        <div class="reel-actions">
+          <button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}">
+            <span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}
+          </button>
+          <button class="action gold" data-action="rate">
+            <span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}
+          </button>
+          <button class="action" data-action="comments">
+            <span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}
+          </button>
+          <button class="action" data-action="share">
+            <span class="acticon">↗</span>Share
+          </button>
+          <button class="action" data-vote="${i}">
+            <span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}
+          </button>
+        </div>
+      </div>`;
+  }
+
+  function trending() {
+    const r = rank().slice(0, 4);
+    return `
+      <section class="rail-card" aria-label="Top trending">
+        <div class="rail-head">
+          <div>
+            <div class="fire-label">🔥 COMMUNITY CHART</div>
+            <h2>Top Trending</h2>
+          </div>
+          <button class="text-link hot-link" data-nav="Charts">View all ↗</button>
+        </div>
+        <p class="rail-note">Songs climbing through listener votes & community ratings.</p>
+        ${r.map((x, n) => row(x, n)).join('')}
+      </section>`;
+  }
+
+  function sponsor() {
+    return `
+      <section class="sponsor" aria-label="Sponsored placement">
+        <div class="sponsor-tag">✧ Sponsored placement</div>
+        <div class="sponsor-art">
+          <img src="${photo('photo-1598488035139-bdbb2231ce04')}" alt="Studio promotion">
+          <span>YOUR RELEASE<br>HERE</span>
+        </div>
+        <h3>Your next release,<br>front and center.</h3>
+        <p>Artists and brands can reserve clearly labeled promotional spots beside music discovery.</p>
+        <button class="promo-link" data-action="promote">Promote a release ↗</button>
+      </section>`;
+  }
+
+  function releaseSpotlight() {
+    return `
+      <section class="release-showcase" aria-label="Featured release artwork">
+        <div class="release-showcase-head">
+          <div>
+            <div class="eyebrow">REAL ARTWORK · FEATURED RELEASES</div>
+            <h2>Sounds with a story.</h2>
+            <p class="sub">Discover the visuals and VIP drops behind the releases.</p>
+          </div>
+          <button class="text-link" data-nav="Feed">Watch reels ↗</button>
+        </div>
+        <div class="release-showcase-grid">
+          <button class="release-big" data-track="0">
+            <img src="${tracks[0].img}" alt="LONEK I Bet on Me">
+            <span class="release-big-meta">
+              <small>FEATURED RELEASE</small>
+              <strong>I Bet on Me</strong>
+              <span>LONEK · Hip-Hop · ★ 4.9</span>
+            </span>
+          </button>
+          <div class="release-side">
+            <button class="release-mini" data-track="1">
+              <img src="${tracks[1].img}" alt="Tyler J Oh My Days">
+              <span>
+                <strong>Oh My Days</strong>
+                <small>Tyler J · ★ 4.8</small>
+              </span>
+            </button>
+            <button class="release-mini" data-track="4">
+              <img src="${tracks[4].img}" alt="LONEK I Got You">
+              <span>
+                <strong>I Got You <span class="vip-badge">VIP</span></strong>
+                <small>LONEK · Subscribers Only</small>
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  function home() {
+    return `
+      <div class="heading">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> LIVE COMMUNITY NETWORK</div>
+          <h1>Your next favorite starts here.</h1>
+          <p class="sub">Upload your music or YouTube drops. Subscribe to rising artists. Rate & vote for the songs you love.</p>
+        </div>
+      </div>
+      <div class="home-layout">
+        <section class="reel-wrap" aria-label="Music reels">
+          ${reel()}
+          <p class="note" style="margin:10px 5px 0">Use ↑ / ↓ arrows, scroll wheel, or swipe to explore the next reel.</p>
+        </section>
+        <aside class="rail">${trending()}${sponsor()}</aside>
+      </div>
+      <section class="bottom-strip">
+        <div class="strip-head">
+          <div>
+            <div class="eyebrow">BROWSE BY GENRE</div>
+            <h2>Discover more music</h2>
+          </div>
+          <button class="text-link" data-nav="Feed">See all reels ↗</button>
+        </div>
+        ${chips()}
+        <div class="music-grid">
+          ${all().filter(x => genre === 'All' || x.t.genre === genre).slice(0, 5).map(x => `
+            <button class="music-tile" data-track="${x.i}">
+              ${cover(x.t)}
+              <div class="track-name">${esc(x.t.title)} ${x.t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div>
+              <div class="track-small">${esc(x.t.artist)} · ★ ${getTrackRating(x.t).avg}</div>
+            </button>`).join('') || '<p class="empty">No tracks in this genre yet.</p>'}
+        </div>
+      </section>
+      ${releaseSpotlight()}`;
+  }
+
+  function feed() {
+    const p = pool();
+    const list = p.length ? p : all();
+    const slides = list.map((x) => {
+      const t = x.t;
+      const i = x.i;
+      const r = getTrackRating(t);
+      const locked = isLocked(t);
+      const activeSlide = i === currentIndex;
+      return `
+        <article class="tt-slide ${activeSlide && playing ? 'is-playing' : ''}" data-slideidx="${i}">
+          <div class="reel-media" data-action="tapplay">${renderMediaStage(t, i, true)}</div>
+          <div class="reel-dim"></div>
+          ${t.ytId ? '' : `
+            <div class="tt-center-play" data-action="tapplay">
+              ${activeSlide && playing ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`}
             </div>`}
-          </div>`;
-        }).join('')||'<div class="empty">No wall posts from this artist yet.</div>'}
+          <div class="tt-bottom">
+            <div class="artistline">
+              <button data-openartist="${esc(t.artist)}" style="font-weight:850;font-size:15px">@${esc(t.artist.replace(/\s/g, ''))}</button>
+              <button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">
+                ${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}
+              </button>
+              ${t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}
+            </div>
+            <h2>${esc(t.title)}</h2>
+            <p class="reel-description" style="margin-bottom:0">${esc(t.description)} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
+          </div>
+          <div class="tt-actions">
+            <button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}">
+              <span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}
+            </button>
+            <button class="action gold" data-action="rate">
+              <span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}
+            </button>
+            <button class="action" data-action="comments">
+              <span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}
+            </button>
+            <button class="action" data-action="save">
+              <span class="acticon">${has('saved', t.id) ? '✓' : '+'}</span>Save
+            </button>
+            <button class="action" data-vote="${i}">
+              <span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}
+            </button>
+          </div>
+        </article>`;
+    }).join('');
+
+    return `
+      <div class="tiktok-stage">
+        <div class="tt-top">
+          <div class="tt-tabs">
+            <button class="${tab === 'For You' ? 'active' : ''}" data-tab="For You">For You</button>
+            <button class="${tab === 'Following' ? 'active' : ''}" data-tab="Following">Subscribed</button>
+          </div>
+          <button class="glasslabel" style="pointer-events:auto" data-nav="Studio">＋ Upload</button>
+        </div>
+        <div class="reel-arrows" style="top:66px;right:14px">
+          <button data-action="prev" aria-label="Previous reel" title="Previous reel">⌃</button>
+          <button data-action="next" aria-label="Next reel" title="Next reel">⌄</button>
+        </div>
+        <div class="tiktok-feed" id="tt-feed">${slides}</div>
+        <div class="tt-progress" id="scrub"><i style="width:${progress}%"></i></div>
+      </div>`;
+  }
+
+  function artistPage() {
+    const name = selectedArtist || currentUser?.artist || 'LONEK';
+    const handleSlug = name.replace(/\s/g, '');
+    const artistTracks = all().filter(x => x.t.artist.toLowerCase() === name.toLowerCase());
+    const isOwner = currentUser && currentUser.artist.toLowerCase() === name.toLowerCase();
+    const prof = artistProfiles[name] || { bio: 'Independent creator on Soundwave.', link: '' };
+    const totalVotes = artistTracks.reduce((sum, x) => sum + (x.t.votes || 0), 0);
+    const avgRating = artistTracks.length
+      ? (artistTracks.reduce((s, x) => s + Number(getTrackRating(x.t).avg), 0) / artistTracks.length).toFixed(1)
+      : '5.0';
+    const posts = wallPosts[name] || [];
+
+    return `
+      <div class="artist-hero">
+        <div class="artist-hero-top">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div class="artist-avatar-lg">${esc(name.slice(0, 2).toUpperCase())}</div>
+            <div>
+              <div class="eyebrow" style="color:#c4b3ff">VERIFIED ARTIST HUB</div>
+              <h1 style="margin:3px 0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1px">@${esc(handleSlug)}</h1>
+              <p style="color:#d6d2f0;margin:0;max-width:520px;font-size:13px">${esc(prof.bio)}</p>
+              ${prof.link ? `<a href="${esc(prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.link)}</a>` : ''}
+            </div>
+          </div>
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            ${isOwner
+              ? `<button class="btn light" data-action="togglebio">${editingBio ? 'Cancel Edit' : '✎ Edit Bio & Link'}</button>`
+              : `<button class="btn ${has('follows', name) ? 'light' : 'gold'}" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed (VIP Unlocked)' : '+ Subscribe for VIP Drops'}</button>`}
+            <button class="btn" style="background:#ffffff1a;border:1px solid #ffffff30;color:#fff" data-copyartist="${esc(name)}">↗ Share Page</button>
+          </div>
+        </div>
+        <div class="artist-stats-bar">
+          <div><strong>${subCount(name).toLocaleString()}</strong><span>Subscribers</span></div>
+          <div><strong>${artistTracks.length}</strong><span>Releases</span></div>
+          <div><strong>${totalVotes.toLocaleString()}</strong><span>Community Votes</span></div>
+          <div><strong>★ ${avgRating}</strong><span>Avg Rating</span></div>
+        </div>
+        ${isOwner && editingBio ? `
+          <form id="bio-form" style="background:#ffffff10;border:1px solid #ffffff20;padding:16px;border-radius:16px;margin-top:14px">
+            <label class="field" style="margin-top:0">Artist Bio <textarea name="bio" rows="2" maxlength="240">${esc(prof.bio || '')}</textarea></label>
+            <label class="field">Social / Streaming Link <input type="url" name="link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.link || '')}"></label>
+            <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
+          </form>` : ''}
       </div>
-    </section>
 
-    <aside>
-      <div class="panel">
-        <div class="eyebrow">FAN PERKS</div>
-        <h3>Subscribe to @${esc(handleSlug)}</h3>
-        <p class="sub" style="margin-top:8px">• Instant access to all <b>★ VIP</b> unreleased tracks</p>
-        <p class="sub" style="margin-top:6px">• Unlock private community wall updates</p>
-        <p class="sub" style="margin-top:6px">• Support independent music directly</p>
-        ${!isOwner?`<button class="btn ${has('follows',name)?'ghost':'gold'}" style="width:100%;margin-top:16px" data-subartist="${esc(name)}">${has('follows',name)?'✓ Subscribed':'+ Subscribe Now'}</button>`:`<button class="btn primary" style="width:100%;margin-top:16px" data-nav="Studio">+ Upload New Track</button>`}
+      <div class="two-col">
+        <section>
+          <div class="panel" style="margin-bottom:20px">
+            <div class="eyebrow">DISCOGRAPHY & VIP DROPS</div>
+            <h2>Releases by @${esc(handleSlug)}</h2>
+            ${artistTracks.map((x, n) => row(x, n)).join('') || '<div class="empty">No releases uploaded yet.</div>'}
+          </div>
+
+          <div class="panel">
+            <div class="eyebrow">CREATOR COMMUNITY WALL</div>
+            <h2>Updates & Fan Chat</h2>
+            <p class="sub" style="margin-bottom:14px">Direct updates from @${esc(handleSlug)} and live replies from fans.</p>
+            ${isOwner ? `
+              <form id="wall-post-form" style="background:#161929;padding:15px;border-radius:15px;margin-bottom:18px;border:1px solid #262b45">
+                <textarea name="body" rows="2" required maxlength="400" placeholder="Post an update, drop date, or message to your fans..." style="width:100%;border:1px solid #2c3252;border-radius:10px;padding:10px;background:#0e101c;color:#fff"></textarea>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
+                  <label style="font-size:11px;font-weight:700;color:#ffca57;display:flex;align-items:center;gap:6px"><input type="checkbox" name="vip_only"> ★ Subscribers-Only VIP Post</label>
+                  <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
+                </div>
+              </form>` : ''}
+            ${posts.map(p => {
+              const postLocked = p.vip_only && !has('follows', name) && !isOwner;
+              const replies = state.comments['post_' + p.id] || [];
+              return `
+                <div class="wall-post">
+                  <div class="wall-head">
+                    <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only ? '<span class="vip-badge">★ VIP ONLY</span>' : ''}</strong>
+                    <span class="note">${esc(p.time)}</span>
+                  </div>
+                  ${postLocked
+                    ? `<div style="background:#261f12;border:1px solid #4d3b18;padding:12px;border-radius:12px;font-size:12px;color:#ffca57">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>`
+                    : `<div class="wall-body">${esc(p.body)}</div>
+                       <div class="wall-replies">
+                         ${replies.map(rep => `<div class="wall-reply">${esc(rep)}</div>`).join('')}
+                         <form class="wall-reply-form" data-postid="${esc(p.id)}" style="display:flex;gap:7px;margin-top:4px">
+                           <input name="reply" maxlength="200" required placeholder="Reply to @${esc(handleSlug)}..." style="flex:1;border:1px solid #262b45;border-radius:20px;padding:6px 12px;font-size:11px;background:#161929;color:#fff">
+                           <button type="submit" class="btn ghost" style="padding:5px 12px;font-size:11px">Reply</button>
+                         </form>
+                       </div>`}
+                </div>`;
+            }).join('') || '<div class="empty">No wall posts from this artist yet.</div>'}
+          </div>
+        </section>
+
+        <aside>
+          <div class="panel">
+            <div class="eyebrow">FAN PERKS</div>
+            <h3>Subscribe to @${esc(handleSlug)}</h3>
+            <p class="sub" style="margin-top:8px">• Instant access to all <b>★ VIP</b> unreleased tracks</p>
+            <p class="sub" style="margin-top:6px">• Unlock private community wall updates</p>
+            <p class="sub" style="margin-top:6px">• Support independent music directly</p>
+            ${!isOwner
+              ? `<button class="btn ${has('follows', name) ? 'ghost' : 'gold'}" style="width:100%;margin-top:16px" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed' : '+ Subscribe Now'}</button>`
+              : `<button class="btn primary" style="width:100%;margin-top:16px" data-nav="Studio">+ Upload New Track</button>`}
+          </div>
+          <div style="margin-top:16px">${sponsor()}</div>
+        </aside>
+      </div>`;
+  }
+
+  function charts() {
+    return `
+      <div class="heading">
+        <div>
+          <div class="eyebrow">VOTED & RATED BY LISTENERS</div>
+          <h1>Top Charts.</h1>
+          <p class="sub">Real fan ratings and votes shape the rankings.</p>
+        </div>
       </div>
-      <div style="margin-top:16px">${sponsor()}</div>
-    </aside>
-  </div>`;
-}
+      <div class="board-intro">
+        <div>
+          <div class="fire-label">🔥 THIS WEEK'S TOP TRENDING</div>
+          <h2>Listen. Rate. Move the charts.</h2>
+          <p>Community rankings and paid promotions are always separate.</p>
+        </div>
+        <div style="font-size:38px">🔥</div>
+      </div>
+      <div class="two-col">
+        <section>
+          <div class="eyebrow" style="margin-bottom:10px">SONGS RANKED BY VOTES & RATINGS</div>
+          ${chips()}
+          <div class="board">${rank().map((x, n) => row(x, n)).join('')}</div>
+        </section>
+        <aside>
+          ${sponsor()}
+          <div class="panel" style="margin-top:16px">
+            <h3>How community scoring works</h3>
+            <p class="sub" style="margin-top:9px">Cast an upvote (↑) to push a track up the trending chart and leave a 1-to-5 star rating (★) to build the artist's community reputation.</p>
+          </div>
+        </aside>
+      </div>`;
+  }
 
-function charts(){return `<div class="heading"><div><div class="eyebrow">VOTED & RATED BY LISTENERS</div><h1>Top Charts.</h1><p class="sub">Real fan ratings and votes shape the rankings.</p></div></div><div class="board-intro"><div><div class="fire-label">🔥 THIS WEEK'S TOP TRENDING</div><h2>Listen. Rate. Move the charts.</h2><p>Community rankings and paid promotions are always separate.</p></div><div class="fire">🔥</div></div><div class="two-col"><section><div class="eyebrow" style="margin-bottom:10px">SONGS RANKED BY VOTES & RATINGS</div>${chips()}<div class="board">${rank().map((x,n)=>row(x,n)).join('')}</div></section><aside>${sponsor()}<div class="panel" style="margin-top:16px"><h3>How community scoring works</h3><p class="sub" style="margin-top:9px">Cast an upvote (↑) to push a track up the trending chart and leave a 1-to-5 star rating (★) to build the artist's community reputation.</p></div></aside></div>`}
-function library(){const saved=all().filter(x=>has('saved',x.t.id));return `<div class="heading"><div><div class="eyebrow">YOUR COLLECTION</div><h1>My Music.</h1><p class="sub">Save music, manage artist subscriptions and track your ratings.</p></div></div><div class="statgrid"><div class="stat"><strong>${state.saved.length}</strong><span>Saved songs</span></div><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Tracks rated</span></div></div><div class="two-col"><section class="panel"><h2>Saved tracks</h2>${saved.map((x,n)=>row(x,n)).join('')||'<div class="empty">Songs you save from the reels appear here.</div>'}</section><aside class="panel"><h2>Subscribed Artists</h2>${state.follows.map(s=>`<div class="track-row" style="justify-content:space-between"><button data-openartist="${esc(s)}" style="font-weight:800;color:#4a61f0">@${esc(s)}</button><span class="vip-badge">✓ VIP Access</span></div>`).join('')||'<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}</aside></div>`}
+  function library() {
+    const saved = all().filter(x => has('saved', x.t.id));
+    return `
+      <div class="heading">
+        <div>
+          <div class="eyebrow">YOUR COLLECTION</div>
+          <h1>My Music.</h1>
+          <p class="sub">Save music, manage artist subscriptions and track your ratings.</p>
+        </div>
+      </div>
+      <div class="statgrid">
+        <div class="stat"><strong>${state.saved.length}</strong><span>Saved songs</span></div>
+        <div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div>
+        <div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Tracks rated</span></div>
+      </div>
+      <div class="two-col">
+        <section class="panel">
+          <h2>Saved tracks</h2>
+          ${saved.map((x, n) => row(x, n)).join('') || '<div class="empty">Songs you save from the reels appear here.</div>'}
+        </section>
+        <aside class="panel">
+          <h2>Subscribed Artists</h2>
+          ${state.follows.map(s => `
+            <div class="track-row" style="justify-content:space-between">
+              <button data-openartist="${esc(s)}" style="font-weight:800;color:#8fa2ff">@${esc(s)}</button>
+              <span class="vip-badge">✓ VIP Access</span>
+            </div>`).join('') || '<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}
+        </aside>
+      </div>`;
+  }
 
-function studio(){
-  const liveUploads=all().filter(x=>!x.t.isMock);
-  const myUploads=currentUser?liveUploads.filter(x=>x.t.userId===currentUser.id):[];
-  const artistHandle=getArtistDisplay();
+  function studio() {
+    if (!currentUser) {
+      return `
+        <div class="heading">
+          <div>
+            <div class="eyebrow">CREATOR WORKSPACE</div>
+            <h1>Artist Studio.</h1>
+            <p class="sub">Create your free creator account so every song you upload and every wall post is owned by your profile.</p>
+          </div>
+        </div>
+        <div class="studio-layout">
+          <div class="panel">
+            <div class="eyebrow">ACCOUNT REQUIRED TO PUBLISH</div>
+            <h2>Claim your Artist Profile</h2>
+            <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to get your own @Handle page and upload music.</p>
+            <div class="auth-tabs">
+              <button type="button" class="auth-tab ${authMode === 'signup' ? 'active' : ''}" data-authmode="signup">Create Artist Account</button>
+              <button type="button" class="auth-tab ${authMode === 'login' ? 'active' : ''}" data-authmode="login">Log In</button>
+            </div>
+            <form id="auth-form">
+              ${authMode === 'signup' ? `<label class="field">Artist / Creator Handle <input name="artist_name" required maxlength="50" placeholder="e.g. LONEK"></label>` : ''}
+              <label class="field">Email Address <input type="email" name="email" required placeholder="you@example.com"></label>
+              <label class="field">Password (min 6 characters) <input type="password" name="password" required minlength="6" placeholder="••••••••"></label>
+              <button type="submit" class="btn primary" style="margin-top:18px;width:100%">${authMode === 'signup' ? 'Create Account & Start Uploading ↗' : 'Log In to Studio ↗'}</button>
+            </form>
+          </div>
+          <aside>
+            <div class="panel">
+              <div class="eyebrow">WHY CREATE AN ACCOUNT?</div>
+              <p class="sub" style="margin-top:10px">• <b>Your Own @Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
+              <p class="sub" style="margin-top:8px">• <b>YouTube or Direct Upload:</b> Share YouTube music videos or upload exclusive MP3/MP4 files.</p>
+              <p class="sub" style="margin-top:8px">• <b>Subscriber VIP Vault:</b> Gate exclusive tracks and wall posts for subscribers.</p>
+            </div>
+          </aside>
+        </div>`;
+    }
 
-  if(!currentUser){
-    return `<div class="heading"><div><div class="eyebrow">CREATOR WORKSPACE</div><h1>Artist Studio.</h1><p class="sub">Create your free creator account so every song you upload and every wall post is owned by your profile.</p></div></div>
-    <div class="studio-layout">
-      <div class="panel">
-        <div class="eyebrow">ACCOUNT REQUIRED TO PUBLISH</div>
-        <h2>Claim your Artist Profile</h2>
-        <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to get your own #@Handle page and upload music.</p>
+    const artistHandle = currentUser.artist;
+    const myUploads = all().filter(x => x.t.artist.toLowerCase() === artistHandle.toLowerCase());
+
+    return `
+      <div class="heading">
+        <div>
+          <div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div>
+          <h1>Artist Studio.</h1>
+          <p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn primary" data-openartist="${esc(artistHandle)}">View My Public Page ↗</button>
+          <button class="btn ghost" data-action="logout">Log Out</button>
+        </div>
+      </div>
+      <div class="studio-layout">
+        <form class="panel" id="upload">
+          <h2>Publish a new release</h2>
+          <p class="sub">Publishing as <b>@${esc(artistHandle)}</b> — goes live immediately in the discovery feed.</p>
+          <div class="auth-tabs">
+            <button type="button" class="auth-tab ${uploadSource === 'youtube' ? 'active' : ''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
+            <button type="button" class="auth-tab ${uploadSource === 'file' ? 'active' : ''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
+          </div>
+          ${uploadSource === 'youtube'
+            ? `<label class="field">YouTube Video or Song URL <input type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></label>
+               <p class="note" style="margin-top:6px">Instant publishing with zero storage limits—thumbnail is fetched automatically.</p>`
+            : `<label class="field">Music or video file (MP3, WAV, MP4 — max 15MB) <input type="file" name="media" accept="audio/*,video/*" required></label>`}
+          <label class="field">Song title <input name="title" required maxlength="90" placeholder="Your track name"></label>
+          <label class="field">Artist name (locked to your account) <input name="artist" value="${esc(artistHandle)}" readonly style="background:#191e36;font-weight:750;color:#8fa2ff;border-color:#2c355e"></label>
+          <label class="field">Genre <select name="genre">${genres.slice(1).map(g => `<option>${g}</option>`).join('')}</select></label>
+          <label class="field">Caption <textarea name="description" maxlength="350" rows="3" placeholder="Tell the community about your music"></textarea></label>
+          ${uploadSource === 'file' ? `<label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;font-weight:700;color:#ffca57"><input type="checkbox" name="vip"> ★ Make this a Subscribers-Only VIP Drop</label>` : ''}
+          <label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;color:#c7cde8"><input type="checkbox" required> I own the rights to share and distribute this work.</label>
+          <button type="submit" class="btn primary">Publish live ↗</button>
+        </form>
+        <aside>
+          <div class="panel">
+            <div class="eyebrow">YOUR CREATOR STATS</div>
+            <div class="statgrid" style="grid-template-columns:1fr 1fr">
+              <div class="stat"><strong>${myUploads.length}</strong><span>Your releases</span></div>
+              <div class="stat"><strong>${subCount(artistHandle)}</strong><span>Subscribers</span></div>
+            </div>
+            <button class="btn ghost" style="width:100%" data-openartist="${esc(artistHandle)}">Post on Your Fan Wall ↗</button>
+          </div>
+          <div class="sponsor" style="margin-top:16px">
+            <div class="sponsor-tag">PROMOTE YOUR DROP</div>
+            <h3>Boost visibility.</h3>
+            <p>Reserve sponsored positions without changing organic chart votes.</p>
+            <button class="promo-link" data-action="promote">Explore placements ↗</button>
+          </div>
+        </aside>
+      </div>
+      ${myUploads.length ? `<section class="bottom-strip"><h2>Your published tracks</h2>${myUploads.map((x, n) => row(x, n)).join('')}</section>` : ''}`;
+  }
+
+  function searchPage() {
+    const results = all().filter(x => (x.t.artist + ' ' + x.t.title + ' ' + x.t.genre).toLowerCase().includes(query.toLowerCase()));
+    return `
+      <div class="heading">
+        <div>
+          <div class="eyebrow">FIND YOUR SOUND</div>
+          <h1>Search results</h1>
+          <p class="sub">${esc(query)}</p>
+        </div>
+      </div>
+      <div class="board">${results.map((x, n) => row(x, n)).join('') || '<div class="empty">No matches yet. Try an artist or genre.</div>'}</div>`;
+  }
+
+  function modalHTML() {
+    const t = current();
+    if (!modal) return '';
+    let inner = '';
+    if (modal === 'auth') {
+      inner = `
+        <div class="eyebrow">SOUNDWAVE ACCOUNT</div>
+        <h2>${authMode === 'signup' ? 'Create Artist Account' : 'Welcome Back'}</h2>
+        <p>Sign in to upload music, own your @Handle page, and message your fans.</p>
         <div class="auth-tabs">
-          <button type="button" class="auth-tab ${authMode==='signup'?'active':''}" data-authmode="signup">Create Artist Account</button>
-          <button type="button" class="auth-tab ${authMode==='login'?'active':''}" data-authmode="login">Log In</button>
+          <button type="button" class="auth-tab ${authMode === 'signup' ? 'active' : ''}" data-authmode="signup">Sign Up</button>
+          <button type="button" class="auth-tab ${authMode === 'login' ? 'active' : ''}" data-authmode="login">Log In</button>
         </div>
         <form id="auth-form">
-          ${authMode==='signup'?`<label class="field">Artist / Creator Handle <input name="artist_name" required maxlength="50" placeholder="e.g. LONEK"></label>`:''}
-          <label class="field">Email Address <input type="email" name="email" required placeholder="you@example.com"></label>
-          <label class="field">Password (min 6 characters) <input type="password" name="password" required minlength="6" placeholder="••••••••"></label>
-          <button type="submit" class="btn primary" style="margin-top:18px;width:100%" ${authLoading?'disabled':''}>${authLoading?'Please wait...':(authMode==='signup'?'Create Account & Start Uploading ↗':'Log In to Studio ↗')}</button>
-        </form>
-      </div>
-      <aside>
-        <div class="panel">
-          <div class="eyebrow">WHY CREATE AN ACCOUNT?</div>
-          <p class="sub" style="margin-top:10px">• <b>Your Own #@Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
-          <p class="sub" style="margin-top:8px">• <b>YouTube or Direct Upload:</b> Share YouTube music videos or upload exclusive MP3/MP4 files.</p>
-          <p class="sub" style="margin-top:8px">• <b>Subscriber VIP Vault:</b> Gate exclusive tracks and wall posts for subscribers.</p>
+          ${authMode === 'signup' ? `<label class="field">Artist / Username <input name="artist_name" required maxlength="50" placeholder="Your artist name"></label>` : ''}
+          <label class="field">Email <input type="email" name="email" required placeholder="you@example.com"></label>
+          <label class="field">Password <input type="password" name="password" required minlength="6" placeholder="Min 6 characters"></label>
+          <button type="submit" class="btn primary" style="margin-top:16px;width:100%">${authMode === 'signup' ? 'Create Account ↗' : 'Log In ↗'}</button>
+        </form>`;
+    } else if (modal === 'player' && t) {
+      const r = getTrackRating(t);
+      const locked = isLocked(t);
+      inner = `
+        ${t.ytId && !locked
+          ? `<div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;margin:12px 0"><iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`
+          : `<div style="max-width:190px;margin:12px auto">${cover(t)}</div>`}
+        <h2>${esc(t.title)} ${t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}</h2>
+        <p><button data-openartist="${esc(t.artist)}" style="font-weight:750;color:#8fa2ff">@${esc(t.artist)} ↗</button> · ★ ${r.avg} (${r.count} ratings)</p>
+        <div style="display:flex;justify-content:center;gap:10px;margin:16px 0">
+          ${locked
+            ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to Unlock</button>`
+            : (t.ytId ? '' : `<button class="btn primary" data-action="play">${playing ? 'Pause' : 'Play'} track</button>`)}
+          <button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id] || '1-5'})</button>
+          <button class="btn ghost" data-action="save">${has('saved', t.id) ? 'Saved ✓' : 'Save'}</button>
+        </div>`;
+    } else if (modal === 'rate' && t) {
+      const r = getTrackRating(t);
+      const curStars = state.ratings[t.id] || 0;
+      inner = `
+        <div class="eyebrow">COMMUNITY REVIEW</div>
+        <h2>Rate "${esc(t.title)}"</h2>
+        <p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p>
+        <div class="star-picker">
+          ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${n <= curStars ? 'on' : ''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}
         </div>
-      </aside>
-    </div>`;
+        <p class="note" style="text-align:center">Your 1–5 star rating updates the live community score for all listeners.</p>`;
+    } else if (modal === 'comments' && t) {
+      inner = `
+        <h2>Community conversation</h2>
+        ${(state.comments[t.id] || []).map(v => `<div class="track-row">${esc(v)}</div>`).join('') || '<p>Be the first to drop feedback on this track.</p>'}
+        <form id="comment">
+          <label class="field">Leave feedback <input name="comment" maxlength="280" required placeholder="What do you think of the mix/vibe?"></label>
+          <button class="btn primary" style="margin-top:13px">Post comment</button>
+        </form>`;
+    } else if (modal === 'share' && t) {
+      const r = getTrackRating(t);
+      inner = `
+        <h2>Share this song</h2>
+        <p>${esc(t.artist)} — ${esc(t.title)} (★ ${r.avg})</p>
+        <button class="btn primary" data-action="copy">Copy song link & details</button>`;
+    } else if (modal === 'promote') {
+      inner = `
+        <div class="eyebrow">SOUNDWAVE FOR ARTISTS & BRANDS</div>
+        <h2>Sponsored music placements</h2>
+        <p>Place a release in a clearly labeled recommendation slot next to the discovery experience.</p>
+        <div class="panel" style="background:#171a2b;margin:14px 0">
+          <b>Available advertising concepts</b>
+          <p>Sponsored spotlight · Featured reel placement · Genre sponsorship</p>
+          <p class="note">Organic ratings and chart votes can never be bought.</p>
+        </div>
+        <button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
+    } else {
+      const artistHandle = currentUser?.artist || 'Listener';
+      inner = `
+        <h2>@${esc(artistHandle)}</h2>
+        <p>${esc(currentUser?.email || 'Preview Session')}</p>
+        <div class="statgrid">
+          <div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div>
+          <div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div>
+          <div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          ${currentUser ? `<button class="btn primary" data-openartist="${esc(artistHandle)}">My Artist Page</button>` : ''}
+          <button class="btn ghost" data-nav="Studio">Upload</button>
+          ${currentUser ? `<button class="btn ghost" data-action="logout">Log Out</button>` : ''}
+        </div>`;
+    }
+    return `
+      <div class="modal-layer" role="presentation">
+        <div class="modal" role="dialog" aria-modal="true" aria-label="Soundwave dialog">
+          <button class="close" data-action="close" aria-label="Close dialog">×</button>
+          ${inner}
+        </div>
+      </div>`;
   }
 
-  const activeSource=ALLOW_YOUTUBE?uploadSource:'file';
-  return `<div class="heading"><div><div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div><h1>Artist Studio.</h1><p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p></div><div style="display:flex;gap:10px"><button class="btn primary" data-openartist="${esc(artistHandle)}">View My Public Page ↗</button><button class="btn ghost" data-action="logout">Log Out</button></div></div>
-  <div class="studio-layout">
-    <form class="panel" id="upload">
-      <h2>Publish a new release</h2>
-      <p class="sub">Publishing as <b>@${esc(artistHandle)}</b> — goes live immediately in the discovery feed.</p>
-      ${ALLOW_YOUTUBE?`<div class="auth-tabs">
-        <button type="button" class="auth-tab ${activeSource==='youtube'?'active':''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
-        <button type="button" class="auth-tab ${activeSource==='file'?'active':''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
-      </div>`:''}
-      ${activeSource==='youtube'?`
-        <label class="field">YouTube Video or Song URL <input type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></label>
-        <p class="note" style="margin-top:6px">Instant publishing with zero storage limits—thumbnail is fetched automatically.</p>
-      `:`
-        <label class="field">Music or video file (MP3, WAV, MP4 — max ${MAX_MEDIA_MB}MB) <input type="file" name="media" accept="audio/*,video/*" required></label>
-      `}
-      <label class="field">Custom Cover Artwork (optional — max ${MAX_COVER_MB}MB) <input type="file" name="cover" accept="image/*"></label>
-      <label class="field">Song title <input name="title" required maxlength="90" placeholder="Your track name"></label>
-      <label class="field">Artist name (locked to your account) <input name="artist" value="${esc(artistHandle)}" readonly style="background:#eef0f8;font-weight:750;color:#4a61f0"></label>
-      <label class="field">Genre <select name="genre">${genres.slice(1).map(g=>`<option>${g}</option>`).join('')}</select></label>
-      <label class="field">Caption <textarea name="description" maxlength="350" rows="3" placeholder="Tell the community about your music"></textarea></label>
-      ${activeSource==='file'?`<label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;font-weight:700;color:#b87503"><input type="checkbox" name="vip"> ★ Make this a Subscribers-Only VIP Drop</label>`:''}
-      <label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0"><input type="checkbox" required> I own the rights to share and distribute this work.</label>
-      <button type="submit" class="btn primary" ${uploading?'disabled':''}>${uploading?'Publishing to Soundwave...':'Publish live ↗'}</button>
-    </form>
-    <aside>
-      <div class="panel">
-        <div class="eyebrow">YOUR CREATOR STATS</div>
-        <div class="statgrid" style="grid-template-columns:1fr 1fr">
-          <div class="stat"><strong>${myUploads.length}</strong><span>Your releases</span></div>
-          <div class="stat"><strong>${subCount(artistHandle)}</strong><span>Subscribers</span></div>
-        </div>
-        <button class="btn ghost" style="width:100%" data-openartist="${esc(artistHandle)}">Post on Your Fan Wall ↗</button>
-      </div>
-      <div class="sponsor" style="margin-top:16px"><div class="sponsor-tag">PROMOTE YOUR DROP</div><h3>Boost visibility.</h3><p>Reserve sponsored positions without changing organic chart votes.</p><button class="promo-link" data-action="promote">Explore placements ↗</button></div>
-    </aside>
-  </div>
-  ${myUploads.length?`<section class="bottom-strip"><h2>Your published tracks</h2>${myUploads.map((x,n)=>row(x,n)).join('')}</section>`:''}`;
-}
+  let ttObserver = null;
+  function setupTikTokFeed() {
+    const feedEl = $('#tt-feed');
+    if (!feedEl) return;
+    if (ttObserver) ttObserver.disconnect();
+    const targetSlide = feedEl.querySelector(`.tt-slide[data-slideidx="${currentIndex}"]`);
+    if (targetSlide) targetSlide.scrollIntoView({ behavior: 'instant' });
 
-function searchPage(){const results=all().filter(x=>(x.t.artist+' '+x.t.title+' '+x.t.genre).toLowerCase().includes(query.toLowerCase()));return `<div class="heading"><div><div class="eyebrow">FIND YOUR SOUND</div><h1>Search results</h1><p class="sub">${esc(query)}</p></div></div><div class="board">${results.map((x,n)=>row(x,n)).join('')||'<div class="empty">No matches yet. Try an artist or genre.</div>'}</div>`}
-
-function modalHTML(){
-  const t=current();if(!modal)return '';
-  let inner='';
-  if(modal==='auth'){
-    inner=`<div class="eyebrow">SOUNDWAVE ACCOUNT</div><h2>${authMode==='signup'?'Create Artist Account':'Welcome Back'}</h2><p>Sign in to upload music, own your #@Handle page, and message your fans.</p>
-    <div class="auth-tabs"><button type="button" class="auth-tab ${authMode==='signup'?'active':''}" data-authmode="signup">Sign Up</button><button type="button" class="auth-tab ${authMode==='login'?'active':''}" data-authmode="login">Log In</button></div>
-    <form id="auth-form">
-      ${authMode==='signup'?`<label class="field">Artist / Username <input name="artist_name" required maxlength="50" placeholder="Your artist name"></label>`:''}
-      <label class="field">Email <input type="email" name="email" required placeholder="you@example.com"></label>
-      <label class="field">Password <input type="password" name="password" required minlength="6" placeholder="Min 6 characters"></label>
-      <button type="submit" class="btn primary" style="margin-top:16px;width:100%" ${authLoading?'disabled':''}>${authLoading?'Please wait...':(authMode==='signup'?'Create Account ↗':'Log In ↗')}</button>
-    </form>`;
-  }else if(modal==='player'&&t){
-    const r=getTrackRating(t),locked=isLocked(t);
-    inner=`${t.ytId&&!locked?`<div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;margin:12px 0"><iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`:`<div style="max-width:190px;margin:12px auto">${cover(t)}</div>`}<h2>${esc(t.title)} ${t.vip?'<span class="vip-badge">★ VIP</span>':''}</h2><p><button data-openartist="${esc(t.artist)}" style="font-weight:750;color:#4a61f0">@${esc(t.artist)} ↗</button> · ★ ${r.avg} (${r.count} ratings)</p><div style="display:flex;justify-content:center;gap:10px;margin:16px 0">${locked?`<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to Unlock</button>`:(t.ytId?'':`<button class="btn primary" data-action="play">${playing?'Pause':'Play'} track</button>`)}<button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id]||'1-5'})</button><button class="btn ghost" data-action="save">${has('saved',t.id)?'Saved ✓':'Save'}</button></div>`;
-  }else if(modal==='rate'&&t){
-    const r=getTrackRating(t),curStars=state.ratings[t.id]||0;
-    inner=`<div class="eyebrow">COMMUNITY REVIEW</div><h2>Rate "${esc(t.title)}"</h2><p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p><div class="star-picker">${[1,2,3,4,5].map(n=>`<button class="star-btn ${n<=curStars?'on':''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}</div><p class="note" style="text-align:center">Your 1–5 star rating updates the live community score for all listeners.</p>`;
-  }else if(modal==='comments'&&t){
-    inner=`<h2>Community conversation</h2>${(state.comments[t.id]||[]).map(v=>`<div class="track-row">${esc(v)}</div>`).join('')||'<p>Be the first to drop feedback on this track.</p>'}<form id="comment"><label class="field">Leave feedback <input name="comment" maxlength="280" required placeholder="What do you think of the mix/vibe?"></label><button class="btn primary" style="margin-top:13px">Post comment</button></form>`;
-  }else if(modal==='share'&&t){
-    const r=getTrackRating(t);
-    inner=`<h2>Share this song</h2><p>${esc(t.artist)} — ${esc(t.title)} (★ ${r.avg})</p><button class="btn primary" data-action="copy">Copy song link & details</button>`;
-  }else if(modal==='promote'){
-    inner=`<div class="eyebrow">SOUNDWAVE FOR ARTISTS & BRANDS</div><h2>Sponsored music placements</h2><p>Place a release in a clearly labeled recommendation slot next to the discovery experience.</p><div class="panel" style="background:#f8f7ff"><b>Available advertising concepts</b><p>Sponsored spotlight · Featured reel placement · Genre sponsorship</p><p class="note">Organic ratings and chart votes can never be bought.</p></div><button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
-  }else{
-    const artistHandle=getArtistDisplay();
-    inner=`<h2>@${esc(artistHandle)}</h2><p>${esc(currentUser?.email||'')}</p><div class="statgrid"><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div><div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-openartist="${esc(artistHandle)}">My Artist Page</button><button class="btn ghost" data-nav="Studio">Upload</button><button class="btn ghost" data-action="logout">Log Out</button></div>`;
-  }
-  return `<div class="modal-layer" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-label="Soundwave dialog"><button class="close" data-action="close" aria-label="Close dialog">×</button>${inner}</div></div>`;
-}
-
-let ttObserver=null;
-function setupTikTokFeed(){
-  const feedEl=$('#tt-feed');
-  if(!feedEl)return;
-  if(ttObserver)ttObserver.disconnect();
-  const targetSlide=feedEl.querySelector(`.tt-slide[data-slideidx="${currentIndex}"]`);
-  if(targetSlide)targetSlide.scrollIntoView({behavior:'instant'});
-
-  ttObserver=new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting&&entry.intersectionRatio>0.65){
-        const idx=Number(entry.target.dataset.slideidx);
-        if(idx!==currentIndex){
-          currentIndex=idx;progress=0;curTime=0;durTime=0;
-          if(userInteracted){
-            startPlaybackForCurrent();
-          }else{
-            audio.pause();playing=false;
+    ttObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
+          const idx = Number(entry.target.dataset.slideidx);
+          if (idx !== currentIndex) {
+            currentIndex = idx;
+            progress = 0;
+            curTime = 0;
+            const t = current();
+            if (userInteracted && t && !isLocked(t)) {
+              playing = true;
+              if (!t.ytId) startSynthPreview(t);
+              else stopSynthPreview();
+            } else {
+              stopSynthPreview();
+              playing = false;
+            }
+            document.querySelectorAll('.tt-slide').forEach((slideEl) => {
+              const sIdx = Number(slideEl.dataset.slideidx);
+              const isAct = sIdx === currentIndex && playing;
+              slideEl.classList.toggle('is-playing', isAct);
+              const badgeWrap = slideEl.querySelector('.tt-center-play');
+              if (badgeWrap) {
+                const locked = isLocked(tracks[sIdx]);
+                badgeWrap.innerHTML = isAct ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`;
+              }
+            });
+            const pTitle = document.querySelector('.player-title');
+            if (pTitle && t) {
+              const r = getTrackRating(t);
+              pTitle.dataset.openartist = t.artist;
+              pTitle.innerHTML = `<div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div>`;
+            }
+            const pPlay = document.querySelector('.play-circle');
+            if (pPlay) pPlay.textContent = playing ? 'Ⅱ' : '▶';
           }
-          document.querySelectorAll('.tt-center-play').forEach(el=>{
-            const sIdx=Number(el.closest('.tt-slide').dataset.slideidx);
-            const locked=isLocked(tracks[sIdx]);
-            el.innerHTML=(sIdx===currentIndex&&playing)?'':`<span class="tt-play-badge">${locked?'🔒':'▶'}</span>`;
-          });
         }
+      });
+    }, { root: feedEl, threshold: 0.65 });
+
+    feedEl.querySelectorAll('.tt-slide').forEach((s) => ttObserver.observe(s));
+  }
+
+  function render() {
+    document.body.classList.toggle('is-reels', page === 'Feed');
+    const t = current();
+    const r = t ? getTrackRating(t) : { avg: '5.0', count: 0 };
+    const artistHandle = currentUser?.artist || '';
+    const initials = artistHandle ? artistHandle.slice(0, 2).toUpperCase() : 'SW';
+
+    $('#app').innerHTML = `
+      <div class="app">
+        <aside class="sidebar">
+          <div class="brand" data-nav="Home"><span class="brand-mark">∿</span>soundwave<span class="brand-dot">.</span></div>
+          <div class="sidebar-label">MUSIC</div>
+          ${sections.map(([name, glyph, label]) => `
+            <button class="nav ${page === name ? 'active' : ''}" data-nav="${name}">
+              <span class="glyph">${glyph}</span>${label}
+            </button>`).join('')}
+          ${currentUser ? `
+            <button class="nav ${page === 'Artist' && selectedArtist === artistHandle ? 'active' : ''}" data-openartist="${esc(artistHandle)}">
+              <span class="glyph">@</span>My Artist Page
+            </button>` : ''}
+          <div class="sidebar-label">YOUR COMMUNITY</div>
+          <button class="nav" data-nav="Charts" style="color:#ff6b64"><span class="glyph">♨</span>Trending songs</button>
+          <button class="nav" data-openartist="LONEK"><span class="glyph">✦</span>Featured: @LONEK</button>
+          <div class="side-bottom">
+            <b>${currentUser ? `@${esc(artistHandle)}` : 'Your music belongs here.'}</b>
+            <p>${currentUser ? 'Manage your artist page, post to fans & upload.' : 'Create a free account to claim your artist page.'}</p>
+            <button class="btn primary" data-nav="Studio">${currentUser ? 'Upload music ↗' : 'Join & Upload ↗'}</button>
+          </div>
+        </aside>
+
+        <main class="main">
+          <header class="topbar">
+            <div class="topbrand" data-nav="Home"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div>
+            <div class="search">⌕ <input id="search" type="search" placeholder="Search songs, artists, genres" value="${esc(query)}" aria-label="Search music"></div>
+            <div class="topactions">
+              <button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>
+              ${currentUser
+                ? `<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>`
+                : `<button class="btn ghost" data-action="openauth">Log In / Sign Up</button>`}
+            </div>
+          </header>
+
+          <div class="content">
+            ${page === 'Home' ? home()
+              : page === 'Feed' ? feed()
+              : page === 'Charts' ? charts()
+              : page === 'Studio' ? studio()
+              : page === 'Library' ? library()
+              : page === 'Artist' ? artistPage()
+              : searchPage()}
+            <div class="footer-note">SOUNDWAVE · Dark Studio Community Music Network</div>
+          </div>
+        </main>
+      </div>
+
+      ${t ? `
+        <div class="player">
+          <button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button>
+          <div class="player-title" data-openartist="${esc(t.artist)}">
+            <div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div>
+            <div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div>
+          </div>
+          <button aria-label="Rate song" data-action="rate" style="font-size:17px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id] || ''}</button>
+          <button aria-label="Save song" data-action="save" style="font-size:21px;color:${has('saved', t.id) ? '#ec6ec4' : '#7e85a3'}">${has('saved', t.id) ? '♥' : '♡'}</button>
+          <button class="skip" aria-label="Previous track" data-action="prev">⏮</button>
+          <button class="play-circle" aria-label="Play or pause" data-action="play">${playing ? 'Ⅱ' : '▶'}</button>
+          <button class="skip" aria-label="Next track" data-action="next">⏭</button>
+          <div class="progress-wrap">
+            <div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div>
+            <span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime)}</span>
+          </div>
+        </div>` : ''}
+
+      <nav class="mobile-nav">
+        ${sections.map(([name, glyph, label]) => `
+          <button class="${page === name ? 'active' : ''}" data-nav="${name}">
+            <span>${glyph}</span>${label}
+          </button>`).join('')}
+      </nav>
+      ${modalHTML()}
+    `;
+
+    if (page === 'Feed') setupTikTokFeed();
+
+    const el = $('#reel');
+    if (el) {
+      let y = 0;
+      let last = 0;
+      el.addEventListener('touchstart', e => { y = e.touches[0].clientY; }, { passive: true });
+      el.addEventListener('touchend', e => {
+        const dy = y - e.changedTouches[0].clientY;
+        if (Math.abs(dy) > 45) move(dy > 0 ? 1 : -1);
+      }, { passive: true });
+      el.addEventListener('wheel', e => {
+        e.preventDefault();
+        if (Math.abs(e.deltaY) > 17 && Date.now() - last > 450) {
+          last = Date.now();
+          move(e.deltaY > 0 ? 1 : -1);
+        }
+      }, { passive: false });
+    }
+  }
+
+  function toast(s) {
+    const d = document.createElement('div');
+    d.className = 'toast';
+    d.textContent = s;
+    document.body.append(d);
+    setTimeout(() => d.remove(), 2500);
+  }
+
+  function choose(i) {
+    stopSynthPreview();
+    playing = false;
+    progress = 0;
+    curTime = 0;
+    currentIndex = i;
+    if (page === 'Feed') {
+      const feedEl = $('#tt-feed');
+      const targetSlide = feedEl?.querySelector(`.tt-slide[data-slideidx="${i}"]`);
+      if (targetSlide) {
+        targetSlide.scrollIntoView({ behavior: 'smooth' });
+        return;
       }
-    });
-  },{root:feedEl,threshold:0.65});
-  feedEl.querySelectorAll('.tt-slide').forEach(s=>ttObserver.observe(s));
-}
-
-function render(){
-  document.body.classList.toggle('is-reels',page==='Feed');
-  let t=current(),r=t?getTrackRating(t):{avg:'5.0',count:0};
-  const artistHandle=getArtistDisplay();
-  const initials=artistHandle?artistHandle.slice(0,2).toUpperCase():'SW';
-  $('#app').innerHTML=`<div class="app"><aside class="sidebar"><div class="brand"><span class="brand-mark">∿</span>soundwave<span class="brand-dot">.</span></div><div class="sidebar-label">MUSIC</div>${sections.map(([name,glyph,label])=>`<button class="nav ${page===name?'active':''}" data-nav="${name}"><span class="glyph">${glyph}</span>${label}</button>`).join('')}${currentUser?`<button class="nav ${page==='Artist'&&selectedArtist===artistHandle?'active':''}" data-openartist="${esc(artistHandle)}"><span class="glyph">@</span>My Artist Page</button>`:''}<div class="sidebar-label">YOUR COMMUNITY</div><button class="nav" data-nav="Charts" style="color:#ef5145"><span class="glyph">♨</span>Trending songs</button><button class="nav" data-tab="Rising"><span class="glyph">✦</span>Rising artists</button><div class="side-bottom"><b>${currentUser?`@${esc(artistHandle)}`:'Your music belongs here.'}</b><p>${currentUser?'Manage your artist page, post to fans & upload.':'Create a free account to claim your artist page.'}</p><button class="btn primary" data-nav="Studio">${currentUser?'Upload music ↗':'Join & Upload ↗'}</button></div></aside><main class="main"><header class="topbar"><div class="topbrand"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div><div class="search">⌕ <input id="search" type="search" placeholder="Search songs, artists, genres" value="${esc(query)}" aria-label="Search music"></div><div class="topactions"><button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>${currentUser?`<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>`:`<button class="btn ghost" data-action="openauth">Log In / Sign Up</button>`}</div></header><div class="content">${page==='Home'?home():page==='Feed'?feed():page==='Charts'?charts():page==='Studio'?studio():page==='Library'?library():page==='Artist'?artistPage():searchPage()}<div class="footer-note">SOUNDWAVE · Community Music Social Network</div></div></main></div>${t?`<div class="player"><button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button><div class="player-title" data-openartist="${esc(t.artist)}"><div class="track-name">${esc(t.title)} ${t.vip?'<span class="vip-badge">VIP</span>':''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div></div><button aria-label="Rate song" data-action="rate" style="font-size:18px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id]||''}</button><button aria-label="Save song" data-action="save" style="font-size:22px;color:${has('saved',t.id)?'#ed5eaf':'#9094a4'}">${has('saved',t.id)?'♥':'♡'}</button><button class="skip" aria-label="Previous track" data-action="prev">⏮</button><button class="play-circle" aria-label="Play or pause" data-action="play">${playing?'Ⅱ':'▶'}</button><button class="skip" aria-label="Next track" data-action="next">⏭</button><div class="progress-wrap"><div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div><span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime||135)}</span></div></div>`:''}<nav class="mobile-nav">${sections.map(([name,glyph,label])=>`<button class="${page===name?'active':''}" data-nav="${name}"><span>${glyph}</span>${label}</button>`).join('')}</nav>${modalHTML()}`;
-  let el=$('#reel');
-  if(el){
-    let y=0,last=0;
-    el.addEventListener('touchstart',e=>{y=e.touches[0].clientY},{passive:true});
-    el.addEventListener('touchend',e=>{let dy=y-e.changedTouches[0].clientY;if(Math.abs(dy)>45)move(dy>0?1:-1)},{passive:true});
-    el.addEventListener('wheel',e=>{e.preventDefault();if(Math.abs(e.deltaY)>17&&Date.now()-last>500){last=Date.now();move(e.deltaY>0?1:-1)}},{passive:false});
-  }
-  if(page==='Feed')setupTikTokFeed();
-}
-
-function toast(s){let d=document.createElement('div');d.className='toast';d.textContent=s;document.body.append(d);setTimeout(()=>d.remove(),2600)}
-function choose(i){audio.pause();playing=false;progress=0;curTime=0;durTime=0;currentIndex=i;render()}
-function pool(){return all().filter(x=>tab==='For You'||(tab==='Following'?has('follows',x.t.artist):x.t.votes<2000))}
-function move(d){let p=(page==='Feed'?pool():all());if(!p.length)return toast('No matching songs yet');let at=p.findIndex(x=>x.i===currentIndex);choose(p[(at+d+p.length)%p.length].i)}
-
-function startPlaybackForCurrent(){
-  const t=current();if(!t)return;
-  document.querySelectorAll('.tt-vid').forEach(v=>{v.pause();v.muted=true});
-  if(isLocked(t)){audio.pause();playing=false;return}
-  playing=true;
-  if(t.ytId){audio.pause();return}
-  const vid=$(`.tt-vid[data-vididx="${currentIndex}"]`)||$('#reel-video');
-  if(t.video&&vid){
-    audio.pause();
-    vid.muted=false;
-    vid.play().catch(()=>{playing=false});
-    return;
-  }
-  if(t.url){
-    if(audio.src!==t.url)audio.src=t.url;
-    audio.play().catch(()=>{playing=false});
-  }
-}
-
-function togglePlay(){
-  const t=current();if(!t)return;
-  userInteracted=true;
-  if(isLocked(t)){openArtistPage(t.artist);return toast(`Subscribe to @${t.artist} to unlock this VIP track`)}
-  if(playing){
-    playing=false;
-    audio.pause();
-    document.querySelectorAll('video').forEach(v=>v.pause());
-    render();
-  }else{
-    startPlaybackForCurrent();
+    }
     render();
   }
-}
 
-async function syncMockEngagement(trackObj,deltaVotes,deltaLikes,deltaRatingSum,deltaRatingCount){
-  if(!sb)return;
-  const {data:existing}=await sb.from('engagement').select('*').eq('item_id',trackObj.id).maybeSingle();
-  const payload={
-    item_id:trackObj.id,
-    votes:Math.max(0,(existing?.votes||0)+deltaVotes),
-    likes:Math.max(0,(existing?.likes||0)+deltaLikes),
-    rating_sum:Math.max(0,(existing?.rating_sum||0)+deltaRatingSum),
-    rating_count:Math.max(0,(existing?.rating_count||0)+deltaRatingCount)
-  };
-  await sb.from('engagement').upsert(payload);
-}
+  function pool() {
+    return all().filter(x => tab === 'For You' || has('follows', x.t.artist));
+  }
 
-function toggleSubscribeArtist(artistName){
-  const wasSubbed=has('follows',artistName);
-  flip('follows',artistName);
-  if(sb){
-    if(!wasSubbed){
-      liveSubCounts[artistName]=(liveSubCounts[artistName]||0)+1;
-      sb.from('subscriptions').upsert({artist:artistName,device_id:state.deviceId}).then();
-    }else{
-      liveSubCounts[artistName]=Math.max(0,(liveSubCounts[artistName]||1)-1);
-      sb.from('subscriptions').delete().match({artist:artistName,device_id:state.deviceId}).then();
+  function move(d) {
+    const p = page === 'Feed' ? pool() : all();
+    if (!p.length) return toast('Subscribe to an artist first to populate this feed');
+    const at = p.findIndex(x => x.i === currentIndex);
+    choose(p[(at + d + p.length) % p.length].i);
+  }
+
+  function togglePlay() {
+    const t = current();
+    if (!t) return;
+    userInteracted = true;
+    if (isLocked(t)) {
+      selectedArtist = t.artist;
+      page = 'Artist';
+      modal = '';
+      render();
+      return toast(`Subscribe to @${t.artist} to unlock this VIP track`);
     }
-  }
-  toast(has('follows',artistName)?`Subscribed to @${artistName}! VIP access unlocked`:`Unsubscribed from @${artistName}`);
-}
-
-document.addEventListener('click',async e=>{
-  const scrub=e.target.closest('#scrub');
-  if(scrub){
-    const rect=scrub.getBoundingClientRect();
-    const pct=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
-    progress=pct*100;
-    const vid=$(`.tt-vid[data-vididx="${currentIndex}"]`)||$('#reel-video');
-    if(current()?.video&&vid&&vid.duration){vid.currentTime=pct*vid.duration;curTime=vid.currentTime}
-    else if(audio.duration){audio.currentTime=pct*audio.duration;curTime=audio.currentTime}
-    document.querySelectorAll('.progress i,.tt-progress i').forEach(el=>el.style.width=progress+'%');
-    return;
-  }
-  if(e.target.closest('[data-action="tapplay"]')){
-    togglePlay();return;
-  }
-  let b=e.target.closest('button,[data-track],[data-openartist],[data-subartist]');if(!b)return;
-  let d=b.dataset,a=d.action,t=current();
-
-  if(d.upsrc){uploadSource=d.upsrc;render();return}
-  if(d.openartist){openArtistPage(d.openartist);return}
-  if(d.subartist){toggleSubscribeArtist(d.subartist);render();return}
-  if(d.copyartist){
-    const url=`${location.origin}/#@${encodeURIComponent(d.copyartist)}`;
-    navigator.clipboard?.writeText(url).then(()=>toast(`Artist page link copied: #@${d.copyartist}`)).catch(()=>toast(url));
-    return;
-  }
-  if(a==='togglebio'){editingBio=!editingBio;render();return}
-
-  if(d.authmode){authMode=d.authmode;render();return}
-  if(a==='openauth'){modal='auth';render();return}
-  if(a==='logout'){
-    if(sb)await sb.auth.signOut();
-    currentUser=null;userArtistName='';modal='';render();
-    toast('Logged out');return;
-  }
-  if(d.deltrack){
-    if(!confirm('Delete this release permanently?'))return;
-    if(sb)await sb.from('tracks').delete().eq('id',d.deltrack);
-    await syncFromSupabase();
-    toast('Release deleted');return;
+    playing = !playing;
+    if (playing && !t.ytId) startSynthPreview(t);
+    else stopSynthPreview();
+    render();
   }
 
-  if(d.nav){page=d.nav;modal='';genre='All';if(page==='Feed')tab='For You';try{history.replaceState(null,'',location.pathname)}catch{}render();scrollTo(0,0);return}
-  if(d.genre){genre=d.genre;render();return}
-  if(d.tab){tab=d.tab;page='Feed';modal='';const p=pool();if(p.length)currentIndex=p[0].i;else{tab='For You';toast('Subscribe to an artist to build this feed')}render();return}
-  if(d.track!==undefined){choose(Number(d.track));modal='player';render();return}
-  if(d.rate!==undefined){currentIndex=Number(d.rate);modal='rate';render();return}
-  if(d.setrate!==undefined){
-    const stars=Number(d.setrate),prev=state.ratings[t.id]||0;
-    const deltaSum=stars-prev;
-    const deltaCount=prev?0:1;
-    state.ratings[t.id]=stars;saveState();modal='';
-    t.ratingSum=(t.ratingSum||5)+deltaSum;
-    t.ratingCount=(t.ratingCount||1)+deltaCount;
-    if(!t.isMock){
-      if(sb)sb.from('tracks').update({rating_sum:t.ratingSum,rating_count:t.ratingCount}).eq('id',t.id).then();
-    }else{
-      syncMockEngagement(t,0,0,deltaSum,deltaCount);
+  document.addEventListener('click', (e) => {
+    const scrub = e.target.closest('#scrub');
+    if (scrub) {
+      const rect = scrub.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      progress = pct * 100;
+      curTime = Math.round(pct * durTime);
+      document.querySelectorAll('.progress i, .tt-progress i').forEach(el => el.style.width = progress + '%');
+      document.querySelectorAll('.time-label').forEach(el => el.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime)}`);
+      return;
     }
-    render();toast(`Rated "${t.title}" ${stars} ★`);return;
-  }
-  if(d.like!==undefined){
-    const target=tracks[Number(d.like)],wasLiked=has('likes',target.id);
-    const delta=wasLiked?-1:1;
-    flip('likes',target.id);
-    target.likes=Math.max(0,(target.likes||0)+delta);
-    if(!target.isMock){
-      if(sb)sb.from('tracks').update({likes:target.likes}).eq('id',target.id).then();
-    }else{
-      syncMockEngagement(target,0,delta,0,0);
+
+    if (e.target.closest('[data-action="tapplay"]')) {
+      togglePlay();
+      return;
     }
-    render();return;
-  }
-  if(d.vote!==undefined){
-    const target=tracks[Number(d.vote)],wasVoted=has('votes',target.id);
-    const delta=wasVoted?-1:1;
-    flip('votes',target.id);
-    target.votes=Math.max(0,(target.votes||0)+delta);
-    if(!target.isMock){
-      if(sb)sb.from('tracks').update({votes:target.votes}).eq('id',target.id).then();
-    }else{
-      syncMockEngagement(target,delta,0,0,0);
+
+    const b = e.target.closest('button,[data-track],[data-openartist],[data-subartist],[data-nav]');
+    if (!b) return;
+    const d = b.dataset;
+    const a = d.action;
+    const t = current();
+
+    if (d.upsrc) { uploadSource = d.upsrc; render(); return; }
+    if (d.openartist) {
+      selectedArtist = d.openartist;
+      editingBio = false;
+      page = 'Artist';
+      modal = '';
+      render();
+      scrollTo(0, 0);
+      return;
     }
-    render();toast('Community chart vote updated');return;
-  }
-  if(a==='prev'||a==='next'){move(a==='next'?1:-1);return}
-  if(a==='play'){togglePlay();return}
-  if(a==='save'){flip('saved',t.id);toast(has('saved',t.id)?'Added to My Music':'Removed from My Music')}
-  if(['player','comments','share','profile','promote','rate'].includes(a)){
-    modal=a;
-    if(a==='comments'&&t)loadTrackComments(t.id);
-  }
-  if(a==='close')modal='';
-  if(a==='copy'){const v=`${t.artist} — ${t.title} on Soundwave`;navigator.clipboard?.writeText(v).then(()=>toast('Song link copied')).catch(()=>toast('Clipboard unavailable'));return}
-  render();
-});
+    if (d.subartist) {
+      flip('follows', d.subartist);
+      toast(has('follows', d.subartist) ? `Subscribed to @${d.subartist}! VIP access unlocked` : `Unsubscribed from @${d.subartist}`);
+      render();
+      return;
+    }
+    if (d.copyartist) {
+      toast(`Artist link copied: soundwave.app/@${d.copyartist.replace(/\s/g, '')}`);
+      return;
+    }
+    if (a === 'togglebio') { editingBio = !editingBio; render(); return; }
+    if (d.authmode) { authMode = d.authmode; render(); return; }
+    if (a === 'openauth') { modal = 'auth'; render(); return; }
+    if (a === 'logout') {
+      currentUser = null;
+      modal = '';
+      render();
+      toast('Logged out');
+      return;
+    }
+    if (d.deltrack) {
+      tracks = tracks.filter(item => item.id !== d.deltrack);
+      currentIndex = 0;
+      render();
+      toast('Release deleted');
+      return;
+    }
 
-document.addEventListener('keydown',e=>{
-  if(e.target.id==='search'&&e.key==='Enter'){query=e.target.value;page='Search';render()}
-  else if((page==='Home'||page==='Feed')&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)&&!modal){
-    if(e.key==='ArrowDown'){e.preventDefault();move(1)}
-    if(e.key==='ArrowUp'){e.preventDefault();move(-1)}
-  }
-  if(e.key==='Escape'&&modal){modal='';render()}
-});
+    if (d.nav) {
+      page = d.nav;
+      modal = '';
+      genre = 'All';
+      if (page === 'Feed') tab = 'For You';
+      render();
+      scrollTo(0, 0);
+      return;
+    }
+    if (d.genre) { genre = d.genre; render(); return; }
+    if (d.tab) {
+      tab = d.tab;
+      page = 'Feed';
+      modal = '';
+      const p = pool();
+      if (p.length) currentIndex = p[0].i;
+      else { tab = 'For You'; toast('Subscribe to an artist to populate this feed'); }
+      render();
+      return;
+    }
+    if (d.track !== undefined) { choose(Number(d.track)); modal = 'player'; render(); return; }
+    if (d.rate !== undefined) { currentIndex = Number(d.rate); modal = 'rate'; render(); return; }
+    if (d.setrate !== undefined) {
+      const stars = Number(d.setrate);
+      const prev = state.ratings[t.id] || 0;
+      state.ratings[t.id] = stars;
+      t.ratingSum = (t.ratingSum || 5) - prev + stars;
+      if (!prev) t.ratingCount = (t.ratingCount || 1) + 1;
+      modal = '';
+      render();
+      toast(`Rated "${t.title}" ${stars} ★`);
+      return;
+    }
+    if (d.like !== undefined) {
+      const target = tracks[Number(d.like)];
+      const wasLiked = has('likes', target.id);
+      flip('likes', target.id);
+      target.likes = Math.max(0, (target.likes || 0) + (wasLiked ? -1 : 1));
+      render();
+      return;
+    }
+    if (d.vote !== undefined) {
+      const target = tracks[Number(d.vote)];
+      const wasVoted = has('votes', target.id);
+      flip('votes', target.id);
+      target.votes = Math.max(0, (target.votes || 0) + (wasVoted ? -1 : 1));
+      render();
+      toast('Community chart vote updated');
+      return;
+    }
+    if (a === 'prev' || a === 'next') { move(a === 'next' ? 1 : -1); return; }
+    if (a === 'play') { togglePlay(); return; }
+    if (a === 'save') { flip('saved', t.id); toast(has('saved', t.id) ? 'Added to My Music' : 'Removed from My Music'); }
+    if (['player', 'comments', 'share', 'profile', 'promote', 'rate'].includes(a)) modal = a;
+    if (a === 'close') modal = '';
+    if (a === 'copy') { toast(`Copied: ${t.artist} — ${t.title}`); return; }
+    render();
+  });
 
-document.addEventListener('submit',async e=>{
-  e.preventDefault();
-  const data=new FormData(e.target);
+  document.addEventListener('keydown', (e) => {
+    if (e.target.id === 'search' && e.key === 'Enter') {
+      query = e.target.value;
+      page = 'Search';
+      render();
+    } else if ((page === 'Home' || page === 'Feed') && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) && !modal) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+    }
+    if (e.key === 'Escape' && modal) { modal = ''; render(); }
+  });
 
-  if(e.target.id==='bio-form'){
-    if(!currentUser||!sb)return;
-    const bio=String(data.get('bio')||'').trim();
-    const social_link=String(data.get('social_link')||'').trim();
-    const handle=getArtistDisplay();
-    await sb.from('profiles').upsert({id:currentUser.id,artist_name:handle,bio,social_link});
-    artistProfiles[handle]={id:currentUser.id,artist_name:handle,bio,social_link};
-    editingBio=false;render();
-    toast('Artist profile updated!');return;
-  }
+  document.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
 
-  if(e.target.id==='wall-post-form'){
-    if(!currentUser||!sb)return;
-    const body=String(data.get('body')||'').trim();
-    const vip_only=Boolean(data.get('vip_only'));
-    const handle=getArtistDisplay();
-    if(!body)return;
-    const {error}=await sb.from('artist_posts').insert({user_id:currentUser.id,artist:handle,body,vip_only});
-    if(!error){
-      e.target.reset();
-      await openArtistPage(handle);
+    if (e.target.id === 'auth-form') {
+      const email = String(data.get('email')).trim();
+      const artistName = String(data.get('artist_name') || email.split('@')[0]).trim();
+      currentUser = { email, artist: artistName };
+      if (!artistProfiles[artistName]) {
+        artistProfiles[artistName] = { bio: 'Independent creator on Soundwave.', link: '' };
+      }
+      modal = '';
+      render();
+      toast(`Welcome to Soundwave, @${artistName}!`);
+      return;
+    }
+
+    if (e.target.id === 'bio-form') {
+      if (!currentUser) return;
+      const bio = String(data.get('bio') || '').trim();
+      const link = String(data.get('link') || '').trim();
+      artistProfiles[currentUser.artist] = { bio, link };
+      editingBio = false;
+      render();
+      toast('Artist profile updated!');
+      return;
+    }
+
+    if (e.target.id === 'wall-post-form') {
+      if (!currentUser) return;
+      const body = String(data.get('body') || '').trim();
+      const vip_only = Boolean(data.get('vip_only'));
+      if (!body) return;
+      (wallPosts[currentUser.artist] ??= []).unshift({
+        id: 'wp_' + Date.now(),
+        artist: currentUser.artist,
+        body,
+        vip_only,
+        time: 'Just now'
+      });
+      render();
       toast('Posted to your community wall!');
-    }else toast(error.message);
-    return;
-  }
-
-  if(e.target.classList.contains('wall-reply-form')){
-    const pid=e.target.dataset.postid;
-    const replyTxt=String(data.get('reply')||'').trim();
-    if(replyTxt&&pid){
-      const prefix=userArtistName?`@${userArtistName}: `:'Fan: ';
-      const fullReply=prefix+replyTxt;
-      const key='post_'+pid;
-      (state.comments[key]??=[]).push(fullReply);
-      saveState();render();
-      if(sb)sb.from('comments').insert({track_id:key,body:fullReply}).then();
-      toast('Reply posted');
-    }
-    return;
-  }
-
-  if(e.target.id==='auth-form'){
-    if(!sb||authLoading)return;
-    const email=String(data.get('email')).trim();
-    const password=String(data.get('password'));
-    const artistName=String(data.get('artist_name')||'').trim();
-    authLoading=true;render();
-    try{
-      if(authMode==='signup'){
-        const {data:res,error}=await sb.auth.signUp({
-          email,password,options:{data:{artist_name:artistName}}
-        });
-        if(error)throw error;
-        if(res.user){
-          await sb.from('profiles').upsert({id:res.user.id,artist_name:artistName});
-          userArtistName=artistName;
-        }
-        toast(`Welcome to Soundwave, @${artistName}!`);
-      }else{
-        const {error}=await sb.auth.signInWithPassword({email,password});
-        if(error)throw error;
-        toast('Logged in!');
-      }
-      modal='';
-      await syncUserSession();
-    }catch(err){
-      toast(err.message||'Authentication error');
-    }finally{
-      authLoading=false;render();
-    }
-    return;
-  }
-
-  if(e.target.id==='upload'){
-    if(uploading)return;
-    if(!currentUser){modal='auth';render();return toast('Please sign up or log in first')}
-    const artistName=getArtistDisplay();
-    const title=String(data.get('title')).trim();
-    const trackGenre=String(data.get('genre'));
-    const description=String(data.get('description')).trim();
-    const image=data.get('cover');
-    const activeSource=ALLOW_YOUTUBE?uploadSource:'file';
-
-    if(image?.size&&image.size>MAX_COVER_MB*1024*1024){
-      return toast(`Cover image must be under ${MAX_COVER_MB}MB`);
+      return;
     }
 
-    if(sb){
-      uploading=true;render();
-      try{
-        const ts=Date.now();
-        let audioUrl='',isVideo=false,vip=false,ytId='';
-
-        if(activeSource==='youtube'){
-          const rawYt=String(data.get('youtube_url')||'').trim();
-          ytId=parseYouTubeId(rawYt);
-          if(!ytId)throw new Error('Please enter a valid YouTube link');
-          audioUrl=`https://www.youtube.com/watch?v=${ytId}`;
-          isVideo=true;
-        }else{
-          const media=data.get('media');
-          if(!media?.size)throw new Error('Choose an audio or video file');
-          if(media.size>MAX_MEDIA_MB*1024*1024)throw new Error(`File too large (max ${MAX_MEDIA_MB}MB)`);
-          const mediaExt=(media.name.split('.').pop()||'mp3').replace(/\W/g,'');
-          const mediaPath=`${currentUser.id}/${ts}_${Math.random().toString(36).slice(2,7)}.${mediaExt}`;
-          const {error:mErr}=await sb.storage.from('soundwave').upload(mediaPath,media,{contentType:media.type});
-          if(mErr)throw mErr;
-          audioUrl=sb.storage.from('soundwave').getPublicUrl(mediaPath).data.publicUrl;
-          isVideo=media.type.startsWith('video/');
-          vip=Boolean(data.get('vip'));
-        }
-
-        let coverUrl=ytId?`https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`:'';
-        if(image?.size){
-          const imgExt=(image.name.split('.').pop()||'jpg').replace(/\W/g,'');
-          const imgPath=`${currentUser.id}/cover_${ts}_${Math.random().toString(36).slice(2,7)}.${imgExt}`;
-          const {error:iErr}=await sb.storage.from('soundwave').upload(imgPath,image,{contentType:image.type});
-          if(!iErr)coverUrl=sb.storage.from('soundwave').getPublicUrl(imgPath).data.publicUrl;
-        }
-
-        const {error:dbErr}=await sb.from('tracks').insert({
-          user_id:currentUser.id,artist:artistName,title,genre:trackGenre,description,
-          audio_url:audioUrl,cover_url:coverUrl,is_video:isVideo,vip
-        });
-        if(dbErr)throw dbErr;
-
-        if(!has('follows',artistName))flip('follows',artistName);
-        uploading=false;page='Home';genre='All';playing=false;audio.pause();
-        await syncFromSupabase();
-        currentIndex=0;render();scrollTo(0,0);
-        toast('Your release is now LIVE on Soundwave!');
-      }catch(err){
-        uploading=false;render();
-        toast(err.message||'Upload failed');
+    if (e.target.classList.contains('wall-reply-form')) {
+      const pid = e.target.dataset.postid;
+      const replyTxt = String(data.get('reply') || '').trim();
+      if (replyTxt && pid) {
+        const prefix = currentUser ? `@${currentUser.artist}: ` : 'Fan: ';
+        (state.comments['post_' + pid] ??= []).push(prefix + replyTxt);
+        render();
+        toast('Reply posted');
       }
       return;
     }
-  }
 
-  if(e.target.id==='comment'){
-    const txt=String(data.get('comment')||'').trim();
-    if(txt&&current()){
-      const tid=current().id;
-      const prefix=userArtistName?`@${userArtistName}: `:'';
-      const fullTxt=prefix+txt;
-      (state.comments[tid]??=[]).unshift(fullTxt);saveState();render();
-      if(sb)sb.from('comments').insert({track_id:tid,body:fullTxt}).then();
-      toast('Feedback posted');
-    }
-  }
-});
+    if (e.target.id === 'upload') {
+      if (!currentUser) { modal = 'auth'; render(); return; }
+      const title = String(data.get('title')).trim();
+      const trackGenre = String(data.get('genre'));
+      const description = String(data.get('description')).trim() || 'New release on Soundwave.';
+      let ytId = '';
+      let vip = false;
 
-setInterval(()=>{
-  if(playing){
-    const vid=$(`.tt-vid[data-vididx="${currentIndex}"]`)||$('#reel-video');
-    if(current()?.video&&vid&&vid.duration){
-      curTime=vid.currentTime;durTime=vid.duration;progress=(curTime/durTime)*100;
-    }else if(current()?.url&&!current()?.ytId&&audio.duration){
-      curTime=audio.currentTime;durTime=audio.duration;progress=(curTime/durTime)*100;
-    }else{
-      progress=(progress+.5)%100;curTime=(progress/100)*135;durTime=135;
+      if (uploadSource === 'youtube') {
+        ytId = parseYouTubeId(String(data.get('youtube_url') || ''));
+        if (!ytId) return toast('Please enter a valid YouTube link');
+      } else {
+        vip = Boolean(data.get('vip'));
+      }
+
+      tracks.unshift({
+        id: 'live_' + Date.now(),
+        isMock: false,
+        artist: currentUser.artist,
+        title,
+        genre: trackGenre,
+        votes: 1,
+        likes: 1,
+        img: ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : photo('photo-1511379938547-c1f69419868d'),
+        color: '#5168ff',
+        ratingSum: 5,
+        ratingCount: 1,
+        vip,
+        ytId,
+        freq: [130.81, 164.81, 196, 261.63],
+        description
+      });
+
+      if (!has('follows', currentUser.artist)) flip('follows', currentUser.artist);
+      page = 'Home';
+      genre = 'All';
+      currentIndex = 0;
+      render();
+      scrollTo(0, 0);
+      toast('Your release is now LIVE on Soundwave!');
+      return;
     }
-    document.querySelectorAll('.progress i,.tt-progress i').forEach(e=>e.style.width=progress+'%');
-    document.querySelectorAll('.time-label').forEach(e=>e.textContent=`${fmtTime(curTime)} / ${fmtTime(durTime||135)}`);
-  }
-},300);
-audio.addEventListener('ended',()=>{playing=false;progress=0;curTime=0;render()});
-render();
-syncUserSession();
-syncFromSupabase();
-</script></body></html>
+
+    if (e.target.id === 'comment') {
+      const txt = String(data.get('comment') || '').trim();
+      if (txt && current()) {
+        const prefix = currentUser ? `@${currentUser.artist}: ` : 'Listener: ';
+        (state.comments[current().id] ??= []).unshift(prefix + txt);
+        render();
+        toast('Feedback posted');
+      }
+    }
+  });
+
+  setInterval(() => {
+    if (playing && !current()?.ytId) {
+      progress = (progress + 0.5) % 100;
+      curTime = Math.floor((progress / 100) * durTime);
+      document.querySelectorAll('.progress i, .tt-progress i').forEach(e => e.style.width = progress + '%');
+      document.querySelectorAll('.time-label').forEach(e => e.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime)}`);
+    }
+  }, 300);
+
+  render();
+</script>
+</body>
+</html>
