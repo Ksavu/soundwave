@@ -4,10 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050608">
-  <title>Soundwave — Discover what’s next</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>SpotWav — Discover what’s next</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       color-scheme: dark;
@@ -27,7 +30,6 @@
       --sw-hot: #ff574b;
       --sw-glow: 0 10px 40px rgba(0, 0, 0, 0.24);
 
-      /* Mapped legacy tokens to Obsidian palette */
       --ink: var(--sw-text);
       --muted: var(--sw-text-secondary);
       --blue: var(--sw-blue);
@@ -97,7 +99,7 @@
     }
     .brand-dot { color: var(--sw-pink); }
     .sidebar-label {
-      margin: 32px 12px 10px;
+      margin: 28px 12px 10px;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 1.5px;
@@ -108,12 +110,12 @@
       align-items: center;
       gap: 13px;
       border-radius: 13px;
-      padding: 12px 14px;
+      padding: 11px 14px;
       text-align: left;
       width: 100%;
       color: var(--sw-text-secondary);
       font-weight: 600;
-      margin: 3px 0;
+      margin: 2px 0;
       transition: background .15s, color .15s;
       border: 1px solid transparent;
     }
@@ -144,7 +146,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 14px;
       padding: 0 clamp(20px, 3vw, 48px);
       border-bottom: 1px solid var(--sw-glass-border);
       background: var(--sw-glass);
@@ -169,7 +171,7 @@
     .search:focus-within { border-color: var(--sw-blue); box-shadow: 0 0 0 3px rgba(102, 135, 255, 0.18); }
     .search input { background: none; border: 0; outline: none; color: var(--sw-text); width: 100%; min-width: 0; font-size: 12px; }
     .search input::placeholder { color: var(--sw-text-subtle); }
-    .topactions { display: flex; align-items: center; gap: 12px; }
+    .topactions { display: flex; align-items: center; gap: 10px; }
     .avatar {
       width: 37px;
       height: 37px;
@@ -181,6 +183,7 @@
       color: var(--sw-text);
       font-size: 11px;
       font-weight: 800;
+      flex-shrink: 0;
     }
 
     /* Buttons & Badges */
@@ -285,7 +288,7 @@
     /* Home Grid & Vertical Reel Stage */
     .home-layout {
       display: grid;
-      grid-template-columns: minmax(320px, 1fr) minmax(290px, 375px);
+      grid-template-columns: minmax(0, 1fr) minmax(290px, 375px);
       gap: 25px;
       align-items: start;
     }
@@ -312,9 +315,7 @@
       display: block;
       transition: transform 0.6s ease;
     }
-    .reel-shell.is-playing .reel-media img {
-      transform: scale(1.04);
-    }
+    .reel-shell.is-playing .reel-media img { transform: scale(1.04); }
     .yt-frame { width: 100%; height: 100%; border: 0; display: block; background: #020304; }
     .reel-dim {
       position: absolute;
@@ -330,7 +331,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 2;
     }
     .glasslabel {
@@ -412,11 +413,11 @@
     .reel-description { color: var(--sw-text-secondary); font-size: 12px; margin: 0 0 16px; max-width: 410px; }
     .reel-btns { display: flex; gap: 9px; flex-wrap: wrap; }
 
-    /* Right-side Reel Actions */
+    /* Right-side Reel Actions (clean gap below scroll arrows) */
     .reel-actions {
       position: absolute;
       right: 16px;
-      top: 174px;
+      top: 176px;
       bottom: auto;
       display: flex;
       align-items: center;
@@ -441,26 +442,8 @@
     .action.selected { color: var(--sw-pink); }
     .action.gold { color: #ffd166; }
 
-    /* Equalizer Bars when playing */
-    .eq-bars {
-      display: inline-flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 12px;
-      margin-right: 4px;
-    }
-    .eq-bars i {
-      width: 2.5px;
-      background: #10b981;
-      border-radius: 2px;
-      animation: eq 0.7s infinite ease-in-out alternate;
-    }
-    .eq-bars i:nth-child(2) { animation-delay: 0.2s; }
-    .eq-bars i:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes eq { 0% { height: 3px; } 100% { height: 12px; } }
-
     /* Right Rail & Cards */
-    .rail { display: flex; flex-direction: column; gap: 16px; }
+    .rail { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
     .rail-card {
       background: var(--sw-glass-raised);
       backdrop-filter: blur(20px);
@@ -468,6 +451,7 @@
       border-radius: 20px;
       padding: 21px 20px;
       box-shadow: var(--sw-glow);
+      min-width: 0;
     }
     .rail-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
     .rail-head h2 { margin: 0; font-size: 20px; letter-spacing: -.7px; color: var(--sw-text); }
@@ -475,8 +459,8 @@
     .fire-label { color: var(--sw-hot); font-size: 10px; letter-spacing: 1.1px; font-weight: 800; text-transform: uppercase; }
 
     /* Track Rows */
-    .track-row { display: flex; gap: 10px; align-items: center; border-top: 1px solid var(--sw-glass-border); padding: 12px 0; }
-    .track-rank { width: 20px; text-align: center; color: var(--sw-text-subtle); font-size: 14px; font-weight: 800; }
+    .track-row { display: flex; gap: 10px; align-items: center; border-top: 1px solid var(--sw-glass-border); padding: 12px 0; min-width: 0; }
+    .track-rank { width: 20px; text-align: center; color: var(--sw-text-subtle); font-size: 14px; font-weight: 800; flex-shrink: 0; }
     .track-rank.first { color: var(--sw-hot); }
     .cover {
       position: relative;
@@ -513,6 +497,7 @@
       font-size: 10px;
       font-weight: 800;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .vote:hover { border-color: var(--sw-blue); color: var(--sw-text); }
     .vote.voted {
@@ -530,6 +515,7 @@
       font-size: 10px;
       font-weight: 800;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .text-link { color: var(--sw-blue); font-size: 12px; font-weight: 700; }
     .hot-link { color: var(--sw-hot); }
@@ -792,7 +778,160 @@
     }
     .auth-tab.active { background: var(--sw-blue); border-color: var(--sw-blue); color: #fff; }
 
-    /* Bottom Persistent Audio Player */
+    /* WavePoints & SpotWav Rewards System */
+    .wp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--sw-black-charcoal);
+      border: 1px solid var(--sw-glass-border);
+      padding: 7px 13px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--sw-text);
+      transition: transform .15s, border-color .15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .wp-pill:hover { transform: translateY(-1px); border-color: var(--sw-purple); }
+    .wp-gem {
+      display: inline-grid;
+      place-items: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sw-blue), var(--sw-purple), var(--sw-pink));
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      background: rgba(162, 124, 255, 0.16);
+      border: 1px solid rgba(162, 124, 255, 0.35);
+      color: #d8c7ff;
+    }
+    .wp-bar {
+      height: 8px;
+      border-radius: 20px;
+      background: var(--sw-black-charcoal);
+      border: 1px solid var(--sw-glass-border);
+      overflow: hidden;
+      margin: 10px 0 6px;
+    }
+    .wp-bar i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--sw-blue), var(--sw-purple), var(--sw-pink));
+      border-radius: 20px;
+      transition: width .4s ease;
+    }
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .reward-card {
+      background: var(--sw-glass-raised);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--sw-glass-border);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: var(--sw-glow);
+      transition: transform .18s, border-color .18s;
+    }
+    .reward-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.18); }
+    .reward-art {
+      aspect-ratio: 16 / 9;
+      border-radius: 13px;
+      overflow: hidden;
+      background: var(--sw-black-midnight);
+      border: 1px solid var(--sw-glass-border);
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .reward-art img { width: 100%; height: 100%; object-fit: cover; }
+    .challenge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 0;
+      border-top: 1px solid var(--sw-glass-border);
+    }
+    .challenge-row:first-of-type { border-top: 0; }
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .ach-badge {
+      background: var(--sw-black-charcoal);
+      border: 1px solid var(--sw-glass-border);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      opacity: .42;
+      transition: opacity .2s, border-color .2s;
+    }
+    .ach-badge.unlocked {
+      opacity: 1;
+      border-color: rgba(162, 124, 255, 0.45);
+      background: linear-gradient(145deg, rgba(102, 135, 255, 0.12), rgba(162, 124, 255, 0.12));
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .tier-card {
+      background: var(--sw-glass-raised);
+      border: 1px solid var(--sw-glass-border);
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--sw-glow);
+    }
+    .tier-card.featured {
+      border-color: rgba(162, 124, 255, 0.48);
+      background: linear-gradient(160deg, rgba(20, 24, 38, 0.85), rgba(12, 14, 19, 0.78));
+    }
+    .impact-meter {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .impact-box {
+      background: var(--sw-black-charcoal);
+      border: 1px solid var(--sw-glass-border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .impact-box strong { display: block; font-size: 17px; color: var(--sw-text); }
+    .impact-box span { font-size: 10px; color: var(--sw-text-secondary); }
+
+    /* Bottom Audio Player */
     .player {
       position: fixed;
       bottom: 13px;
@@ -801,7 +940,7 @@
       max-width: 1470px;
       margin: 0 auto;
       background: var(--sw-glass);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px);
       border: 1px solid var(--sw-glass-border);
       box-shadow: var(--sw-glow);
       border-radius: 20px;
@@ -819,11 +958,9 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      font-size: 16px;
+      font-size: 17px;
       flex-shrink: 0;
       box-shadow: 0 4px 16px rgba(102, 135, 255, 0.35);
-      display: grid;
-      place-items: center;
     }
     .progress-wrap { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 60px; }
     .progress { height: 7px; border-radius: 20px; background: var(--sw-black-charcoal); flex: 1; overflow: hidden; cursor: pointer; position: relative; }
@@ -833,12 +970,13 @@
     .player-title div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Modals & Toast */
+    .mobile-nav { display: none; }
     .modal-layer {
       position: fixed;
       inset: 0;
       z-index: 30;
-      background: rgba(5, 6, 8, 0.8);
-      backdrop-filter: blur(10px);
+      background: rgba(5, 6, 8, 0.82);
+      backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -849,20 +987,17 @@
       width: 100%;
       max-height: 86vh;
       overflow: auto;
-      background: var(--sw-glass-raised);
-      backdrop-filter: blur(20px);
+      background: var(--sw-black-midnight);
       border: 1px solid var(--sw-glass-border);
       border-radius: 24px;
       padding: 26px;
       box-shadow: var(--sw-glow);
       color: var(--sw-text);
     }
-    .modal h2 { font-size: 22px; letter-spacing: -.7px; margin: 11px 0 4px; color: var(--sw-text); }
+    .modal h2 { font-size: 23px; letter-spacing: -.7px; margin: 11px 0 4px; color: var(--sw-text); }
     .modal p { font-size: 13px; color: var(--sw-text-secondary); }
+    .modal .cover { max-width: 215px; margin: 15px auto; }
     .close { font-size: 23px; float: right; color: var(--sw-text-secondary); }
-    .star-picker { display: flex; justify-content: center; gap: 8px; margin: 18px 0; }
-    .star-btn { font-size: 34px; color: var(--sw-black-charcoal); transition: transform .15s, color .15s; }
-    .star-btn:hover, .star-btn.on { color: var(--gold); transform: scale(1.12); }
     .toast {
       position: fixed;
       z-index: 100;
@@ -880,29 +1015,25 @@
       white-space: nowrap;
     }
     .footer-note { font-size: 10px; color: var(--sw-text-subtle); padding: 20px 2px; }
-    .mobile-nav { display: none; }
+    .star-picker { display: flex; justify-content: center; gap: 8px; margin: 18px 0; }
+    .star-btn { font-size: 34px; color: var(--sw-black-charcoal); transition: transform .15s, color .15s; }
+    .star-btn:hover, .star-btn.on { color: var(--gold); transform: scale(1.12); }
 
-    /* Universal TikTok-Style Vertical Snap-Scroll Reels (Desktop, Tablet & Mobile) */
-    .tiktok-stage {
-      position: relative;
-      max-width: 440px;
-      height: calc(100vh - 155px);
-      min-height: 500px;
-      max-height: 760px;
-      margin: 0 auto;
-      border-radius: 32px;
-      overflow: hidden;
-      background: #020304;
-      border: 1px solid var(--sw-glass-border);
-      box-shadow: var(--sw-glow);
-    }
+    /* TikTok-style Vertical Snap Reels View (Mobile + Desktop) */
     .tiktok-feed {
-      height: 100%;
-      width: 100%;
+      height: calc(100vh - 155px);
+      min-height: 540px;
+      max-height: 760px;
+      max-width: 440px;
+      margin: 0 auto;
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
       scrollbar-width: none;
       background: #020304;
+      border-radius: 32px;
+      border: 1px solid var(--sw-glass-border);
+      box-shadow: var(--sw-glow);
+      position: relative;
     }
     .tiktok-feed::-webkit-scrollbar { display: none; }
     .tt-slide {
@@ -920,19 +1051,19 @@
       height: 100%;
       object-fit: cover;
       object-position: center 28%;
-      transition: transform 0.6s ease;
     }
-    .tt-slide.is-playing .reel-media img { transform: scale(1.04); }
     .tt-top {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      right: 16px;
+      position: sticky;
+      top: 14px;
+      left: 0;
+      right: 0;
+      padding: 0 16px;
       z-index: 18;
       display: flex;
       justify-content: space-between;
       align-items: center;
       pointer-events: none;
+      height: 0;
     }
     .tt-tabs {
       display: flex;
@@ -943,6 +1074,7 @@
       padding: 7px 15px;
       border-radius: 30px;
       border: 1px solid var(--sw-glass-border);
+      margin-top: 28px;
     }
     .tt-tabs button { color: var(--sw-text-secondary); font-size: 13px; font-weight: 700; }
     .tt-tabs button.active {
@@ -951,13 +1083,14 @@
       text-underline-offset: 5px;
       text-decoration-thickness: 2px;
     }
+    .tt-top .glasslabel { pointer-events: auto; margin-top: 28px; }
     .tt-center-play {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
       z-index: 2;
-      cursor: pointer;
+      pointer-events: none;
     }
     .tt-play-badge {
       width: 64px;
@@ -971,35 +1104,56 @@
       font-size: 24px;
       color: var(--sw-text);
       box-shadow: var(--sw-glow);
-      transition: transform 0.15s;
     }
-    .tt-center-play:hover .tt-play-badge { transform: scale(1.08); }
     .tt-bottom {
       position: absolute;
       left: 20px;
-      right: 78px;
-      bottom: 26px;
+      right: 76px;
+      bottom: 28px;
       z-index: 3;
     }
     .tt-bottom h2 {
-      font-size: clamp(26px, 3vw, 34px);
-      letter-spacing: -1.1px;
+      font-size: 30px;
+      letter-spacing: -1px;
       line-height: 1.06;
       margin: 8px 0 8px;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
     }
     .tt-actions {
       position: absolute;
       right: 14px;
-      bottom: 26px;
+      top: 176px;
+      bottom: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       z-index: 4;
     }
-    .tt-progress {
+    .tt-arrows {
       position: absolute;
+      right: 14px;
+      top: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      z-index: 5;
+    }
+    .tt-arrows button {
+      display: grid;
+      place-items: center;
+      background: var(--sw-glass);
+      color: var(--sw-text);
+      border: 1px solid var(--sw-glass-border);
+      backdrop-filter: blur(20px);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      font-size: 16px;
+    }
+    .tt-arrows button:hover { background: var(--sw-black-charcoal); border-color: var(--sw-blue); }
+    .tt-progress {
+      position: sticky;
       left: 0;
       right: 0;
       bottom: 0;
@@ -1016,18 +1170,25 @@
     }
 
     @media(max-width: 1180px) {
-      .app { grid-template-columns: 180px minmax(0, 1fr); }
-      .home-layout { grid-template-columns: minmax(0, 1fr) minmax(250px, 310px); gap: 15px; }
+      .app { grid-template-columns: 184px minmax(0, 1fr); }
+      .sidebar { padding: 24px 10px; }
+      .brand { font-size: 19px; }
+      .home-layout { grid-template-columns: minmax(0, 1fr) minmax(240px, 310px); gap: 15px; }
       .music-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .player { left: 198px; }
+      .rewards-grid, .tier-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .player { left: 202px; }
+      .content { padding: 24px; }
+      .topbar { padding: 0 24px; }
+      .reel-shell { min-height: 520px; }
     }
     @media(max-width: 850px) {
       .sidebar { display: none; }
       .app { display: block; }
-      .topbrand { display: flex; font-weight: 850; align-items: center; gap: 6px; font-size: 20px; letter-spacing: -.8px; color: var(--sw-text); flex-shrink: 0; }
-      .topbrand .brand-mark { height: 29px; width: 29px; font-size: 17px; }
+      .topbrand { display: flex; font-weight: 850; align-items: center; gap: 6px; font-size: 20px; letter-spacing: -.8px; color: var(--sw-text); }
+      .topbrand .brand-mark { height: 28px; width: 28px; font-size: 17px; }
       .home-layout { grid-template-columns: minmax(0, 1fr); }
       .rail { display: grid; grid-template-columns: 1fr 1fr; }
+      .reel-shell { height: 590px; }
       .player { left: 14px; right: 14px; bottom: 75px; }
       .mobile-nav {
         display: flex;
@@ -1036,691 +1197,824 @@
         left: 0;
         right: 0;
         background: var(--sw-glass);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(22px);
         z-index: 20;
         justify-content: space-around;
         align-items: center;
         border-top: 1px solid var(--sw-glass-border);
         padding: 6px 2px calc(8px + env(safe-area-inset-bottom));
       }
-      .mobile-nav button { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: var(--sw-text-subtle); align-items: center; flex: 1; min-width: 0; padding: 2px 0; }
+      .mobile-nav button {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 10px;
+        color: var(--sw-text-subtle);
+        align-items: center;
+        flex: 1;
+        min-width: 0;
+        padding: 2px 0;
+      }
       .mobile-nav .active { color: var(--sw-text); font-weight: 800; }
       .mobile-nav span { font-size: 19px; }
       .main { padding-bottom: 158px; }
-      .tiktok-stage { height: calc(100dvh - 155px); }
+      .release-showcase-grid { grid-template-columns: 1fr; }
+      .release-big { aspect-ratio: 1 / 1; }
+      .release-side { display: grid; grid-template-columns: 1fr 1fr; }
+      .release-mini { min-width: 0; gap: 9px; }
+      .release-mini img { width: 70px; height: 70px; }
+      .release-mini strong { font-size: 13px; }
     }
     @media(max-width: 650px) {
       body.is-reels { background: #020304; overflow: hidden; }
-      body.is-reels .topbar, body.is-reels .player, body.is-reels .footer-note { display: none !important; }
+      body.is-reels .topbar, body.is-reels .player, body.is-reels .footer-note, body.is-reels .reels-desktop-head { display: none !important; }
       body.is-reels .content { padding: 0; max-width: none; }
       body.is-reels .main { padding-bottom: 0; }
       body.is-reels .mobile-nav { background: var(--sw-glass); border-top: 1px solid var(--sw-glass-border); }
-      body.is-reels .tiktok-stage {
-        max-width: none;
-        width: 100%;
+      body.is-reels .tiktok-feed {
         height: 100dvh;
-        min-height: 100dvh;
+        max-height: none;
+        max-width: none;
         border-radius: 0;
         border: 0;
-        box-shadow: none;
       }
-      body.is-reels .tt-top { top: calc(12px + env(safe-area-inset-top)); }
-      body.is-reels .tt-bottom { bottom: calc(74px + env(safe-area-inset-bottom)); }
-      body.is-reels .tt-actions { top: calc(168px + env(safe-area-inset-top)); bottom: auto; gap: 11px; }
-      body.is-reels .tt-progress { bottom: calc(54px + env(safe-area-inset-bottom)); }
-      .rail, .studio-layout, .two-col, .release-showcase-grid { grid-template-columns: minmax(0, 1fr); }
-      .rail-card, .board, .panel, .sponsor, .bottom-strip { padding: 16px 14px; min-width: 0; }
-      .track-row { gap: 7px; padding: 11px 0; }
-      .track-rank { width: 16px; font-size: 12px; }
-      .track-cover { width: 40px; height: 40px; }
-      .rate-pill { padding: 5px 7px; font-size: 9.5px; }
-      .vote { padding: 5px 8px; font-size: 9.5px; }
-      .music-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-      .release-showcase { padding: 18px 16px 20px; }
-      .release-big { aspect-ratio: 1 / 1; min-height: 0; }
-      .release-side { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-      .release-mini { flex-direction: column; align-items: flex-start; gap: 10px; padding: 10px; }
-      .release-mini img { width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: 12px; }
-      .release-mini strong { font-size: 14px; }
-      .topbar .top-upload, .player .time-label, .player .skip { display: none; }
-      .player { left: 8px; right: 8px; bottom: 67px; height: 62px; }
-      .reel-shell { min-height: 515px; }
-      .reel-top { left: 12px; right: 12px; top: 14px; gap: 6px; }
+      .tt-bottom { bottom: calc(74px + env(safe-area-inset-bottom)); left: 16px; right: 70px; }
+      .tt-arrows { top: calc(56px + env(safe-area-inset-top)); right: 12px; }
+      .tt-actions { top: calc(168px + env(safe-area-inset-top)); bottom: auto; right: 12px; gap: 10px; }
+      .tt-progress { position: fixed; bottom: calc(54px + env(safe-area-inset-bottom)); }
+      .topbar { padding: 0 12px; height: 62px; gap: 8px; }
+      .topbar .top-upload { display: none; }
+      .search { max-width: 145px; padding: 8px 11px; }
+      .content { padding: 18px 12px; }
+      .heading h1 { font-size: 26px; }
+      .heading .sub { font-size: 12px; }
+      .home-layout { gap: 15px; }
+      .reel-shell { height: min(72vh, 600px); min-height: 490px; border-radius: 22px; max-width: 100%; }
+      .reel-top { top: 14px; left: 12px; right: 12px; gap: 6px; }
       .glasslabel { padding: 6px 10px; font-size: 10px; }
       .reel-indicator { padding: 5px 9px; font-size: 10px; }
-      .reel-bottom { left: 14px; right: 58px; bottom: 18px; }
-      .reel-bottom h2 { font-size: 27px; }
-      .reel-arrows { right: 10px; top: 54px; gap: 6px; }
-      .reel-arrows button { width: 32px; height: 32px; font-size: 15px; }
-      .reel-actions { right: 10px; top: 156px; bottom: auto; gap: 9px; }
-      .action { min-width: 36px; font-size: 9.5px; }
+      .reel-bottom { left: 14px; right: 62px; bottom: 18px; }
+      .reel-bottom h2 { font-size: 29px; }
+      .reel-arrows { right: 10px; top: 52px; gap: 6px; }
+      .reel-arrows button { width: 32px; height: 32px; font-size: 16px; }
+      .reel-actions { right: 10px; top: 158px; bottom: auto; gap: 8px; }
+      .action { min-width: 36px; font-size: 9px; }
       .action .acticon { font-size: 19px; }
-      .topbar { padding: 0 12px; gap: 8px; }
-      .search { padding: 8px 12px; max-width: 155px; }
-      .topactions .btn { padding: 9px 13px; font-size: 11px; }
-      .content { padding: 20px 12px; }
+      .rail { grid-template-columns: minmax(0, 1fr); }
+      .rail-card { padding: 16px 14px; }
+      .sponsor { padding: 16px 14px; }
+      .track-row { gap: 8px; padding: 10px 0; }
+      .track-cover { width: 42px; height: 42px; }
+      .rate-pill { padding: 5px 7px; font-size: 9px; }
+      .vote { padding: 5px 8px; font-size: 9px; }
+      .music-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .rewards-grid, .tier-grid { grid-template-columns: 1fr; }
+      .badge-grid, .impact-meter { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bottom-strip { padding: 16px 14px; }
+      .strip-head h2 { font-size: 18px; }
+      .player { left: 8px; right: 8px; bottom: 67px; padding: 8px 10px; gap: 8px; height: 62px; }
+      .player .cover { width: 39px; height: 39px; }
+      .player-title { min-width: 70px; }
+      .player-title .track-name { font-size: 11px; }
+      .player .note, .player .time-label, .player .skip { display: none; }
+      .player .play-circle { width: 34px; height: 34px; }
+      .studio-layout, .two-col { grid-template-columns: 1fr; }
+      .board-intro { padding: 15px; }
+      .board .track-cover { width: 45px; height: 45px; }
+      .board .track-rank { width: 23px; }
+      .statgrid { gap: 7px; }
+      .stat { padding: 14px; }
+      .artist-hero { padding: 22px 18px; }
+      .release-showcase { padding: 18px 14px; }
+      .release-showcase-head h2 { font-size: 21px; }
+      .release-showcase-head .text-link { font-size: 10px; }
+      .release-side { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .release-mini { display: block; padding: 10px; }
+      .release-mini img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-position: center; margin-bottom: 8px; }
+      .release-big { aspect-ratio: 1 / 1; }
+      .release-big-meta strong { font-size: 21px; }
     }
   </style>
 </head>
 <body>
-<div id="app"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://qylznmnsiirqcdupwtgv.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable__WGmmiAskm-a7NiG3f8F8Q_iPZqwBZI';
+  <div id="app"></div>
+  <script>
+    const SUPABASE_URL = 'https://qylznmnsiirqcdupwtgv.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable__WGmmiAskm-a7NiG3f8F8Q_iPZqwBZI';
 
-  const SHOW_MOCKS = true;
-  const ALLOW_YOUTUBE = true;
-  const MAX_MEDIA_MB = 15;
-  const MAX_COVER_MB = 2;
+    const SHOW_MOCKS = true;
+    const ALLOW_YOUTUBE = true;
+    const MAX_MEDIA_MB = 15;
+    const MAX_COVER_MB = 2;
+    const SITE_URL = 'https://spotwav.space';
 
-  const hasSupabase = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
-  const sb = hasSupabase && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+    const hasSupabase = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
+    const sb = hasSupabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-  const $ = (s) => document.querySelector(s);
-  const esc = (x) => String(x ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const photo = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=85`;
+    const $ = (s) => document.querySelector(s);
+    const esc = (x) => String(x ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const photo = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=85`;
 
-  const demoAudio = [
-    'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
-    'https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3',
-    'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3',
-    'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3',
-    'https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3',
-    'https://cdn.pixabay.com/download/audio/2022/08/02/audio_884fe92c21.mp3'
-  ];
+    const parseYouTubeId = (url) => {
+      if (!url) return '';
+      const m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : '';
+    };
 
-  const parseYouTubeId = (url) => {
-    if (!url) return '';
-    const m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    return m ? m[1] : '';
-  };
+    const demoAudio = [
+      'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
+      'https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3',
+      'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3',
+      'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3',
+      'https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3',
+      'https://cdn.pixabay.com/download/audio/2022/08/02/audio_884fe92c21.mp3'
+    ];
 
-  const artistSubsBase = { 'LONEK': 1420, 'Tyler J': 985, 'Marlon Tega': 740, 'NOVA': 610, 'ELARA': 530 };
+    const artistSubsBase = { 'LONEK': 1420, 'Tyler J': 985, 'Marlon Tega': 740, 'NOVA': 610, 'ELARA': 530 };
+    const mockBios = {
+      'LONEK': { bio: 'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.', link: `${SITE_URL}/#@LONEK` },
+      'Tyler J': { bio: 'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.', link: '' },
+      'Marlon Tega': { bio: 'Dancehall & island rhythms straight from the studio.', link: '' },
+      'NOVA': { bio: 'Analog synths & midnight electronic soundscapes.', link: '' },
+      'ELARA': { bio: 'Alternative R&B vocalist.', link: '' }
+    };
+    const mockWallPosts = {
+      'LONEK': [
+        { id: 'mp1', artist: 'LONEK', body: 'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right below.', vip_only: false, created_at: new Date(Date.now() - 86400000).toISOString() },
+        { id: 'mp2', artist: 'LONEK', body: 'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!', vip_only: true, created_at: new Date(Date.now() - 3600000).toISOString() }
+      ],
+      'Tyler J': [
+        { id: 'mp3', artist: 'Tyler J', body: '"Oh My Days" just crossed 2,800 community votes. Appreciate every single rating!', vip_only: false, created_at: new Date(Date.now() - 43200000).toISOString() }
+      ]
+    };
 
-  const mockBios = {
-    'LONEK': {
-      bio: 'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.',
-      link: 'https://soundwaves.space/#@LONEK'
-    },
-    'Tyler J': {
-      bio: 'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.',
-      link: ''
-    },
-    'Marlon Tega': {
-      bio: 'Dancehall & island rhythms straight from the studio.',
-      link: ''
-    },
-    'NOVA': {
-      bio: 'Analog synths & midnight electronic soundscapes.',
-      link: ''
-    },
-    'ELARA': {
-      bio: 'Alternative R&B vocalist.',
-      link: ''
-    }
-  };
+    const samples = [
+      ['LONEK', 'I Bet on Me', 'Hip-Hop', 2842, 'photo-1529139574466-a303027c1d8b', '#1a1829', 4.9, 142, false, 412],
+      ['Tyler J', 'Oh My Days', 'Hip-Hop', 2841, 'photo-1506794778202-cbf6067b4bc1', '#182232', 4.8, 118, false, 389],
+      ['Marlon Tega', 'Pom Pom Whine', 'Dancehall', 2840, 'photo-1500648767791-00dcc994a43e', '#261d18', 4.7, 96, false, 310],
+      ['NOVA', 'Afterglow', 'Electronic', 1986, 'photo-1470229722913-7c0e2dbbafd3', '#1e1933', 4.8, 84, false, 245],
+      ['LONEK', 'I Got You', 'Hip-Hop', 1754, 'photo-1503376780353-7e6692767b70', '#16202b', 4.9, 91, true, 298],
+      ['ELARA', 'Velvet Skies', 'R&B', 1482, 'photo-1524504388940-b1c1722653e1', '#291a26', 4.6, 63, false, 190]
+    ].map((s, i) => ({
+      id: 'sample' + i,
+      isMock: true,
+      userId: null,
+      artist: s[0],
+      title: s[1],
+      genre: s[2],
+      votes: s[3],
+      likes: s[9],
+      img: ({ 0: 'assets/ibet-cover.webp', 1: 'assets/ohmydays-cover.webp', 4: 'assets/igotyou-cover.webp' }[i] || photo(s[4])),
+      fallbackImg: photo(s[4]),
+      color: s[5],
+      ratingSum: Math.round(s[6] * s[7]),
+      ratingCount: s[7],
+      vip: s[8],
+      url: demoAudio[i],
+      ytId: '',
+      description: [
+        'A new sound for the ones who never stopped believing.',
+        'For everybody waiting on better days.',
+        'An upbeat dancehall rhythm to move to.',
+        'Electronic textures for the night.',
+        'Subscribers-only VIP drop for the day-one supporters.',
+        'Late-night R&B with room to breathe.'
+      ][i]
+    }));
 
-  const mockWallPosts = {
-    'LONEK': [
-      {
-        id: 'mp1',
-        artist: 'LONEK',
-        body: 'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right above.',
-        vip_only: false,
-        created_at: new Date(Date.now() - 86400000).toISOString()
-      },
-      {
-        id: 'mp2',
-        artist: 'LONEK',
-        body: 'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!',
-        vip_only: true,
-        created_at: new Date(Date.now() - 3600000).toISOString()
-      }
-    ],
-    'Tyler J': [
-      {
-        id: 'mp3',
-        artist: 'Tyler J',
-        body: '"Oh My Days" just crossed 2,840 community votes. Appreciate every single rating!',
-        vip_only: false,
-        created_at: new Date(Date.now() - 43200000).toISOString()
-      }
-    ]
-  };
+    /* WavePoints Rewards Catalog & Membership Levels */
+    const LEVELS = [
+      { name: 'Listener', min: 0, max: 499, icon: '🎧' },
+      { name: 'Supporter', min: 500, max: 1999, icon: '⚡' },
+      { name: 'Insider', min: 2000, max: 4999, icon: '✦' },
+      { name: 'Elite', min: 5000, max: 14999, icon: '💎' },
+      { name: 'Legend', min: 15000, max: 999999, icon: '👑' }
+    ];
 
-  const samples = [
-    ['LONEK', 'I Bet on Me', 'Hip-Hop', 2842, 'photo-1529139574466-a303027c1d8b', '#3c3559', 4.9, 142, false, 412],
-    ['Tyler J', 'Oh My Days', 'Hip-Hop', 2841, 'photo-1506794778202-cbf6067b4bc1', '#416583', 4.8, 118, false, 389],
-    ['Marlon Tega', 'Pom Pom Whine', 'Dancehall', 2840, 'photo-1500648767791-00dcc994a43e', '#865b3d', 4.7, 96, false, 310],
-    ['NOVA', 'Afterglow', 'Electronic', 1986, 'photo-1470229722913-7c0e2dbbafd3', '#523c83', 4.8, 84, false, 245],
-    ['LONEK', 'I Got You', 'Hip-Hop', 1754, 'photo-1503376780353-7e6692767b70', '#355668', 4.9, 91, true, 298],
-    ['ELARA', 'Velvet Skies', 'R&B', 1482, 'photo-1524504388940-b1c1722653e1', '#b56e90', 4.6, 63, false, 190]
-  ].map((s, i) => ({
-    id: 'sample' + i,
-    isMock: true,
-    userId: null,
-    artist: s[0],
-    title: s[1],
-    genre: s[2],
-    votes: s[3],
-    likes: s[9],
-    img: ({ 0: 'assets/ibet-cover.webp', 1: 'assets/ohmydays-cover.webp', 4: 'assets/igotyou-cover.webp' }[i] || photo(s[4])),
-    fallbackImg: photo(s[4]),
-    color: s[5],
-    ratingSum: Math.round(s[6] * s[7]),
-    ratingCount: s[7],
-    vip: s[8],
-    url: demoAudio[i],
-    ytId: '',
-    description: [
-      'A new sound for the ones who never stopped believing.',
-      'For everybody waiting on better days.',
-      'An upbeat dancehall rhythm to move to.',
-      'Electronic textures for the night.',
-      'Subscribers-only VIP drop for the day-one supporters.',
-      'Late-night R&B with room to breathe.'
-    ][i]
-  }));
+    const REWARD_CATALOG = [
+      { id: 'rw_song_ibet', category: 'Licensed Singles', title: 'LONEK — "I Bet on Me" (Lossless WAV + Instrumental)', artist: 'LONEK', cost: 500, img: 'assets/ibet-cover.webp', fallback: photo('photo-1529139574466-a303027c1d8b'), badge: '500 WP', licensed: true },
+      { id: 'rw_song_ohmydays', category: 'Licensed Singles', title: 'Tyler J — "Oh My Days" (Studio Master + Acapella)', artist: 'Tyler J', cost: 500, img: 'assets/ohmydays-cover.webp', fallback: photo('photo-1506794778202-cbf6067b4bc1'), badge: '500 WP', licensed: true },
+      { id: 'rw_early_igotyou', category: 'Early Access & VIP', title: 'Early Access Pass: LONEK Unreleased Vault & Listening Room', artist: 'LONEK', cost: 850, img: 'assets/igotyou-cover.webp', fallback: photo('photo-1503376780353-7e6692767b70'), badge: '850 WP', licensed: true },
+      { id: 'rw_badge_obsidian', category: 'Profile & Badges', title: 'Obsidian Founder Frame & Neon Waveform Profile Badge', artist: 'SpotWav Official', cost: 600, img: '', fallback: '', badge: '600 WP', licensed: true },
+      { id: 'rw_plus_pass', category: 'Subscriptions & Perks', title: '30-Day SpotWav Plus Insider Pass (Bonus WP + Ad-Free)', artist: 'SpotWav Official', cost: 1500, img: '', fallback: '', badge: '1,500 WP', licensed: true },
+      { id: 'rw_album_bundle', category: 'Full Albums', title: 'Monsta Jam Anthology — Full 14-Track Digital Album', artist: 'LONEK & Friends', cost: 2500, img: 'assets/ibet-promo.webp', fallback: photo('photo-1470229722913-7c0e2dbbafd3'), badge: '2,500 WP', licensed: true }
+    ];
 
-  let state = { deviceId: '', votes: [], saved: [], likes: [], follows: [], comments: {}, ratings: {} };
-  try {
-    const old = JSON.parse(localStorage.getItem('soundwave-state-v4') || '{}');
-    for (const k of ['votes', 'saved', 'likes', 'follows']) if (Array.isArray(old[k])) state[k] = old[k];
-    if (old.comments && typeof old.comments === 'object') state.comments = old.comments;
-    if (old.ratings && typeof old.ratings === 'object') state.ratings = old.ratings;
-    state.deviceId = old.deviceId || ('dev_' + Math.random().toString(36).slice(2, 11));
-  } catch {
-    state.deviceId = 'dev_' + Math.random().toString(36).slice(2, 11);
-  }
-  const saveState = () => { try { localStorage.setItem('soundwave-state-v4', JSON.stringify(state)); } catch {} };
-  const has = (key, v) => state[key].includes(v);
-  const flip = (key, v) => {
-    state[key] = has(key, v) ? state[key].filter(x => x !== v) : [...state[key], v];
-    saveState();
-  };
+    const ACHIEVEMENTS = [
+      { id: 'ach_first_listen', title: 'First Wave', desc: 'Stream a qualifying track', icon: '🎵' },
+      { id: 'ach_scout', title: 'Talent Scout', desc: 'Subscribe to 3 artists', icon: '🔭' },
+      { id: 'ach_critic', title: 'Chart Maker', desc: 'Cast 3 community votes', icon: '🔥' },
+      { id: 'ach_voice', title: 'Community Voice', desc: 'Post meaningful feedback', icon: '💬' },
+      { id: 'ach_supporter', title: 'Supporter Tier', desc: 'Reach 500 lifetime WP', icon: '⚡' },
+      { id: 'ach_creator', title: 'Original Artist', desc: 'Publish an original release', icon: '🎙️' },
+      { id: 'ach_collector', title: 'Vault Collector', desc: 'Redeem a Reward Store item', icon: '🎁' },
+      { id: 'ach_verified', title: 'Verified Member', desc: 'Complete artist/member profile', icon: '✓' }
+    ];
 
-  let currentUser = null, userArtistName = '', authMode = 'signup', authLoading = false, uploadSource = 'youtube';
-  let tracks = SHOW_MOCKS ? [...samples] : [], liveSubCounts = {}, artistProfiles = {}, artistPosts = [], selectedArtist = 'LONEK', editingBio = false;
-  let page = 'Home', currentIndex = 0, genre = 'All', tab = 'For You', modal = '', query = '';
-  let playing = false, userInteracted = false, progress = 0, curTime = 0, durTime = 0, uploading = false;
+    let state = {
+      deviceId: '',
+      votes: [],
+      saved: [],
+      likes: [],
+      follows: [],
+      comments: {},
+      ratings: {},
+      wpBalance: 120,
+      wpLifetime: 120,
+      wpWeekly: 120,
+      wpToday: 0,
+      wpDate: new Date().toISOString().slice(0, 10),
+      wpEvents: [],
+      wpLedger: [
+        { id: 'init', label: 'Welcome Discovery Starter Grant', delta: +120, time: new Date().toISOString() }
+      ],
+      redeemed: [],
+      plan: 'Free',
+      exploredGenres: [],
+      listenedIds: [],
+      claimedChallenges: []
+    };
 
-  const audio = new Audio();
-  audio.crossOrigin = 'anonymous';
-
-  const sections = [
-    ['Home', '⌂', 'Discover'],
-    ['Feed', '▷', 'Reels'],
-    ['Charts', '♨', 'Top Charts'],
-    ['Library', '♡', 'My Music'],
-    ['Studio', '⊕', 'Upload']
-  ];
-  const genres = ['All', 'Hip-Hop', 'R&B', 'Dancehall', 'Electronic', 'Pop', 'Rock', 'Other'];
-
-  const all = () => tracks.map((t, i) => ({ t, i }));
-  const current = () => tracks[currentIndex] || tracks[0];
-  const getArtistDisplay = () => userArtistName || currentUser?.user_metadata?.artist_name || currentUser?.email?.split('@')[0] || '';
-
-  const getTrackRating = (t) => {
-    const sum = t.ratingSum || 5;
-    const count = t.ratingCount || 1;
-    return { avg: (sum / count).toFixed(1), count };
-  };
-
-  const subCount = (artist) => (artistSubsBase[artist] || 0) + (liveSubCounts[artist] || 0);
-  const isLocked = (t) => t.vip && !has('follows', t.artist) && !(currentUser && t.userId === currentUser.id);
-  const fmtTime = (s) => {
-    if (!s || isNaN(s)) return '0:00';
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
-  };
-  const timeAgo = (iso) => {
-    if (!iso) return 'Just now';
-    const sec = Math.floor((Date.now() - new Date(iso)) / 1000);
-    if (sec < 60) return 'Just now';
-    if (sec < 3600) return Math.floor(sec / 60) + 'm ago';
-    if (sec < 86400) return Math.floor(sec / 3600) + 'h ago';
-    return Math.floor(sec / 86400) + 'd ago';
-  };
-
-  const rank = () => all()
-    .filter(x => genre === 'All' || x.t.genre === genre)
-    .sort((a, b) => (b.t.votes || 0) - (a.t.votes || 0));
-
-  const imgTag = (src, fallback, alt) => `<img src="${esc(src)}" alt="${esc(alt)}" onerror="if(this.dataset.fb&&this.src!==this.dataset.fb){this.src=this.dataset.fb}else{this.remove()}" data-fb="${esc(fallback || '')}">`;
-
-  const cover = (t) => `
-    <div class="cover" style="background:${t.color || '#24213b'}">
-      <span class="cover-fallback">${esc(t.artist.slice(0, 2).toUpperCase())}</span>
-      ${t.img ? imgTag(t.img, t.fallbackImg, `Cover artwork for ${t.title}`) : ''}
-    </div>`;
-
-  const row = (x, n) => {
-    const r = getTrackRating(x.t);
-    const isOwner = currentUser && x.t.userId === currentUser.id;
-    return `
-      <div class="track-row">
-        <span class="track-rank ${n === 0 ? 'first' : ''}">${String(n + 1).padStart(2, '0')}</span>
-        <button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button>
-        <div class="track-body">
-          <div class="track-name" data-track="${x.i}">
-            ${esc(x.t.title)}
-            ${x.t.ytId ? '<span class="yt-badge">▶ YT</span>' : (!x.t.isMock ? '<span class="live-badge">LIVE</span>' : '')}
-            ${x.t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}
-          </div>
-          <div class="track-small">
-            <span data-openartist="${esc(x.t.artist)}" style="color:#8fa2ff;font-weight:700">@${esc(x.t.artist)}</span> · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})
-          </div>
-        </div>
-        ${isOwner ? `<button class="btn danger" style="padding:5px 9px;font-size:10px" data-deltrack="${x.t.id}">Delete</button>` : ''}
-        <button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id] || r.avg}</button>
-        <button class="vote ${has('votes', x.t.id) ? 'voted' : ''}" data-vote="${x.i}">${has('votes', x.t.id) ? '✓ ' : '↑ '}${(x.t.votes || 0).toLocaleString()}</button>
-      </div>`;
-  };
-
-  const chips = () => `<div class="chips">${genres.map(g => `<button class="chip ${genre === g ? 'active' : ''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
-
-  async function syncUserSession() {
-    if (!sb) return;
-    const { data: { session } } = await sb.auth.getSession();
-    currentUser = session?.user || null;
-    if (currentUser) {
-      const { data: prof } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
-      userArtistName = prof?.artist_name || currentUser.user_metadata?.artist_name || currentUser.email.split('@')[0];
-      if (prof) artistProfiles[userArtistName] = prof;
-    } else {
-      userArtistName = '';
-    }
-    render();
-  }
-
-  async function syncFromSupabase() {
-    if (!sb) return;
     try {
-      const [{ data: dbTracks }, { data: dbSubs }, { data: dbProfs }, { data: dbEng }] = await Promise.all([
-        sb.from('tracks').select('*').order('created_at', { ascending: false }),
-        sb.from('subscriptions').select('*'),
-        sb.from('profiles').select('*'),
-        sb.from('engagement').select('*')
-      ]);
-      liveSubCounts = {};
-      const myRemoteSubs = [];
-      (dbSubs || []).forEach(s => {
-        liveSubCounts[s.artist] = (liveSubCounts[s.artist] || 0) + 1;
-        if (s.device_id === state.deviceId) myRemoteSubs.push(s.artist);
-      });
-      if (myRemoteSubs.length) {
-        state.follows = Array.from(new Set([...state.follows, ...myRemoteSubs]));
-        saveState();
+      const old = JSON.parse(localStorage.getItem('spotwav-state-v1') || localStorage.getItem('soundwave-state-v4') || '{}');
+      for (const k of ['votes', 'saved', 'likes', 'follows', 'wpEvents', 'redeemed', 'exploredGenres', 'listenedIds', 'claimedChallenges']) {
+        if (Array.isArray(old[k])) state[k] = old[k];
       }
-      (dbProfs || []).forEach(p => { artistProfiles[p.artist_name] = p; });
-      const engMap = {};
-      (dbEng || []).forEach(e => { engMap[e.item_id] = e; });
-
-      const realTracks = (dbTracks || []).map(r => {
-        const ytId = parseYouTubeId(r.audio_url);
-        return {
-          id: r.id,
-          isMock: false,
-          userId: r.user_id,
-          artist: r.artist,
-          title: r.title,
-          genre: r.genre,
-          description: r.description,
-          url: r.audio_url,
-          ytId,
-          img: r.cover_url || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : ''),
-          fallbackImg: '',
-          video: r.is_video,
-          vip: r.vip,
-          votes: r.votes || 1,
-          likes: r.likes || 0,
-          ratingSum: r.rating_sum || 5,
-          ratingCount: r.rating_count || 1,
-          color: '#4a61f0'
-        };
-      });
-
-      const syncedSamples = samples.map(s => {
-        const e = engMap[s.id];
-        if (!e) return { ...s };
-        return {
-          ...s,
-          votes: s.votes + (e.votes || 0),
-          likes: s.likes + (e.likes || 0),
-          ratingSum: s.ratingSum + (e.rating_sum || 0),
-          ratingCount: s.ratingCount + (e.rating_count || 0)
-        };
-      });
-
-      const prevId = current()?.id;
-      tracks = SHOW_MOCKS ? [...realTracks, ...syncedSamples] : realTracks;
-      const foundIdx = tracks.findIndex(x => x.id === prevId);
-      currentIndex = foundIdx >= 0 ? foundIdx : 0;
-      if (location.hash.startsWith('#@')) {
-        const hName = decodeURIComponent(location.hash.slice(2));
-        if (hName) openArtistPage(hName);
-      } else {
-        render();
-      }
-    } catch (err) {
-      console.error('Supabase sync error:', err);
+      if (old.comments && typeof old.comments === 'object') state.comments = old.comments;
+      if (old.ratings && typeof old.ratings === 'object') state.ratings = old.ratings;
+      if (typeof old.wpBalance === 'number') state.wpBalance = old.wpBalance;
+      if (typeof old.wpLifetime === 'number') state.wpLifetime = old.wpLifetime;
+      if (typeof old.wpWeekly === 'number') state.wpWeekly = old.wpWeekly;
+      if (Array.isArray(old.wpLedger) && old.wpLedger.length) state.wpLedger = old.wpLedger;
+      if (old.plan) state.plan = old.plan;
+      const today = new Date().toISOString().slice(0, 10);
+      if (old.wpDate === today && typeof old.wpToday === 'number') state.wpToday = old.wpToday;
+      else { state.wpDate = today; state.wpToday = 0; }
+      state.deviceId = old.deviceId || ('dev_' + Math.random().toString(36).slice(2, 11));
+    } catch {
+      state.deviceId = 'dev_' + Math.random().toString(36).slice(2, 11);
     }
-  }
 
-  async function loadTrackComments(trackId) {
-    if (!sb) return;
-    const { data } = await sb.from('comments').select('*').eq('track_id', trackId).order('created_at', { ascending: false });
-    if (data) {
-      state.comments[trackId] = data.map(c => c.body);
+    const saveState = () => {
+      try { localStorage.setItem('spotwav-state-v1', JSON.stringify(state)); } catch {}
+    };
+    const has = (key, v) => state[key].includes(v);
+    const flip = (key, v) => {
+      state[key] = has(key, v) ? state[key].filter(x => x !== v) : [...state[key], v];
       saveState();
+    };
+
+    /* Verified WavePoints Accounting Engine (Anti-farming, Daily Caps, Unique Event IDs) */
+    const DAILY_WP_CAP = 250;
+    function getLevelInfo(lifetime) {
+      let cur = LEVELS[0], next = LEVELS[1];
+      for (let i = 0; i < LEVELS.length; i++) {
+        if (lifetime >= LEVELS[i].min) {
+          cur = LEVELS[i];
+          next = LEVELS[i + 1] || null;
+        }
+      }
+      const pct = next ? Math.min(100, Math.round(((lifetime - cur.min) / (next.min - cur.min)) * 100)) : 100;
+      return { cur, next, pct };
+    }
+
+    async function awardWavePoints(eventId, points, label, silent = false) {
+      const today = new Date().toISOString().slice(0, 10);
+      if (state.wpDate !== today) { state.wpDate = today; state.wpToday = 0; }
+      if (state.wpEvents.includes(eventId)) return false; // Duplicate event prevention
+      if (state.wpToday + points > DAILY_WP_CAP) {
+        if (!silent) toast(`Daily WavePoints cap (${DAILY_WP_CAP} WP) reached — keep enjoying the music!`);
+        return false;
+      }
+      state.wpEvents.push(eventId);
+      state.wpBalance += points;
+      state.wpLifetime += points;
+      state.wpWeekly += points;
+      state.wpToday += points;
+      state.wpLedger.unshift({ id: eventId, label, delta: +points, time: new Date().toISOString() });
+      if (state.wpLedger.length > 40) state.wpLedger.length = 40;
+      saveState();
+
+      if (sb && currentUser) {
+        sb.from('wavepoints_ledger').insert({
+          user_id: currentUser.id,
+          event_id: eventId,
+          delta: points,
+          reason: label
+        }).then(() => {});
+      }
+      if (!silent) toast(`+${points} WP · ${label}`);
+      return true;
+    }
+
+    function getDailyChallenges() {
+      return [
+        {
+          id: 'ch_discover_3',
+          title: 'Discover 3 New Artists',
+          desc: 'Subscribe to at least 3 creators on SpotWav',
+          reward: 20,
+          progress: Math.min(3, state.follows.length),
+          goal: 3
+        },
+        {
+          id: 'ch_save_2',
+          title: 'Save 2 Songs to Library',
+          desc: 'Bookmark 2 tracks from Reels or Discover',
+          reward: 20,
+          progress: Math.min(2, state.saved.length),
+          goal: 2
+        },
+        {
+          id: 'ch_genres_2',
+          title: 'Explore 2 Different Genres',
+          desc: 'Filter charts or discovery by 2 genres',
+          reward: 20,
+          progress: Math.min(2, state.exploredGenres.length),
+          goal: 2
+        },
+        {
+          id: 'ch_vote_2',
+          title: 'Shape the Community Charts',
+          desc: 'Cast 2 verified upvotes on emerging tracks',
+          reward: 20,
+          progress: Math.min(2, state.votes.length),
+          goal: 2
+        }
+      ];
+    }
+
+    function isAchievementUnlocked(id) {
+      if (id === 'ach_first_listen') return state.listenedIds.length >= 1;
+      if (id === 'ach_scout') return state.follows.length >= 3;
+      if (id === 'ach_critic') return state.votes.length >= 3;
+      if (id === 'ach_voice') return Object.values(state.comments).some(arr => arr.length > 0);
+      if (id === 'ach_supporter') return state.wpLifetime >= 500;
+      if (id === 'ach_creator') return Boolean(currentUser && tracks.some(t => !t.isMock && t.userId === currentUser.id));
+      if (id === 'ach_collector') return state.redeemed.length >= 1;
+      if (id === 'ach_verified') return Boolean(currentUser);
+      return false;
+    }
+
+    let currentUser = null, userArtistName = '', authMode = 'signup', authLoading = false, uploadSource = 'youtube';
+    let tracks = SHOW_MOCKS ? [...samples] : [], liveSubCounts = {}, artistProfiles = {}, artistPosts = [], selectedArtist = '', editingBio = false;
+    let page = 'Home', currentIndex = 0, genre = 'All', tab = 'For You', modal = '', query = '', playing = false, userInteracted = false, progress = 0, curTime = 0, durTime = 0, uploading = false, listenRewardTimer = null;
+
+    const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
+
+    const sections = [
+      ['Home', '⌂', 'Discover'],
+      ['Feed', '▷', 'Reels'],
+      ['Charts', '♨', 'Top Charts'],
+      ['Rewards', '✦', 'Rewards'],
+      ['Library', '♡', 'My Music'],
+      ['Studio', '⊕', 'Upload']
+    ];
+    const genres = ['All', 'Hip-Hop', 'R&B', 'Dancehall', 'Electronic', 'Pop', 'Rock', 'Other'];
+    const all = () => tracks.map((t, i) => ({ t, i }));
+    const current = () => tracks[currentIndex] || tracks[0];
+
+    const getArtistDisplay = () => userArtistName || currentUser?.user_metadata?.artist_name || currentUser?.email?.split('@')[0] || '';
+    const getTrackRating = (t) => {
+      const sum = t.ratingSum || 5;
+      const count = t.ratingCount || 1;
+      return { avg: (sum / count).toFixed(1), count };
+    };
+    const subCount = (artist) => (artistSubsBase[artist] || 0) + (liveSubCounts[artist] || 0);
+    const isLocked = (t) => t.vip && !has('follows', t.artist) && !(currentUser && t.userId === currentUser.id) && !has('redeemed', 'rw_early_igotyou');
+    const fmtTime = (s) => { if (!s || isNaN(s)) return '0:00'; const m = Math.floor(s / 60), sec = Math.floor(s % 60); return `${m}:${sec < 10 ? '0' : ''}${sec}`; };
+    const timeAgo = (iso) => { if (!iso) return 'Just now'; const sec = Math.floor((Date.now() - new Date(iso)) / 1000); if (sec < 60) return 'Just now'; if (sec < 3600) return Math.floor(sec / 60) + 'm ago'; if (sec < 86400) return Math.floor(sec / 3600) + 'h ago'; return Math.floor(sec / 86400) + 'd ago'; };
+    const rank = () => all().filter(x => genre === 'All' || x.t.genre === genre).sort((a, b) => (b.t.votes || 0) - (a.t.votes || 0));
+
+    const cover = (t) => `<div class="cover" style="background:${t.color || '#151820'}"><span class="cover-fallback">${esc(t.artist.slice(0, 2).toUpperCase())}</span>${t.img ? `<img src="${esc(t.img)}" alt="Cover artwork for ${esc(t.title)}" onerror="if(this.dataset.fb&&this.src!==this.dataset.fb){this.src=this.dataset.fb}else{this.remove()}" data-fb="${esc(t.fallbackImg || '')}">` : ''}</div>`;
+
+    const row = (x, n) => {
+      const r = getTrackRating(x.t);
+      const isOwner = currentUser && x.t.userId === currentUser.id;
+      return `<div class="track-row"><span class="track-rank ${n === 0 ? 'first' : ''}">${String(n + 1).padStart(2, '0')}</span><button data-track="${x.i}" class="track-cover" aria-label="Open ${esc(x.t.title)}">${cover(x.t)}</button><div class="track-body"><div class="track-name" data-track="${x.i}">${esc(x.t.title)} ${x.t.ytId ? '<span class="yt-badge">▶ YT</span>' : (!x.t.isMock ? '<span class="live-badge">LIVE</span>' : '')} ${x.t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}</div><div class="track-small"><span data-openartist="${esc(x.t.artist)}" style="color:var(--sw-blue);font-weight:700">@${esc(x.t.artist)}</span> · ${esc(x.t.genre)} · ★ ${r.avg} (${r.count})</div></div>${isOwner ? `<button class="btn danger" style="padding:6px 10px;font-size:10px" data-deltrack="${x.t.id}" title="Delete your track">Delete</button>` : ''}<button class="rate-pill" data-rate="${x.i}" title="Rate track">★ ${state.ratings[x.t.id] || r.avg}</button><button class="vote ${has('votes', x.t.id) ? 'voted' : ''}" data-vote="${x.i}">${has('votes', x.t.id) ? '✓ ' : '↑ '}${(x.t.votes || 0).toLocaleString()}</button></div>`;
+    };
+    const chips = () => `<div class="chips">${genres.map(g => `<button class="chip ${genre === g ? 'active' : ''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
+
+    async function syncUserSession() {
+      if (!sb) return;
+      const { data: { session } } = await sb.auth.getSession();
+      currentUser = session?.user || null;
+      if (currentUser) {
+        const { data: prof } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+        userArtistName = prof?.artist_name || currentUser.user_metadata?.artist_name || currentUser.email.split('@')[0];
+        if (prof) artistProfiles[userArtistName] = prof;
+        awardWavePoints(`profile_${currentUser.id}`, 50, 'Verified SpotWav Profile Bonus', true);
+      } else {
+        userArtistName = '';
+      }
       render();
     }
-  }
 
-  async function openArtistPage(name) {
-    selectedArtist = name;
-    editingBio = false;
-    page = 'Artist';
-    modal = '';
-    try { history.replaceState(null, '', `#@${encodeURIComponent(name)}`); } catch {}
-    render();
-    scrollTo(0, 0);
-    if (!sb) return;
-    const [{ data: prof }, { data: posts }] = await Promise.all([
-      sb.from('profiles').select('*').eq('artist_name', name).maybeSingle(),
-      sb.from('artist_posts').select('*').eq('artist', name).order('created_at', { ascending: false })
-    ]);
-    if (prof) artistProfiles[name] = prof;
-    artistPosts = posts || [];
-    const combined = [...artistPosts, ...(mockWallPosts[name] || [])];
-    const postKeys = combined.map(p => 'post_' + p.id);
-    if (postKeys.length) {
-      const { data: allReplies } = await sb.from('comments').select('*').in('track_id', postKeys).order('created_at', { ascending: true });
-      if (allReplies) {
-        postKeys.forEach(k => { state.comments[k] = []; });
-        allReplies.forEach(r => { state.comments[r.track_id].push(r.body); });
-        saveState();
+    async function syncFromSupabase() {
+      if (!sb) return;
+      try {
+        const [{ data: dbTracks }, { data: dbSubs }, { data: dbProfs }, { data: dbEng }] = await Promise.all([
+          sb.from('tracks').select('*').order('created_at', { ascending: false }),
+          sb.from('subscriptions').select('*'),
+          sb.from('profiles').select('*'),
+          sb.from('engagement').select('*')
+        ]);
+        liveSubCounts = {};
+        const myRemoteSubs = [];
+        (dbSubs || []).forEach(s => {
+          liveSubCounts[s.artist] = (liveSubCounts[s.artist] || 0) + 1;
+          if (s.device_id === state.deviceId) myRemoteSubs.push(s.artist);
+        });
+        if (myRemoteSubs.length) {
+          state.follows = Array.from(new Set([...state.follows, ...myRemoteSubs]));
+          saveState();
+        }
+        (dbProfs || []).forEach(p => { artistProfiles[p.artist_name] = p; });
+        const engMap = {};
+        (dbEng || []).forEach(e => { engMap[e.item_id] = e; });
+
+        const realTracks = (dbTracks || []).map(r => {
+          const ytId = parseYouTubeId(r.audio_url);
+          return {
+            id: r.id,
+            isMock: false,
+            userId: r.user_id,
+            artist: r.artist,
+            title: r.title,
+            genre: r.genre,
+            description: r.description,
+            url: r.audio_url,
+            ytId,
+            img: r.cover_url || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : ''),
+            fallbackImg: photo('photo-1470229722913-7c0e2dbbafd3'),
+            video: r.is_video,
+            vip: r.vip,
+            votes: r.votes || 1,
+            likes: r.likes || 0,
+            ratingSum: r.rating_sum || 5,
+            ratingCount: r.rating_count || 1,
+            color: '#151820'
+          };
+        });
+
+        const syncedSamples = samples.map(s => {
+          const e = engMap[s.id];
+          if (!e) return { ...s };
+          return {
+            ...s,
+            votes: s.votes + (e.votes || 0),
+            likes: s.likes + (e.likes || 0),
+            ratingSum: s.ratingSum + (e.rating_sum || 0),
+            ratingCount: s.ratingCount + (e.rating_count || 0)
+          };
+        });
+
+        const prevId = current()?.id;
+        tracks = SHOW_MOCKS ? [...realTracks, ...syncedSamples] : realTracks;
+        const foundIdx = tracks.findIndex(x => x.id === prevId);
+        currentIndex = foundIdx >= 0 ? foundIdx : 0;
+        if (location.hash.startsWith('#@')) {
+          const hName = decodeURIComponent(location.hash.slice(2));
+          if (hName) openArtistPage(hName);
+        } else {
+          render();
+        }
+      } catch (err) {
+        console.error('Supabase sync error:', err);
       }
     }
-    render();
-  }
 
-  function renderMediaStage(t, idx = currentIndex, isSlide = false) {
-    const locked = isLocked(t);
-    if (t.ytId && !locked && (playing || isSlide)) {
-      const auto = playing && idx === currentIndex ? 1 : 0;
-      return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=${auto}&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(t.title)}"></iframe>`;
+    async function loadTrackComments(trackId) {
+      if (!sb) return;
+      const { data } = await sb.from('comments').select('*').eq('track_id', trackId).order('created_at', { ascending: false });
+      if (data) {
+        state.comments[trackId] = data.map(c => c.body);
+        saveState();
+        render();
+      }
     }
-    if (t.video) {
-      return `<video ${isSlide ? `class="tt-vid" data-vididx="${idx}"` : 'id="reel-video"'} src="${esc(t.url)}" playsinline loop muted ${isSlide ? '' : 'autoplay'}></video>`;
+
+    async function openArtistPage(name) {
+      selectedArtist = name;
+      editingBio = false;
+      page = 'Artist';
+      modal = '';
+      try { history.replaceState(null, '', `#@${encodeURIComponent(name)}`); } catch {}
+      render();
+      scrollTo(0, 0);
+      if (!sb) return;
+      const [{ data: prof }, { data: posts }] = await Promise.all([
+        sb.from('profiles').select('*').eq('artist_name', name).maybeSingle(),
+        sb.from('artist_posts').select('*').eq('artist', name).order('created_at', { ascending: false })
+      ]);
+      if (prof) artistProfiles[name] = prof;
+      artistPosts = posts || [];
+      const combined = [...artistPosts, ...(mockWallPosts[name] || [])];
+      const postKeys = combined.map(p => 'post_' + p.id);
+      if (postKeys.length) {
+        const { data: allReplies } = await sb.from('comments').select('*').in('track_id', postKeys).order('created_at', { ascending: true });
+        if (allReplies) {
+          postKeys.forEach(k => { state.comments[k] = []; });
+          allReplies.forEach(r => { state.comments[r.track_id].push(r.body); });
+          saveState();
+        }
+      }
+      render();
     }
-    return t.img ? imgTag(t.img, t.fallbackImg, `Release artwork for ${t.artist} — ${t.title}`) : cover(t);
-  }
 
-  function reel() {
-    const t = current();
-    if (!t) return '<div class="empty">No tracks yet.</div>';
-    const i = currentIndex;
-    const r = getTrackRating(t);
-    const locked = isLocked(t);
-    return `
-      <div class="reel-shell ${playing ? 'is-playing' : ''}" id="reel">
-        <div class="reel-media">${renderMediaStage(t, i, false)}</div>
-        <div class="reel-dim"></div>
-        <div class="reel-top">
-          <span class="glasslabel">
-            ${playing ? '<span class="eq-bars"><i></i><i></i><i></i></span> PLAYING' : (t.isMock ? '✦ FEATURED CATALOG' : '✦ VERIFIED UPLOAD')}
-            ${t.ytId ? '&nbsp;<span class="yt-badge">YOUTUBE</span>' : ''}
-            ${t.vip ? '&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>' : ''}
-          </span>
-          <span class="reel-indicator">★ ${r.avg} (${r.count}) · ${i + 1} / ${tracks.length}</span>
-        </div>
-        <div class="reel-arrows">
-          <button data-action="prev" aria-label="Previous reel">⌃</button>
-          <button data-action="next" aria-label="Next reel">⌄</button>
-        </div>
-        <div class="reel-bottom">
-          <div class="artistline">
-            <button data-openartist="${esc(t.artist)}" style="font-weight:800">@${esc(t.artist.replace(/\s/g, ''))}</button>
-            <button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">
-              ${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}
-            </button>
-          </div>
-          <h2>${esc(t.title)}</h2>
-          <p class="reel-description">${esc(t.description || 'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
-          <div class="reel-btns">
-            ${locked
-              ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`
-              : `<button class="btn light" data-action="play">${playing ? 'Ⅱ Pause' : '▶ Play full track'}</button>`}
-            <button class="btn" style="background:#ffffff1a;border:1px solid #ffffff38;color:white;backdrop-filter:blur(12px)" data-action="save">
-              ${has('saved', t.id) ? '✓ Saved' : '+ Save song'}
-            </button>
-          </div>
-        </div>
-        <div class="reel-actions">
-          <button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}">
-            <span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}
-          </button>
-          <button class="action gold" data-action="rate">
-            <span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}
-          </button>
-          <button class="action" data-action="comments">
-            <span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}
-          </button>
-          <button class="action" data-action="share">
-            <span class="acticon">↗</span>Share
-          </button>
-          <button class="action" data-vote="${i}">
-            <span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}
-          </button>
-        </div>
-      </div>`;
-  }
+    function renderMediaStage(t, idx, isSlide) {
+      const locked = isLocked(t);
+      if (t.ytId && !locked && (playing || isSlide)) {
+        const auto = playing && idx === currentIndex ? 1 : 0;
+        return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=${auto}&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(t.title)}"></iframe>`;
+      }
+      if (t.video) {
+        return `<video ${isSlide ? `class="tt-vid" data-vididx="${idx}"` : 'id="reel-video"'} src="${esc(t.url)}" playsinline loop muted ${isSlide ? '' : 'autoplay'}></video>`;
+      }
+      return t.img ? `<img src="${esc(t.img)}" alt="Release artwork for ${esc(t.artist)} — ${esc(t.title)}" onerror="if(this.dataset.fb&&this.src!==this.dataset.fb){this.src=this.dataset.fb}else{this.remove()}" data-fb="${esc(t.fallbackImg || '')}">` : cover(t);
+    }
 
-  function trending() {
-    const r = rank().slice(0, 4);
-    return `
-      <section class="rail-card" aria-label="Top trending">
-        <div class="rail-head">
-          <div>
-            <div class="fire-label">🔥 COMMUNITY CHART</div>
-            <h2>Top Trending</h2>
-          </div>
-          <button class="text-link hot-link" data-nav="Charts">View all ↗</button>
-        </div>
-        <p class="rail-note">Songs climbing through listener votes & community ratings.</p>
-        ${r.map((x, n) => row(x, n)).join('')}
-      </section>`;
-  }
+    function reel() {
+      const t = current();
+      if (!t) return '<div class="empty">No tracks yet. Upload the first track in Artist Studio!</div>';
+      const i = currentIndex, r = getTrackRating(t), locked = isLocked(t);
+      return `<div class="reel-shell ${playing ? 'is-playing' : ''}" id="reel"><div class="reel-media">${renderMediaStage(t, i, false)}</div><div class="reel-dim"></div><div class="reel-top"><span class="glasslabel">✦ &nbsp; ${t.ytId ? 'YOUTUBE RELEASE' : (t.isMock ? 'FEATURED CATALOG' : 'VERIFIED UPLOAD')} ${t.vip ? '&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>' : ''}</span><span class="reel-indicator">★ ${r.avg} (${r.count}) &nbsp;·&nbsp; ${i + 1} / ${tracks.length}</span></div><div class="reel-arrows"><button data-action="prev" aria-label="Previous reel">⌃</button><button data-action="next" aria-label="Next reel">⌄</button></div><div class="reel-bottom"><div class="artistline"><button data-openartist="${esc(t.artist)}" style="font-weight:800">@${esc(t.artist.replace(/\s/g, ''))}</button><button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button></div><h2>${esc(t.title)}</h2><p class="reel-description">${esc(t.description || 'New music on SpotWav.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p><div class="reel-btns">${locked ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>` : `<button class="btn light" data-action="play">${playing ? 'Ⅱ Pause' : '▶ Play full track'}</button>`}<button class="btn" style="background:var(--sw-glass);border:1px solid var(--sw-glass-border);color:var(--sw-text);backdrop-filter:blur(20px)" data-action="save">${has('saved', t.id) ? '✓ Saved' : '+ Save song'}</button></div></div><div class="reel-actions"><button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}"><span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}</button><button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}</button><button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}</button><button class="action" data-action="share"><span class="acticon">↗</span>Share</button><button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}</button></div></div>`;
+    }
 
-  function sponsor() {
-    return `
-      <section class="sponsor" aria-label="Sponsored placement">
-        <div class="sponsor-tag">✧ Sponsored placement</div>
-        <div class="sponsor-art">
-          ${imgTag('assets/ibet-promo.webp', photo('photo-1598488035139-bdbb2231ce04'), 'Promotional format')}
-          <span>YOUR RELEASE<br>HERE</span>
-        </div>
-        <h3>Your next release,<br>front and center.</h3>
-        <p>Artists and brands can reserve clearly labeled promotional spots beside music discovery.</p>
-        <button class="promo-link" data-action="promote">Promote a release ↗</button>
-      </section>`;
-  }
+    function trending() {
+      const r = rank().slice(0, 4);
+      return `<section class="rail-card" aria-label="Top trending"><div class="rail-head"><div><div class="fire-label">🔥 &nbsp; COMMUNITY CHART</div><h2>Top Trending</h2></div><button class="text-link hot-link" data-nav="Charts">View all ↗</button></div><p class="rail-note">Songs climbing through listener votes & community ratings.</p>${r.map((x, n) => row(x, n)).join('')}</section>`;
+    }
 
-  function releaseSpotlight() {
-    return `
-      <section class="release-showcase" aria-label="Featured release artwork">
-        <div class="release-showcase-head">
-          <div>
-            <div class="eyebrow">REAL ARTWORK · FEATURED RELEASES</div>
-            <h2>Sounds with a story.</h2>
-            <p class="sub">Discover the visuals and VIP drops behind the releases.</p>
-          </div>
-          <button class="text-link" data-nav="Feed">Watch reels ↗</button>
-        </div>
-        <div class="release-showcase-grid">
-          <button class="release-big" data-track="0">
-            ${imgTag('assets/ibet-cover.webp', photo('photo-1529139574466-a303027c1d8b'), 'LONEK I Bet on Me')}
-            <span class="release-big-meta">
-              <small>FEATURED RELEASE</small>
-              <strong>I Bet on Me</strong>
-              <span>LONEK · Hip-Hop · ★ 4.9</span>
-            </span>
-          </button>
-          <div class="release-side">
-            <button class="release-mini" data-track="1">
-              ${imgTag('assets/ohmydays-cover.webp', photo('photo-1506794778202-cbf6067b4bc1'), 'Tyler J Oh My Days')}
-              <span>
-                <strong>Oh My Days</strong>
-                <small>Tyler J · ★ 4.8</small>
-              </span>
-            </button>
-            <button class="release-mini" data-track="4">
-              ${imgTag('assets/igotyou-cover.webp', photo('photo-1503376780353-7e6692767b70'), 'LONEK I Got You')}
-              <span>
-                <strong>I Got You <span class="vip-badge">VIP</span></strong>
-                <small>LONEK · Subscribers Only</small>
-              </span>
-            </button>
-          </div>
-        </div>
-      </section>`;
-  }
+    function sponsor() {
+      return `<section class="sponsor" aria-label="Sponsored placement"><div class="sponsor-tag">✧ Sponsored placement</div><div class="sponsor-art"><img src="assets/ibet-promo.webp" alt="Promotional format" onerror="this.src='${photo('photo-1470229722913-7c0e2dbbafd3')}'"><span>YOUR RELEASE<br>HERE</span></div><h3>Your next release,<br>front and center.</h3><p>Artists and brands can reserve clearly labeled promotional spots beside music discovery.</p><button class="promo-link" data-action="promote">Promote a release ↗</button></section>`;
+    }
 
-  function home() {
-    return `
-      <div class="heading">
+    function releaseSpotlight() {
+      return `<section class="release-showcase" aria-label="Featured release artwork"><div class="release-showcase-head"><div><div class="eyebrow">REAL ARTWORK · FEATURED RELEASES</div><h2>Sounds with a story.</h2><p class="sub">Discover the visuals behind the releases.</p></div><button class="text-link" data-nav="Feed">Watch reels ↗</button></div><div class="release-showcase-grid"><button class="release-big" data-track="0"><img src="assets/ibet-cover.webp" alt="LONEK I Bet on Me release artwork" onerror="this.src='${photo('photo-1529139574466-a303027c1d8b')}'"><span class="release-big-meta"><small>FEATURED RELEASE</small><strong>I Bet on Me</strong><span>LONEK · Hip-Hop · ★ 4.9</span></span></button><div class="release-side"><button class="release-mini" data-track="1"><img src="assets/ohmydays-cover.webp" alt="Tyler J Oh My Days artwork" onerror="this.src='${photo('photo-1506794778202-cbf6067b4bc1')}'"><span><strong>Oh My Days</strong><small>Tyler J · ★ 4.8</small></span></button><button class="release-mini" data-track="4"><img src="assets/igotyou-cover.webp" alt="LONEK I Got You artwork" onerror="this.src='${photo('photo-1503376780353-7e6692767b70')}'"><span><strong>I Got You <span class="vip-badge">VIP</span></strong><small>LONEK · Subscribers Only</small></span></button></div></div></section>`;
+    }
+
+    function home() {
+      const lvl = getLevelInfo(state.wpLifetime);
+      return `<div class="heading">
         <div>
           <div class="eyebrow"><span class="dot"></span> LIVE COMMUNITY NETWORK</div>
           <h1>Your next favorite starts here.</h1>
-          <p class="sub">Upload your music or YouTube drops. Subscribe to rising artists. Rate & vote for the songs you love.</p>
+          <p class="sub">Upload your music or YouTube drops. Subscribe to rising artists. Earn WavePoints for discovering music.</p>
         </div>
+        <button class="wp-pill" data-nav="Rewards" title="Open SpotWav Rewards & WavePoints">
+          <span class="wp-gem">W</span>
+          <span>${state.wpBalance.toLocaleString()} WP · ${lvl.cur.name}</span>
+          <span style="color:var(--sw-purple)">Rewards ↗</span>
+        </button>
       </div>
       <div class="home-layout">
-        <section class="reel-wrap" aria-label="Music reels">
-          ${reel()}
-          <p class="note" style="margin:10px 5px 0">Use ↑ / ↓ arrows, scroll wheel, or swipe to explore the next reel.</p>
-        </section>
+        <section class="reel-wrap" aria-label="Music reels">${reel()}<p class="note" style="margin:10px 5px 0">Use ↑ / ↓ arrows, scroll wheel, or swipe to explore the next reel.</p></section>
         <aside class="rail">${trending()}${sponsor()}</aside>
       </div>
       <section class="bottom-strip">
-        <div class="strip-head">
-          <div>
-            <div class="eyebrow">BROWSE BY GENRE</div>
-            <h2>Discover more music</h2>
-          </div>
-          <button class="text-link" data-nav="Feed">See all reels ↗</button>
-        </div>
+        <div class="strip-head"><div><div class="eyebrow">BROWSE BY GENRE</div><h2>Discover more music</h2></div><button class="text-link" data-nav="Feed">See all reels ↗</button></div>
         ${chips()}
-        <div class="music-grid">
-          ${all().filter(x => genre === 'All' || x.t.genre === genre).slice(0, 5).map(x => `
-            <button class="music-tile" data-track="${x.i}">
-              ${cover(x.t)}
-              <div class="track-name">${esc(x.t.title)} ${x.t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div>
-              <div class="track-small">${esc(x.t.artist)} · ★ ${getTrackRating(x.t).avg}</div>
-            </button>`).join('') || '<p class="empty">No tracks in this genre yet.</p>'}
-        </div>
+        <div class="music-grid">${all().filter(x => genre === 'All' || x.t.genre === genre).slice(0, 5).map(x => `<button class="music-tile" data-track="${x.i}">${cover(x.t)}<div class="track-name">${esc(x.t.title)} ${x.t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div><div class="track-small">${esc(x.t.artist)} · ★ ${getTrackRating(x.t).avg}</div></button>`).join('') || '<p class="empty">No tracks in this genre yet.</p>'}</div>
       </section>
       ${releaseSpotlight()}`;
-  }
+    }
 
-  function feed() {
-    const p = pool();
-    const list = p.length ? p : all();
-    const slides = list.map((x) => {
-      const t = x.t;
-      const i = x.i;
-      const r = getTrackRating(t);
-      const locked = isLocked(t);
-      const activeSlide = i === currentIndex;
-      return `
-        <article class="tt-slide ${activeSlide && playing ? 'is-playing' : ''}" data-slideidx="${i}">
+    function feed() {
+      const p = pool();
+      const slides = (p.length ? p : all()).map(x => {
+        const t = x.t, i = x.i, r = getTrackRating(t), locked = isLocked(t), activeSlide = i === currentIndex;
+        return `<article class="tt-slide" data-slideidx="${i}">
           <div class="reel-media" data-action="tapplay">${renderMediaStage(t, i, true)}</div>
           <div class="reel-dim"></div>
-          ${t.ytId ? '' : `
-            <div class="tt-center-play" data-action="tapplay">
-              ${activeSlide && playing ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`}
-            </div>`}
+          ${t.ytId ? '' : `<div class="tt-center-play" data-action="tapplay">${activeSlide && playing ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`}</div>`}
           <div class="tt-bottom">
             <div class="artistline">
               <button data-openartist="${esc(t.artist)}" style="font-weight:850;font-size:15px">@${esc(t.artist.replace(/\s/g, ''))}</button>
-              <button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">
-                ${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}
-              </button>
+              <button class="follow ${has('follows', t.artist) ? 'subbed' : ''}" data-subartist="${esc(t.artist)}">${has('follows', t.artist) ? '✓ Subscribed' : '+ Subscribe'} · ${subCount(t.artist).toLocaleString()}</button>
               ${t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}
             </div>
             <h2>${esc(t.title)}</h2>
-            <p class="reel-description" style="margin-bottom:0">${esc(t.description)} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
+            <p class="reel-description" style="margin-bottom:0">${esc(t.description || 'New music on SpotWav.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
           </div>
           <div class="tt-actions">
-            <button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}">
-              <span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}
-            </button>
-            <button class="action gold" data-action="rate">
-              <span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}
-            </button>
-            <button class="action" data-action="comments">
-              <span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}
-            </button>
-            <button class="action" data-action="save">
-              <span class="acticon">${has('saved', t.id) ? '✓' : '+'}</span>Save
-            </button>
-            <button class="action" data-vote="${i}">
-              <span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}
-            </button>
+            <button class="action ${has('likes', t.id) ? 'selected' : ''}" data-like="${i}"><span class="acticon">${has('likes', t.id) ? '♥' : '♡'}</span>${(t.likes || 0).toLocaleString()}</button>
+            <button class="action gold" data-action="rate"><span class="acticon">★</span>${state.ratings[t.id] ? state.ratings[t.id] + '/5' : r.avg}</button>
+            <button class="action" data-action="comments"><span class="acticon">♧</span>${(state.comments[t.id] || []).length || 'Chat'}</button>
+            <button class="action" data-action="save"><span class="acticon">${has('saved', t.id) ? '✓' : '+'}</span>Save</button>
+            <button class="action" data-vote="${i}"><span class="acticon">↑</span>${has('votes', t.id) ? 'Voted' : 'Vote'}</button>
           </div>
         </article>`;
-    }).join('');
+      }).join('');
 
-    return `
-      <div class="tiktok-stage">
+      return `<div class="heading reels-desktop-head"><div><div class="eyebrow">VERTICAL MUSIC REELS</div><h1>Reels.</h1><p class="sub">Scroll vertically, tap to play, or use the arrows to discover new drops.</p></div></div>
+      <div class="tiktok-feed" id="tt-feed">
         <div class="tt-top">
           <div class="tt-tabs">
             <button class="${tab === 'For You' ? 'active' : ''}" data-tab="For You">For You</button>
             <button class="${tab === 'Following' ? 'active' : ''}" data-tab="Following">Subscribed</button>
           </div>
-          <button class="glasslabel" style="pointer-events:auto" data-nav="Studio">＋ Upload</button>
+          <button class="glasslabel" data-nav="Studio">＋ Upload</button>
         </div>
-        <div class="reel-arrows" style="top:66px;right:14px">
-          <button data-action="prev" aria-label="Previous reel" title="Previous reel">⌃</button>
-          <button data-action="next" aria-label="Next reel" title="Next reel">⌄</button>
+        <div class="tt-arrows">
+          <button data-ttstep="-1" aria-label="Previous reel">⌃</button>
+          <button data-ttstep="1" aria-label="Next reel">⌄</button>
         </div>
-        <div class="tiktok-feed" id="tt-feed">${slides}</div>
+        ${slides}
         <div class="tt-progress" id="scrub"><i style="width:${progress}%"></i></div>
       </div>`;
-  }
+    }
 
-  function artistPage() {
-    const name = selectedArtist || getArtistDisplay() || 'LONEK';
-    const handleSlug = name.replace(/\s/g, '');
-    const artistTracks = all().filter(x => x.t.artist.toLowerCase() === name.toLowerCase());
-    const isOwner = currentUser && getArtistDisplay().toLowerCase() === name.toLowerCase();
-    const prof = artistProfiles[name] || mockBios[name] || { bio: 'Independent creator on Soundwave.', link: '' };
-    const totalVotes = artistTracks.reduce((sum, x) => sum + (x.t.votes || 0), 0);
-    const avgRating = artistTracks.length
-      ? (artistTracks.reduce((s, x) => s + Number(getTrackRating(x.t).avg), 0) / artistTracks.length).toFixed(1)
-      : '5.0';
-    const combinedPosts = [...artistPosts, ...(mockWallPosts[name] || [])];
+    function rewardsPage() {
+      const lvl = getLevelInfo(state.wpLifetime);
+      const challenges = getDailyChallenges();
+      return `<div class="heading">
+        <div>
+          <div class="eyebrow">SPOTWAV REWARDS & LOYALTY</div>
+          <h1>WavePoints & Store.</h1>
+          <p class="sub">Earn WavePoints through genuine music discovery, chart voting, and community participation. Redeem for licensed music & perks.</p>
+        </div>
+        <div class="wp-pill">
+          <span class="wp-gem">W</span>
+          <span>${state.wpBalance.toLocaleString()} WP Available</span>
+        </div>
+      </div>
 
-    return `
-      <div class="artist-hero">
+      <div class="two-col" style="margin-bottom:22px">
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <div>
+              <div class="eyebrow">MEMBERSHIP STATUS</div>
+              <h2 style="font-size:24px;margin-top:4px">${lvl.cur.icon} ${lvl.cur.name} Level</h2>
+            </div>
+            <span class="level-badge">${state.wpLifetime.toLocaleString()} Lifetime WP</span>
+          </div>
+          <div class="wp-bar"><i style="width:${lvl.pct}%"></i></div>
+          <p class="note">${lvl.next ? `${(lvl.next.min - state.wpLifetime).toLocaleString()} more lifetime WP to reach ${lvl.next.icon} ${lvl.next.name}` : 'Maximum Legend status unlocked!'}</p>
+          <div class="statgrid">
+            <div class="stat"><strong>${state.wpBalance.toLocaleString()}</strong><span>Available WavePoints</span></div>
+            <div class="stat"><strong>${state.wpWeekly.toLocaleString()}</strong><span>Earned this week</span></div>
+            <div class="stat"><strong>${state.wpToday} / ${DAILY_WP_CAP}</strong><span>Daily verified cap</span></div>
+          </div>
+          <div class="eyebrow" style="margin-top:16px">COLLECTIBLE ACHIEVEMENTS</div>
+          <div class="badge-grid">
+            ${ACHIEVEMENTS.map(a => {
+              const unlocked = isAchievementUnlocked(a.id);
+              return `<div class="ach-badge ${unlocked ? 'unlocked' : ''}">
+                <div style="font-size:22px">${a.icon}</div>
+                <div style="font-size:11px;font-weight:800;margin-top:4px;color:var(--sw-text)">${esc(a.title)}</div>
+                <div style="font-size:9px;color:var(--sw-text-secondary);margin-top:2px">${esc(a.desc)}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="eyebrow">DAILY DISCOVERY CHALLENGES</div>
+          <h3>Earn Bonus WavePoints</h3>
+          <p class="note" style="margin-bottom:10px">Verified community challenges refresh daily.</p>
+          ${challenges.map(ch => {
+            const done = ch.progress >= ch.goal;
+            const claimed = has('claimedChallenges', ch.id + '_' + state.wpDate);
+            return `<div class="challenge-row">
+              <div style="min-width:0">
+                <div style="font-size:12px;font-weight:700;color:var(--sw-text)">${esc(ch.title)}</div>
+                <div class="note">${esc(ch.desc)} (${ch.progress}/${ch.goal})</div>
+              </div>
+              ${claimed ? `<span class="live-badge">✓ +${ch.reward} WP</span>` : done ? `<button class="btn primary" style="padding:7px 12px;font-size:11px" data-claimch="${ch.id}">Claim +${ch.reward} WP</button>` : `<span class="rate-pill">+${ch.reward} WP</span>`}
+            </div>`;
+          }).join('')}
+        </aside>
+      </div>
+
+      <section class="bottom-strip" style="margin-top:0">
+        <div class="strip-head">
+          <div>
+            <div class="eyebrow">LICENSED MUSIC & EXCLUSIVE PERKS</div>
+            <h2>Rewards Store</h2>
+          </div>
+          <span class="note">WavePoints have no cash value and are non-transferable.</span>
+        </div>
+        <div class="rewards-grid">
+          ${REWARD_CATALOG.map(item => {
+            const owned = has('redeemed', item.id);
+            const canAfford = state.wpBalance >= item.cost;
+            return `<div class="reward-card">
+              <div>
+                ${item.img ? `<div class="reward-art"><img src="${esc(item.img)}" alt="${esc(item.title)}" onerror="if(this.dataset.fb){this.src=this.dataset.fb}"></div>` : `<div class="reward-art" style="background:linear-gradient(135deg,rgba(102,135,255,.18),rgba(162,124,255,.18))"><span style="font-size:28px">✦</span></div>`}
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+                  <span class="eyebrow">${esc(item.category)}</span>
+                  <span class="level-badge">${esc(item.badge)}</span>
+                </div>
+                <h3 style="font-size:15px;margin:6px 0 4px;color:var(--sw-text)">${esc(item.title)}</h3>
+                <p class="note" style="margin:0">Rights-verified · ${esc(item.artist)}</p>
+              </div>
+              <div style="margin-top:8px">
+                ${owned ? `<button class="btn ghost" style="width:100%" disabled>✓ Redeemed & Unlocked</button>` : `<button class="btn ${canAfford ? 'primary' : 'ghost'}" style="width:100%" data-redeem="${item.id}">${canAfford ? `Redeem for ${item.cost.toLocaleString()} WP` : `Need ${item.cost.toLocaleString()} WP`}</button>`}
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </section>
+
+      <section class="bottom-strip">
+        <div class="strip-head">
+          <div>
+            <div class="eyebrow">OPTIONAL MEMBERSHIP TIERS</div>
+            <h2>SpotWav Plans</h2>
+          </div>
+          <span class="note">Subscriptions never alter organic chart votes or bypass creator verification.</span>
+        </div>
+        <div class="tier-grid">
+          <div class="tier-card">
+            <div>
+              <div class="eyebrow">FAN ACCESS</div>
+              <h3 style="font-size:20px;margin:4px 0">Free — Music Fan</h3>
+              <p class="sub" style="margin-bottom:12px">$0 / month</p>
+              <p class="note">• Discover music and watch vertical reels</p>
+              <p class="note">• Vote in community charts & rate releases</p>
+              <p class="note">• Subscribe to artists & earn WavePoints</p>
+            </div>
+            <button class="btn ghost" style="width:100%" disabled>${state.plan === 'Free' ? '✓ Current Plan' : 'Included'}</button>
+          </div>
+          <div class="tier-card featured">
+            <div>
+              <div class="eyebrow" style="color:var(--sw-purple)">ENHANCED DISCOVERY</div>
+              <h3 style="font-size:20px;margin:4px 0">Plus — Music Insider</h3>
+              <p class="sub" style="margin-bottom:12px">$4.99 / month · +300 Monthly Bonus WP</p>
+              <p class="note">• 300 bonus WavePoints deposited monthly</p>
+              <p class="note">• Early access to licensed partner releases</p>
+              <p class="note">• Reduced promotional slots & expanded playlists</p>
+            </div>
+            <button class="btn primary" style="width:100%" data-setplan="Plus">${state.plan === 'Plus' ? '✓ Active Insider Plan' : 'Activate Plus Insider'}</button>
+          </div>
+          <div class="tier-card">
+            <div>
+              <div class="eyebrow" style="color:var(--gold)">CREATOR SUITE</div>
+              <h3 style="font-size:20px;margin:4px 0">VIP — Verified Creator</h3>
+              <p class="sub" style="margin-bottom:12px">$9.99 / month · Identity Verification Required</p>
+              <p class="note">• Collaboration project board & private creator hub</p>
+              <p class="note">• Full Artist Impact Score & audience retention analytics</p>
+              <p class="note">• Priority review of legitimate support requests</p>
+            </div>
+            <button class="btn gold" style="width:100%" data-setplan="VIP Creator">${state.plan === 'VIP Creator' ? '✓ Active VIP Creator' : 'Apply for VIP Creator'}</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="two-col" style="margin-top:24px">
+        <div class="panel">
+          <div class="eyebrow">SERVER-VERIFIED WALLET LEDGER</div>
+          <h3>Recent WavePoints Activity</h3>
+          ${state.wpLedger.slice(0, 8).map(entry => `<div class="track-row" style="justify-content:space-between">
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--sw-text)">${esc(entry.label)}</div>
+              <div class="note">${timeAgo(entry.time)} · Event #${esc(String(entry.id).slice(0, 12))}</div>
+            </div>
+            <span class="${entry.delta > 0 ? 'live-badge' : 'yt-badge'}">${entry.delta > 0 ? '+' : ''}${entry.delta} WP</span>
+          </div>`).join('')}
+        </div>
+        <aside class="panel">
+          <div class="eyebrow">HOW TO EARN WAVEPOINTS</div>
+          <h3>Verified Participation</h3>
+          <p class="note" style="margin-top:8px">• Complete profile & verify email: <b>+50 WP</b></p>
+          <p class="note">• Listen to a qualifying new song: <b>+2 WP</b></p>
+          <p class="note">• Leave a meaningful comment: <b>+3 WP</b></p>
+          <p class="note">• Discover & subscribe to an artist: <b>+5 WP</b></p>
+          <p class="note">• Vote in community charts: <b>+5 WP</b></p>
+          <p class="note">• Share a release link: <b>+10 WP</b></p>
+          <p class="note">• Upload an approved original song: <b>+25 WP</b></p>
+        </aside>
+      </div>`;
+    }
+
+    function artistPage() {
+      const name = selectedArtist || getArtistDisplay() || 'LONEK';
+      const handleSlug = name.replace(/\s/g, '');
+      const artistTracks = all().filter(x => x.t.artist.toLowerCase() === name.toLowerCase());
+      const isOwner = currentUser && getArtistDisplay().toLowerCase() === name.toLowerCase();
+      const prof = artistProfiles[name] || mockBios[name] || { bio: 'Independent creator on SpotWav.', link: '' };
+      const totalVotes = artistTracks.reduce((sum, x) => sum + (x.t.votes || 0), 0);
+      const totalLikes = artistTracks.reduce((sum, x) => sum + (x.t.likes || 0), 0);
+      const avgRating = artistTracks.length ? (artistTracks.reduce((s, x) => s + Number(getTrackRating(x.t).avg), 0) / artistTracks.length).toFixed(1) : '5.0';
+      const impactScore = Math.min(99, Math.round(52 + (artistTracks.length * 6) + Math.min(25, totalVotes / 180) + (Number(avgRating) * 2)));
+      const combinedPosts = [...artistPosts, ...(mockWallPosts[name] || [])];
+
+      return `<div class="artist-hero">
         <div class="artist-hero-top">
           <div style="display:flex;align-items:center;gap:16px">
             <div class="artist-avatar-lg">${esc(name.slice(0, 2).toUpperCase())}</div>
             <div>
-              <div class="eyebrow" style="color:#c4b3ff">VERIFIED ARTIST HUB</div>
+              <div class="eyebrow" style="color:var(--sw-purple)">VERIFIED ARTIST HUB · IMPACT SCORE ${impactScore}/100</div>
               <h1 style="margin:3px 0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1px">@${esc(handleSlug)}</h1>
-              <p style="color:#d6d2f0;margin:0;max-width:520px;font-size:13px">${esc(prof.bio)}</p>
-              ${prof.social_link || prof.link ? `<a href="${esc(prof.social_link || prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.social_link || prof.link)}</a>` : ''}
+              <p style="color:var(--sw-text-secondary);margin:0;max-width:520px;font-size:13px">${esc(prof.bio || 'Independent creator on SpotWav.')}</p>
+              ${prof.social_link || prof.link ? `<a href="${esc(prof.social_link || prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:var(--sw-blue);font-size:12px;font-weight:700">🔗 ${esc(prof.social_link || prof.link)}</a>` : ''}
             </div>
           </div>
           <div style="display:flex;gap:9px;flex-wrap:wrap">
-            ${isOwner
-              ? `<button class="btn light" data-action="togglebio">${editingBio ? 'Cancel Edit' : '✎ Edit Bio & Link'}</button>`
-              : `<button class="btn ${has('follows', name) ? 'light' : 'gold'}" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed (VIP Unlocked)' : '+ Subscribe for VIP Drops'}</button>`}
-            <button class="btn" style="background:#ffffff1a;border:1px solid #ffffff30;color:#fff" data-copyartist="${esc(name)}">↗ Share Page</button>
+            ${isOwner ? `<button class="btn light" data-action="togglebio">${editingBio ? 'Cancel Edit' : '✎ Edit Bio & Link'}</button>` : `<button class="btn ${has('follows', name) ? 'light' : 'gold'}" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed (VIP Unlocked)' : '+ Subscribe for VIP Drops'}</button>`}
+            <button class="btn ghost" data-copyartist="${esc(name)}">↗ Share Page</button>
           </div>
         </div>
         <div class="artist-stats-bar">
@@ -1728,13 +2022,13 @@
           <div><strong>${artistTracks.length}</strong><span>Releases</span></div>
           <div><strong>${totalVotes.toLocaleString()}</strong><span>Community Votes</span></div>
           <div><strong>★ ${avgRating}</strong><span>Avg Rating</span></div>
+          <div><strong style="color:var(--sw-purple)">${impactScore} / 100</strong><span>Artist Impact Score</span></div>
         </div>
-        ${isOwner && editingBio ? `
-          <form id="bio-form" style="background:#ffffff10;border:1px solid #ffffff20;padding:16px;border-radius:16px;margin-top:14px">
-            <label class="field" style="margin-top:0">Artist Bio <textarea name="bio" rows="2" maxlength="240">${esc(prof.bio || '')}</textarea></label>
-            <label class="field">Social / Streaming Link <input type="url" name="social_link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.social_link || prof.link || '')}"></label>
-            <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
-          </form>` : ''}
+        ${isOwner && editingBio ? `<form id="bio-form" style="background:var(--sw-black-charcoal);border:1px solid var(--sw-glass-border);padding:16px;border-radius:16px;margin-top:14px">
+          <label class="field" style="margin-top:0">Artist Bio <textarea name="bio" rows="2" maxlength="240" placeholder="Tell fans about your sound, upcoming drops, or booking info">${esc(prof.bio || '')}</textarea></label>
+          <label class="field">Social / Streaming Link <input type="url" name="social_link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.social_link || prof.link || '')}"></label>
+          <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
+        </form>` : ''}
       </div>
 
       <div class="two-col">
@@ -1749,132 +2043,93 @@
             <div class="eyebrow">CREATOR COMMUNITY WALL</div>
             <h2>Updates & Fan Chat</h2>
             <p class="sub" style="margin-bottom:14px">Direct updates from @${esc(handleSlug)} and live replies from fans.</p>
-            ${isOwner ? `
-              <form id="wall-post-form" style="background:#161929;padding:15px;border-radius:15px;margin-bottom:18px;border:1px solid #262b45">
-                <textarea name="body" rows="2" required maxlength="400" placeholder="Post an update, drop date, or message to your fans..." style="width:100%;border:1px solid #2c3252;border-radius:10px;padding:10px;background:#0e101c;color:#fff"></textarea>
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
-                  <label style="font-size:11px;font-weight:700;color:#ffca57;display:flex;align-items:center;gap:6px"><input type="checkbox" name="vip_only"> ★ Subscribers-Only VIP Post</label>
-                  <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
-                </div>
-              </form>` : ''}
+            ${isOwner ? `<form id="wall-post-form" style="background:var(--sw-black-charcoal);padding:15px;border-radius:15px;margin-bottom:18px;border:1px solid var(--sw-glass-border)">
+              <textarea name="body" rows="2" required maxlength="400" placeholder="Post an update, drop date, or message to your fans..." style="width:100%;border:1px solid var(--sw-glass-border);border-radius:10px;padding:10px;background:var(--sw-black-midnight);color:var(--sw-text)"></textarea>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
+                <label style="font-size:11px;font-weight:750;color:#ffca57;display:flex;align-items:center;gap:6px"><input type="checkbox" name="vip_only"> ★ Subscribers-Only VIP Post</label>
+                <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
+              </div>
+            </form>` : ''}
             ${combinedPosts.map(p => {
               const postLocked = p.vip_only && !has('follows', name) && !isOwner;
               const replies = state.comments['post_' + p.id] || [];
-              return `
-                <div class="wall-post">
-                  <div class="wall-head">
-                    <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only ? '<span class="vip-badge">★ VIP ONLY</span>' : ''}</strong>
-                    <span class="note">${timeAgo(p.created_at)}</span>
-                  </div>
-                  ${postLocked
-                    ? `<div style="background:#261f12;border:1px solid #4d3b18;padding:12px;border-radius:12px;font-size:12px;color:#ffca57">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>`
-                    : `<div class="wall-body">${esc(p.body)}</div>
-                       <div class="wall-replies">
-                         ${replies.map(rep => `<div class="wall-reply">${esc(rep)}</div>`).join('')}
-                         <form class="wall-reply-form" data-postid="${esc(p.id)}" style="display:flex;gap:7px;margin-top:4px">
-                           <input name="reply" maxlength="200" required placeholder="Reply to @${esc(handleSlug)}..." style="flex:1;border:1px solid #262b45;border-radius:20px;padding:6px 12px;font-size:11px;background:#161929;color:#fff">
-                           <button type="submit" class="btn ghost" style="padding:5px 12px;font-size:11px">Reply</button>
-                         </form>
-                       </div>`}
-                </div>`;
+              return `<div class="wall-post">
+                <div class="wall-head">
+                  <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only ? '<span class="vip-badge">★ VIP ONLY</span>' : ''}</strong>
+                  <span class="note">${timeAgo(p.created_at)}</span>
+                </div>
+                ${postLocked ? `<div style="background:var(--sw-black-charcoal);border:1px solid var(--sw-glass-border);padding:12px;border-radius:12px;font-size:12px;color:#ffca57">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>` : `<div class="wall-body">${esc(p.body)}</div>
+                <div class="wall-replies">
+                  ${replies.map(rep => `<div class="wall-reply">${esc(rep)}</div>`).join('')}
+                  <form class="wall-reply-form" data-postid="${esc(p.id)}" style="display:flex;gap:7px;margin-top:4px">
+                    <input name="reply" maxlength="200" required placeholder="Reply to @${esc(handleSlug)}..." style="flex:1;border:1px solid var(--sw-glass-border);border-radius:20px;padding:6px 12px;font-size:11px;background:var(--sw-black-charcoal);color:var(--sw-text)">
+                    <button type="submit" class="btn ghost" style="padding:5px 12px;font-size:11px">Reply</button>
+                  </form>
+                </div>`}
+              </div>`;
             }).join('') || '<div class="empty">No wall posts from this artist yet.</div>'}
           </div>
         </section>
 
         <aside>
           <div class="panel">
-            <div class="eyebrow">FAN PERKS</div>
-            <h3>Subscribe to @${esc(handleSlug)}</h3>
-            <p class="sub" style="margin-top:8px">• Instant access to all <b>★ VIP</b> unreleased tracks</p>
-            <p class="sub" style="margin-top:6px">• Unlock private community wall updates</p>
-            <p class="sub" style="margin-top:6px">• Support independent music directly</p>
-            ${!isOwner
-              ? `<button class="btn ${has('follows', name) ? 'ghost' : 'gold'}" style="width:100%;margin-top:16px" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed' : '+ Subscribe Now'}</button>`
-              : `<button class="btn primary" style="width:100%;margin-top:16px" data-nav="Studio">+ Upload New Track</button>`}
+            <div class="eyebrow">ARTIST IMPACT ANALYTICS</div>
+            <h3>Verified Engagement</h3>
+            <p class="note" style="margin-top:6px">Based on unique genuine listeners, repeat plays, organic saves, and verified votes.</p>
+            <div class="impact-meter" style="grid-template-columns:1fr 1fr">
+              <div class="impact-box"><strong>${totalLikes.toLocaleString()}</strong><span>Organic Saves</span></div>
+              <div class="impact-box"><strong>${totalVotes.toLocaleString()}</strong><span>Unique Votes</span></div>
+            </div>
+            ${!isOwner ? `<button class="btn ${has('follows', name) ? 'ghost' : 'gold'}" style="width:100%;margin-top:16px" data-subartist="${esc(name)}">${has('follows', name) ? '✓ Subscribed' : '+ Subscribe Now'}</button>` : `<button class="btn primary" style="width:100%;margin-top:16px" data-nav="Studio">+ Upload New Track</button>`}
           </div>
           <div style="margin-top:16px">${sponsor()}</div>
         </aside>
       </div>`;
-  }
+    }
 
-  function charts() {
-    return `
-      <div class="heading">
-        <div>
-          <div class="eyebrow">VOTED & RATED BY LISTENERS</div>
-          <h1>Top Charts.</h1>
-          <p class="sub">Real fan ratings and votes shape the rankings.</p>
-        </div>
-      </div>
-      <div class="board-intro">
-        <div>
-          <div class="fire-label">🔥 THIS WEEK'S TOP TRENDING</div>
-          <h2>Listen. Rate. Move the charts.</h2>
-          <p>Community rankings and paid promotions are always separate.</p>
-        </div>
-        <div style="font-size:38px">🔥</div>
-      </div>
-      <div class="two-col">
-        <section>
-          <div class="eyebrow" style="margin-bottom:10px">SONGS RANKED BY VOTES & RATINGS</div>
-          ${chips()}
-          <div class="board">${rank().map((x, n) => row(x, n)).join('')}</div>
-        </section>
-        <aside>
-          ${sponsor()}
-          <div class="panel" style="margin-top:16px">
-            <h3>How community scoring works</h3>
-            <p class="sub" style="margin-top:9px">Cast an upvote (↑) to push a track up the trending chart and leave a 1-to-5 star rating (★) to build the artist's community reputation.</p>
-          </div>
-        </aside>
-      </div>`;
-  }
+    function charts() {
+      return `<div class="heading"><div><div class="eyebrow">VOTED & RATED BY LISTENERS</div><h1>Top Charts.</h1><p class="sub">Real fan ratings and votes shape the rankings (+5 WP per verified chart vote).</p></div></div><div class="board-intro"><div><div class="fire-label">🔥 THIS WEEK'S TOP TRENDING</div><h2>Listen. Rate. Move the charts.</h2><p>Community rankings and paid promotions are always separate.</p></div><div style="font-size:38px">🔥</div></div><div class="two-col"><section><div class="eyebrow" style="margin-bottom:10px">SONGS RANKED BY VOTES & RATINGS</div>${chips()}<div class="board">${rank().map((x, n) => row(x, n)).join('')}</div></section><aside>${sponsor()}<div class="panel" style="margin-top:16px"><h3>How community scoring works</h3><p class="sub" style="margin-top:9px">Cast an upvote (↑) to push a track up the trending chart (+5 WP) and leave a 1-to-5 star rating (★) to build the artist's community reputation.</p></div></aside></div>`;
+    }
 
-  function library() {
-    const saved = all().filter(x => has('saved', x.t.id));
-    return `
-      <div class="heading">
+    function library() {
+      const saved = all().filter(x => has('saved', x.t.id));
+      const lvl = getLevelInfo(state.wpLifetime);
+      return `<div class="heading">
         <div>
-          <div class="eyebrow">YOUR COLLECTION</div>
+          <div class="eyebrow">YOUR COLLECTION & REWARDS</div>
           <h1>My Music.</h1>
-          <p class="sub">Save music, manage artist subscriptions and track your ratings.</p>
+          <p class="sub">Saved music, artist subscriptions, and your My Rewards overview.</p>
         </div>
+        <button class="btn primary" data-nav="Rewards">Open Rewards Store ↗</button>
       </div>
       <div class="statgrid">
+        <div class="stat"><strong>${state.wpBalance.toLocaleString()} WP</strong><span>${lvl.cur.icon} ${lvl.cur.name} · My Rewards</span></div>
         <div class="stat"><strong>${state.saved.length}</strong><span>Saved songs</span></div>
         <div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div>
-        <div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Tracks rated</span></div>
       </div>
       <div class="two-col">
-        <section class="panel">
-          <h2>Saved tracks</h2>
-          ${saved.map((x, n) => row(x, n)).join('') || '<div class="empty">Songs you save from the reels appear here.</div>'}
-        </section>
+        <section class="panel"><h2>Saved tracks</h2>${saved.map((x, n) => row(x, n)).join('') || '<div class="empty">Songs you save from the reels appear here.</div>'}</section>
         <aside class="panel">
           <h2>Subscribed Artists</h2>
-          ${state.follows.map(s => `
-            <div class="track-row" style="justify-content:space-between">
-              <button data-openartist="${esc(s)}" style="font-weight:800;color:#8fa2ff">@${esc(s)}</button>
-              <span class="vip-badge">✓ VIP Access</span>
-            </div>`).join('') || '<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}
+          ${state.follows.map(s => `<div class="track-row" style="justify-content:space-between"><button data-openartist="${esc(s)}" style="font-weight:800;color:var(--sw-blue)">@${esc(s)}</button><span class="vip-badge">✓ VIP Access</span></div>`).join('') || '<div class="empty">Subscribe to artists in the reel feed to unlock VIP drops.</div>'}
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--sw-glass-border)">
+            <div class="eyebrow">REDEEMED PERKS (${state.redeemed.length})</div>
+            ${state.redeemed.map(rid => {
+              const item = REWARD_CATALOG.find(x => x.id === rid);
+              return item ? `<div class="note" style="margin-top:6px;color:var(--sw-text)">✓ ${esc(item.title)}</div>` : '';
+            }).join('') || '<div class="note" style="margin-top:6px">No rewards redeemed yet.</div>'}
+          </div>
         </aside>
       </div>`;
-  }
+    }
 
-  function studio() {
-    const liveUploads = all().filter(x => !x.t.isMock);
-    const myUploads = currentUser ? liveUploads.filter(x => x.t.userId === currentUser.id) : [];
-    const artistHandle = getArtistDisplay();
+    function studio() {
+      const liveUploads = all().filter(x => !x.t.isMock);
+      const myUploads = currentUser ? liveUploads.filter(x => x.t.userId === currentUser.id) : [];
+      const artistHandle = getArtistDisplay();
 
-    if (!currentUser) {
-      return `
-        <div class="heading">
-          <div>
-            <div class="eyebrow">CREATOR WORKSPACE</div>
-            <h1>Artist Studio.</h1>
-            <p class="sub">Create your free creator account so every song you upload and every wall post is owned by your profile.</p>
-          </div>
-        </div>
+      if (!currentUser) {
+        return `<div class="heading"><div><div class="eyebrow">CREATOR WORKSPACE</div><h1>Artist Studio.</h1><p class="sub">Create your free creator account to claim your #@Handle page, publish releases, and earn +50 WP.</p></div></div>
         <div class="studio-layout">
           <div class="panel">
             <div class="eyebrow">ACCOUNT REQUIRED TO PUBLISH</div>
@@ -1888,55 +2143,44 @@
               ${authMode === 'signup' ? `<label class="field">Artist / Creator Handle <input name="artist_name" required maxlength="50" placeholder="e.g. LONEK"></label>` : ''}
               <label class="field">Email Address <input type="email" name="email" required placeholder="you@example.com"></label>
               <label class="field">Password (min 6 characters) <input type="password" name="password" required minlength="6" placeholder="••••••••"></label>
-              <button type="submit" class="btn primary" style="margin-top:18px;width:100%" ${authLoading ? 'disabled' : ''}>${authLoading ? 'Please wait...' : (authMode === 'signup' ? 'Create Account & Start Uploading ↗' : 'Log In to Studio ↗')}</button>
+              <button type="submit" class="btn primary" style="margin-top:18px;width:100%" ${authLoading ? 'disabled' : ''}>${authLoading ? 'Please wait...' : (authMode === 'signup' ? 'Create Account & Earn +50 WP ↗' : 'Log In to Studio ↗')}</button>
             </form>
           </div>
           <aside>
             <div class="panel">
               <div class="eyebrow">WHY CREATE AN ACCOUNT?</div>
               <p class="sub" style="margin-top:10px">• <b>Your Own #@Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
-              <p class="sub" style="margin-top:8px">• <b>YouTube or Direct Upload:</b> Share YouTube music videos or upload exclusive MP3/MP4 files.</p>
+              <p class="sub" style="margin-top:8px">• <b>YouTube or Direct Upload:</b> Share YouTube music videos or upload exclusive MP3/MP4 files (+25 WP).</p>
               <p class="sub" style="margin-top:8px">• <b>Subscriber VIP Vault:</b> Gate exclusive tracks and wall posts for subscribers.</p>
             </div>
           </aside>
         </div>`;
-    }
+      }
 
-    const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
-
-    return `
-      <div class="heading">
-        <div>
-          <div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div>
-          <h1>Artist Studio.</h1>
-          <p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p>
-        </div>
-        <div style="display:flex;gap:10px">
-          <button class="btn primary" data-openartist="${esc(artistHandle)}">View My Public Page ↗</button>
-          <button class="btn ghost" data-action="logout">Log Out</button>
-        </div>
-      </div>
+      const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
+      return `<div class="heading"><div><div class="eyebrow">VERIFIED CREATOR: @${esc(artistHandle)}</div><h1>Artist Studio.</h1><p class="sub">All uploads are permanently attached to your account (${esc(currentUser.email)}).</p></div><div style="display:flex;gap:10px"><button class="btn primary" data-openartist="${esc(artistHandle)}">View My Public Page ↗</button><button class="btn ghost" data-action="logout">Log Out</button></div></div>
       <div class="studio-layout">
         <form class="panel" id="upload">
-          <h2>Publish a new release</h2>
+          <h2>Publish a new release (+25 WP)</h2>
           <p class="sub">Publishing as <b>@${esc(artistHandle)}</b> — goes live immediately in the discovery feed.</p>
-          ${ALLOW_YOUTUBE ? `
-            <div class="auth-tabs">
-              <button type="button" class="auth-tab ${activeSource === 'youtube' ? 'active' : ''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
-              <button type="button" class="auth-tab ${activeSource === 'file' ? 'active' : ''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
-            </div>` : ''}
-          ${activeSource === 'youtube'
-            ? `<label class="field">YouTube Video or Song URL <input type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></label>
-               <p class="note" style="margin-top:6px">Instant publishing with zero storage limits—thumbnail is fetched automatically.</p>`
-            : `<label class="field">Music or video file (MP3, WAV, MP4 — max ${MAX_MEDIA_MB}MB) <input type="file" name="media" accept="audio/*,video/*" required></label>`}
+          ${ALLOW_YOUTUBE ? `<div class="auth-tabs">
+            <button type="button" class="auth-tab ${activeSource === 'youtube' ? 'active' : ''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
+            <button type="button" class="auth-tab ${activeSource === 'file' ? 'active' : ''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
+          </div>` : ''}
+          ${activeSource === 'youtube' ? `
+            <label class="field">YouTube Video or Song URL <input type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></label>
+            <p class="note" style="margin-top:6px">Instant publishing with zero storage limits—thumbnail is fetched automatically.</p>
+          ` : `
+            <label class="field">Music or video file (MP3, WAV, MP4 — max ${MAX_MEDIA_MB}MB) <input type="file" name="media" accept="audio/*,video/*" required></label>
+          `}
           <label class="field">Custom Cover Artwork (optional — max ${MAX_COVER_MB}MB) <input type="file" name="cover" accept="image/*"></label>
           <label class="field">Song title <input name="title" required maxlength="90" placeholder="Your track name"></label>
-          <label class="field">Artist name (locked to your account) <input name="artist" value="${esc(artistHandle)}" readonly style="background:#191e36;font-weight:750;color:#8fa2ff;border-color:#2c355e"></label>
+          <label class="field">Artist name (locked to your account) <input name="artist" value="${esc(artistHandle)}" readonly style="background:var(--sw-black-midnight);font-weight:750;color:var(--sw-blue)"></label>
           <label class="field">Genre <select name="genre">${genres.slice(1).map(g => `<option>${g}</option>`).join('')}</select></label>
           <label class="field">Caption <textarea name="description" maxlength="350" rows="3" placeholder="Tell the community about your music"></textarea></label>
           ${activeSource === 'file' ? `<label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;font-weight:700;color:#ffca57"><input type="checkbox" name="vip"> ★ Make this a Subscribers-Only VIP Drop</label>` : ''}
-          <label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;color:#c7cde8"><input type="checkbox" required> I own the rights to share and distribute this work.</label>
-          <button type="submit" class="btn primary" ${uploading ? 'disabled' : ''}>${uploading ? 'Publishing to Soundwave...' : 'Publish live ↗'}</button>
+          <label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;color:var(--sw-text-secondary)"><input type="checkbox" required> I own the rights to share and distribute this work.</label>
+          <button type="submit" class="btn primary" ${uploading ? 'disabled' : ''}>${uploading ? 'Publishing to SpotWav...' : 'Publish live ↗'}</button>
         </form>
         <aside>
           <div class="panel">
@@ -1947,782 +2191,655 @@
             </div>
             <button class="btn ghost" style="width:100%" data-openartist="${esc(artistHandle)}">Post on Your Fan Wall ↗</button>
           </div>
-          <div class="sponsor" style="margin-top:16px">
-            <div class="sponsor-tag">PROMOTE YOUR DROP</div>
-            <h3>Boost visibility.</h3>
-            <p>Reserve sponsored positions without changing organic chart votes.</p>
-            <button class="promo-link" data-action="promote">Explore placements ↗</button>
-          </div>
+          <div class="sponsor" style="margin-top:16px"><div class="sponsor-tag">PROMOTE YOUR DROP</div><h3>Boost visibility.</h3><p>Reserve sponsored positions without changing organic chart votes.</p><button class="promo-link" data-action="promote">Explore placements ↗</button></div>
         </aside>
       </div>
       ${myUploads.length ? `<section class="bottom-strip"><h2>Your published tracks</h2>${myUploads.map((x, n) => row(x, n)).join('')}</section>` : ''}`;
-  }
+    }
 
-  function searchPage() {
-    const results = all().filter(x => (x.t.artist + ' ' + x.t.title + ' ' + x.t.genre).toLowerCase().includes(query.toLowerCase()));
-    return `
-      <div class="heading">
-        <div>
-          <div class="eyebrow">FIND YOUR SOUND</div>
-          <h1>Search results</h1>
-          <p class="sub">${esc(query)}</p>
-        </div>
-      </div>
-      <div class="board">${results.map((x, n) => row(x, n)).join('') || '<div class="empty">No matches yet. Try an artist or genre.</div>'}</div>`;
-  }
+    function searchPage() {
+      const results = all().filter(x => (x.t.artist + ' ' + x.t.title + ' ' + x.t.genre).toLowerCase().includes(query.toLowerCase()));
+      return `<div class="heading"><div><div class="eyebrow">FIND YOUR SOUND</div><h1>Search results</h1><p class="sub">${esc(query)}</p></div></div><div class="board">${results.map((x, n) => row(x, n)).join('') || '<div class="empty">No matches yet. Try an artist or genre.</div>'}</div>`;
+    }
 
-  function modalHTML() {
-    const t = current();
-    if (!modal) return '';
-    let inner = '';
-    if (modal === 'auth') {
-      inner = `
-        <div class="eyebrow">SOUNDWAVE ACCOUNT</div>
-        <h2>${authMode === 'signup' ? 'Create Artist Account' : 'Welcome Back'}</h2>
-        <p>Sign in to upload music, own your @Handle page, and message your fans.</p>
-        <div class="auth-tabs">
-          <button type="button" class="auth-tab ${authMode === 'signup' ? 'active' : ''}" data-authmode="signup">Sign Up</button>
-          <button type="button" class="auth-tab ${authMode === 'login' ? 'active' : ''}" data-authmode="login">Log In</button>
-        </div>
+    function modalHTML() {
+      const t = current();
+      if (!modal) return '';
+      let inner = '';
+      if (modal === 'auth') {
+        inner = `<div class="eyebrow">SPOTWAV ACCOUNT</div><h2>${authMode === 'signup' ? 'Create Artist Account' : 'Welcome Back'}</h2><p>Sign in to upload music, own your #@Handle page, and track your WavePoints.</p>
+        <div class="auth-tabs"><button type="button" class="auth-tab ${authMode === 'signup' ? 'active' : ''}" data-authmode="signup">Sign Up</button><button type="button" class="auth-tab ${authMode === 'login' ? 'active' : ''}" data-authmode="login">Log In</button></div>
         <form id="auth-form">
           ${authMode === 'signup' ? `<label class="field">Artist / Username <input name="artist_name" required maxlength="50" placeholder="Your artist name"></label>` : ''}
           <label class="field">Email <input type="email" name="email" required placeholder="you@example.com"></label>
           <label class="field">Password <input type="password" name="password" required minlength="6" placeholder="Min 6 characters"></label>
           <button type="submit" class="btn primary" style="margin-top:16px;width:100%" ${authLoading ? 'disabled' : ''}>${authLoading ? 'Please wait...' : (authMode === 'signup' ? 'Create Account ↗' : 'Log In ↗')}</button>
         </form>`;
-    } else if (modal === 'player' && t) {
-      const r = getTrackRating(t);
-      const locked = isLocked(t);
-      inner = `
-        ${t.ytId && !locked
-          ? `<div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;margin:12px 0"><iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`
-          : `<div style="max-width:190px;margin:12px auto">${cover(t)}</div>`}
-        <h2>${esc(t.title)} ${t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}</h2>
-        <p><button data-openartist="${esc(t.artist)}" style="font-weight:750;color:#8fa2ff">@${esc(t.artist)} ↗</button> · ★ ${r.avg} (${r.count} ratings)</p>
-        <div style="display:flex;justify-content:center;gap:10px;margin:16px 0">
-          ${locked
-            ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to Unlock</button>`
-            : (t.ytId ? '' : `<button class="btn primary" data-action="play">${playing ? 'Pause' : 'Play'} track</button>`)}
-          <button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id] || '1-5'})</button>
-          <button class="btn ghost" data-action="save">${has('saved', t.id) ? 'Saved ✓' : 'Save'}</button>
-        </div>`;
-    } else if (modal === 'rate' && t) {
-      const r = getTrackRating(t);
-      const curStars = state.ratings[t.id] || 0;
-      inner = `
-        <div class="eyebrow">COMMUNITY REVIEW</div>
-        <h2>Rate "${esc(t.title)}"</h2>
-        <p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p>
-        <div class="star-picker">
-          ${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${n <= curStars ? 'on' : ''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}
-        </div>
-        <p class="note" style="text-align:center">Your 1–5 star rating updates the live community score for all listeners.</p>`;
-    } else if (modal === 'comments' && t) {
-      inner = `
-        <h2>Community conversation</h2>
-        ${(state.comments[t.id] || []).map(v => `<div class="track-row">${esc(v)}</div>`).join('') || '<p>Be the first to drop feedback on this track.</p>'}
-        <form id="comment">
-          <label class="field">Leave feedback <input name="comment" maxlength="280" required placeholder="What do you think of the mix/vibe?"></label>
-          <button class="btn primary" style="margin-top:13px">Post comment</button>
-        </form>`;
-    } else if (modal === 'share' && t) {
-      const r = getTrackRating(t);
-      inner = `
-        <h2>Share this song</h2>
-        <p>${esc(t.artist)} — ${esc(t.title)} (★ ${r.avg})</p>
-        <button class="btn primary" data-action="copy">Copy song link & details</button>`;
-    } else if (modal === 'promote') {
-      inner = `
-        <div class="eyebrow">SOUNDWAVE FOR ARTISTS & BRANDS</div>
-        <h2>Sponsored music placements</h2>
-        <p>Place a release in a clearly labeled recommendation slot next to the discovery experience.</p>
-        <div class="panel" style="background:#171a2b;margin:14px 0">
-          <b>Available advertising concepts</b>
-          <p>Sponsored spotlight · Featured reel placement · Genre sponsorship</p>
-          <p class="note">Organic ratings and chart votes can never be bought.</p>
-        </div>
-        <button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
-    } else {
-      const artistHandle = getArtistDisplay() || 'Listener';
-      inner = `
-        <h2>@${esc(artistHandle)}</h2>
-        <p>${esc(currentUser?.email || '')}</p>
-        <div class="statgrid">
-          <div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div>
-          <div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div>
-          <div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          ${currentUser ? `<button class="btn primary" data-openartist="${esc(artistHandle)}">My Artist Page</button>` : ''}
-          <button class="btn ghost" data-nav="Studio">Upload</button>
-          ${currentUser ? `<button class="btn ghost" data-action="logout">Log Out</button>` : ''}
-        </div>`;
+      } else if (modal === 'player' && t) {
+        const r = getTrackRating(t), locked = isLocked(t);
+        inner = `${t.ytId && !locked ? `<div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;margin:12px 0"><iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>` : `<div style="max-width:190px;margin:12px auto">${cover(t)}</div>`}<h2>${esc(t.title)} ${t.vip ? '<span class="vip-badge">★ VIP</span>' : ''}</h2><p><button data-openartist="${esc(t.artist)}" style="font-weight:750;color:var(--sw-blue)">@${esc(t.artist)} ↗</button> · ★ ${r.avg} (${r.count} ratings)</p><div style="display:flex;justify-content:center;gap:10px;margin:16px 0">${locked ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to Unlock</button>` : (t.ytId ? '' : `<button class="btn primary" data-action="play">${playing ? 'Pause' : 'Play'} track</button>`)}<button class="btn ghost" data-action="rate">★ Rate (${state.ratings[t.id] || '1-5'})</button><button class="btn ghost" data-action="save">${has('saved', t.id) ? 'Saved ✓' : 'Save'}</button></div>`;
+      } else if (modal === 'rate' && t) {
+        const r = getTrackRating(t), curStars = state.ratings[t.id] || 0;
+        inner = `<div class="eyebrow">COMMUNITY REVIEW</div><h2>Rate "${esc(t.title)}"</h2><p>by @${esc(t.artist)} · Current Score: ★ ${r.avg} (${r.count} ratings)</p><div class="star-picker">${[1, 2, 3, 4, 5].map(n => `<button class="star-btn ${n <= curStars ? 'on' : ''}" data-setrate="${n}" aria-label="Rate ${n} stars">★</button>`).join('')}</div><p class="note" style="text-align:center">Your 1–5 star rating updates the live community score for all listeners.</p>`;
+      } else if (modal === 'comments' && t) {
+        inner = `<h2>Community conversation (+3 WP)</h2>${(state.comments[t.id] || []).map(v => `<div class="track-row">${esc(v)}</div>`).join('') || '<p>Be the first to drop feedback on this track.</p>'}<form id="comment"><label class="field">Leave feedback <input name="comment" maxlength="280" required placeholder="What do you think of the mix/vibe?"></label><button class="btn primary" style="margin-top:13px">Post comment</button></form>`;
+      } else if (modal === 'share' && t) {
+        const r = getTrackRating(t);
+        inner = `<h2>Share this song (+10 WP)</h2><p>${esc(t.artist)} — ${esc(t.title)} (★ ${r.avg})</p><button class="btn primary" data-action="copy">Copy SpotWav link & details</button>`;
+      } else if (modal === 'promote') {
+        inner = `<div class="eyebrow">SPOTWAV FOR ARTISTS & BRANDS</div><h2>Sponsored music placements</h2><p>Place a release in a clearly labeled recommendation slot next to the discovery experience.</p><div class="panel" style="background:var(--sw-black-charcoal);margin:14px 0"><b>Available advertising concepts</b><p>Sponsored spotlight · Featured reel placement · Genre sponsorship</p><p class="note">Organic ratings and chart votes can never be bought.</p></div><button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
+      } else {
+        const artistHandle = getArtistDisplay();
+        const lvl = getLevelInfo(state.wpLifetime);
+        inner = `<h2>@${esc(artistHandle)}</h2><p>${esc(currentUser?.email || '')} · <span class="level-badge">${lvl.cur.icon} ${lvl.cur.name}</span></p><div class="statgrid"><div class="stat"><strong>${state.wpBalance.toLocaleString()}</strong><span>WavePoints</span></div><div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div><div class="stat"><strong>${state.votes.length}</strong><span>Upvotes</span></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" data-openartist="${esc(artistHandle)}">My Artist Page</button><button class="btn ghost" data-nav="Rewards">My Rewards</button><button class="btn ghost" data-nav="Studio">Upload</button><button class="btn ghost" data-action="logout">Log Out</button></div>`;
+      }
+      return `<div class="modal-layer" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-label="SpotWav dialog"><button class="close" data-action="close" aria-label="Close dialog">×</button>${inner}</div></div>`;
     }
-    return `
-      <div class="modal-layer" role="presentation">
-        <div class="modal" role="dialog" aria-modal="true" aria-label="Soundwave dialog">
-          <button class="close" data-action="close" aria-label="Close dialog">×</button>
-          ${inner}
-        </div>
-      </div>`;
-  }
 
-  let ttObserver = null;
-  function setupTikTokFeed() {
-    const feedEl = $('#tt-feed');
-    if (!feedEl) return;
-    if (ttObserver) ttObserver.disconnect();
-    const targetSlide = feedEl.querySelector(`.tt-slide[data-slideidx="${currentIndex}"]`);
-    if (targetSlide) targetSlide.scrollIntoView({ behavior: 'instant' });
+    let ttObserver = null;
+    function setupTikTokFeed() {
+      const feedEl = $('#tt-feed');
+      if (!feedEl) return;
+      if (ttObserver) ttObserver.disconnect();
+      const targetSlide = feedEl.querySelector(`.tt-slide[data-slideidx="${currentIndex}"]`);
+      if (targetSlide) targetSlide.scrollIntoView({ behavior: 'instant' });
 
-    ttObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
-          const idx = Number(entry.target.dataset.slideidx);
-          if (idx !== currentIndex) {
-            currentIndex = idx;
-            progress = 0;
-            curTime = 0;
-            durTime = 0;
-            if (userInteracted) {
-              startPlaybackForCurrent();
-            } else {
-              audio.pause();
-              playing = false;
-            }
-            document.querySelectorAll('.tt-slide').forEach((slideEl) => {
-              const sIdx = Number(slideEl.dataset.slideidx);
-              const isAct = sIdx === currentIndex && playing;
-              slideEl.classList.toggle('is-playing', isAct);
-              const badgeWrap = slideEl.querySelector('.tt-center-play');
-              if (badgeWrap) {
-                const locked = isLocked(tracks[sIdx]);
-                badgeWrap.innerHTML = isAct ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`;
+      ttObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
+            const idx = Number(entry.target.dataset.slideidx);
+            if (idx !== currentIndex) {
+              currentIndex = idx;
+              progress = 0;
+              curTime = 0;
+              durTime = 0;
+              if (userInteracted) {
+                startPlaybackForCurrent();
+              } else {
+                audio.pause();
+                playing = false;
               }
-            });
-            const t = current();
-            const pTitle = document.querySelector('.player-title');
-            if (pTitle && t) {
-              const r = getTrackRating(t);
-              pTitle.dataset.openartist = t.artist;
-              pTitle.innerHTML = `<div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div>`;
+              document.querySelectorAll('.tt-center-play').forEach(el => {
+                const sIdx = Number(el.closest('.tt-slide').dataset.slideidx);
+                const locked = isLocked(tracks[sIdx]);
+                el.innerHTML = (sIdx === currentIndex && playing) ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`;
+              });
             }
-            const pPlay = document.querySelector('.play-circle');
-            if (pPlay) pPlay.textContent = playing ? 'Ⅱ' : '▶';
           }
-        }
-      });
-    }, { root: feedEl, threshold: 0.65 });
+        });
+      }, { root: feedEl, threshold: 0.65 });
+      feedEl.querySelectorAll('.tt-slide').forEach(s => ttObserver.observe(s));
+    }
 
-    feedEl.querySelectorAll('.tt-slide').forEach((s) => ttObserver.observe(s));
-  }
-
-  function render() {
-    document.body.classList.toggle('is-reels', page === 'Feed');
-    const t = current();
-    const r = t ? getTrackRating(t) : { avg: '5.0', count: 0 };
-    const artistHandle = getArtistDisplay();
-    const initials = artistHandle ? artistHandle.slice(0, 2).toUpperCase() : 'SW';
-
-    $('#app').innerHTML = `
-      <div class="app">
+    function render() {
+      document.body.classList.toggle('is-reels', page === 'Feed');
+      let t = current(), r = t ? getTrackRating(t) : { avg: '5.0', count: 0 };
+      const artistHandle = getArtistDisplay();
+      const initials = artistHandle ? artistHandle.slice(0, 2).toUpperCase() : 'SW';
+      $('#app').innerHTML = `<div class="app">
         <aside class="sidebar">
-          <div class="brand" data-nav="Home"><span class="brand-mark">∿</span>soundwave<span class="brand-dot">.</span></div>
+          <div class="brand" data-nav="Home"><span class="brand-mark">∿</span>spotwav<span class="brand-dot">.</span></div>
           <div class="sidebar-label">MUSIC</div>
-          ${sections.map(([name, glyph, label]) => `
-            <button class="nav ${page === name ? 'active' : ''}" data-nav="${name}">
-              <span class="glyph">${glyph}</span>${label}
-            </button>`).join('')}
-          ${currentUser ? `
-            <button class="nav ${page === 'Artist' && selectedArtist === artistHandle ? 'active' : ''}" data-openartist="${esc(artistHandle)}">
-              <span class="glyph">@</span>My Artist Page
-            </button>` : ''}
+          ${sections.map(([name, glyph, label]) => `<button class="nav ${page === name ? 'active' : ''}" data-nav="${name}"><span class="glyph">${glyph}</span>${label}</button>`).join('')}
+          ${currentUser ? `<button class="nav ${page === 'Artist' && selectedArtist === artistHandle ? 'active' : ''}" data-openartist="${esc(artistHandle)}"><span class="glyph">@</span>My Artist Page</button>` : ''}
           <div class="sidebar-label">YOUR COMMUNITY</div>
-          <button class="nav" data-nav="Charts" style="color:#ff6b64"><span class="glyph">♨</span>Trending songs</button>
-          <button class="nav" data-openartist="LONEK"><span class="glyph">✦</span>Featured: @LONEK</button>
+          <button class="nav" data-nav="Charts" style="color:var(--sw-hot)"><span class="glyph">♨</span>Trending songs</button>
+          <button class="nav" data-nav="Rewards"><span class="glyph">◈</span>${state.wpBalance.toLocaleString()} WavePoints</button>
           <div class="side-bottom">
             <b>${currentUser ? `@${esc(artistHandle)}` : 'Your music belongs here.'}</b>
             <p>${currentUser ? 'Manage your artist page, post to fans & upload.' : 'Create a free account to claim your artist page.'}</p>
-            <button class="btn primary" data-nav="Studio">${currentUser ? 'Upload music ↗' : 'Join & Upload ↗'}</button>
+            <button class="btn primary" style="width:100%" data-nav="Studio">${currentUser ? 'Upload music ↗' : 'Join & Upload ↗'}</button>
           </div>
         </aside>
-
         <main class="main">
           <header class="topbar">
             <div class="topbrand" data-nav="Home"><span class="brand-mark">∿</span>sw<span class="brand-dot">.</span></div>
-            <div class="search">⌕ <input id="search" type="search" placeholder="Search music..." value="${esc(query)}" aria-label="Search music"></div>
+            <div class="search">⌕ <input id="search" type="search" placeholder="Search..." value="${esc(query)}" aria-label="Search music"></div>
             <div class="topactions">
-              <button class="btn primary top-upload" data-nav="Studio">＋ Upload music</button>
-              ${currentUser
-                ? `<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>`
-                : `<button class="btn ghost" data-action="openauth">Log In / Sign Up</button>`}
+              <button class="wp-pill" data-nav="Rewards" title="WavePoints Wallet"><span class="wp-gem">W</span>${state.wpBalance.toLocaleString()} WP</button>
+              <button class="btn primary top-upload" data-nav="Studio">＋ Upload</button>
+              ${currentUser ? `<button class="avatar" data-action="profile" title="@${esc(artistHandle)}">${esc(initials)}</button>` : `<button class="btn ghost" data-action="openauth">Log In</button>`}
             </div>
           </header>
-
-          <div class="content">
-            ${page === 'Home' ? home()
-              : page === 'Feed' ? feed()
-              : page === 'Charts' ? charts()
-              : page === 'Studio' ? studio()
-              : page === 'Library' ? library()
-              : page === 'Artist' ? artistPage()
-              : searchPage()}
-            <div class="footer-note">SOUNDWAVE · Dark Studio Community Music Network</div>
-          </div>
+          <div class="content">${page === 'Home' ? home() : page === 'Feed' ? feed() : page === 'Charts' ? charts() : page === 'Rewards' ? rewardsPage() : page === 'Studio' ? studio() : page === 'Library' ? library() : page === 'Artist' ? artistPage() : searchPage()}<div class="footer-note">SPOTWAV · Community Music Social Network · spotwav.space</div></div>
         </main>
       </div>
+      ${t ? `<div class="player"><button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button><div class="player-title" data-openartist="${esc(t.artist)}"><div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div><div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div></div><button aria-label="Rate song" data-action="rate" style="font-size:18px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id] || ''}</button><button aria-label="Save song" data-action="save" style="font-size:22px;color:${has('saved', t.id) ? 'var(--sw-pink)' : 'var(--sw-text-subtle)'}">${has('saved', t.id) ? '♥' : '♡'}</button><button class="skip" aria-label="Previous track" data-action="prev">⏮</button><button class="play-circle" aria-label="Play or pause" data-action="play">${playing ? 'Ⅱ' : '▶'}</button><button class="skip" aria-label="Next track" data-action="next">⏭</button><div class="progress-wrap"><div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div><span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime || 135)}</span></div></div>` : ''}
+      <nav class="mobile-nav">${sections.map(([name, glyph, label]) => `<button class="${page === name ? 'active' : ''}" data-nav="${name}"><span>${glyph}</span>${label}</button>`).join('')}</nav>${modalHTML()}`;
 
-      ${t ? `
-        <div class="player">
-          <button class="track-cover" style="border-radius:10px;flex-shrink:0" data-action="player" aria-label="Open player">${cover(t)}</button>
-          <div class="player-title" data-openartist="${esc(t.artist)}">
-            <div class="track-name">${esc(t.title)} ${t.vip ? '<span class="vip-badge">VIP</span>' : ''}</div>
-            <div class="track-small">@${esc(t.artist)} · ★ ${r.avg}</div>
-          </div>
-          <button aria-label="Rate song" data-action="rate" style="font-size:17px;color:var(--gold);font-weight:800">★ ${state.ratings[t.id] || ''}</button>
-          <button aria-label="Save song" data-action="save" style="font-size:21px;color:${has('saved', t.id) ? '#ec6ec4' : '#7e85a3'}">${has('saved', t.id) ? '♥' : '♡'}</button>
-          <button class="skip" aria-label="Previous track" data-action="prev">⏮</button>
-          <button class="play-circle" aria-label="Play or pause" data-action="play">${playing ? 'Ⅱ' : '▶'}</button>
-          <button class="skip" aria-label="Next track" data-action="next">⏭</button>
-          <div class="progress-wrap">
-            <div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div>
-            <span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime || 135)}</span>
-          </div>
-        </div>` : ''}
-
-      <nav class="mobile-nav">
-        ${sections.map(([name, glyph, label]) => `
-          <button class="${page === name ? 'active' : ''}" data-nav="${name}">
-            <span>${glyph}</span>${label}
-          </button>`).join('')}
-      </nav>
-      ${modalHTML()}
-    `;
-
-    if (page === 'Feed') setupTikTokFeed();
-
-    const el = $('#reel');
-    if (el) {
-      let y = 0;
-      let last = 0;
-      el.addEventListener('touchstart', e => { y = e.touches[0].clientY; }, { passive: true });
-      el.addEventListener('touchend', e => {
-        const dy = y - e.changedTouches[0].clientY;
-        if (Math.abs(dy) > 45) move(dy > 0 ? 1 : -1);
-      }, { passive: true });
-      el.addEventListener('wheel', e => {
-        e.preventDefault();
-        if (Math.abs(e.deltaY) > 17 && Date.now() - last > 450) {
-          last = Date.now();
-          move(e.deltaY > 0 ? 1 : -1);
-        }
-      }, { passive: false });
+      let el = $('#reel');
+      if (el) {
+        let y = 0, last = 0;
+        el.addEventListener('touchstart', e => { y = e.touches[0].clientY; }, { passive: true });
+        el.addEventListener('touchend', e => { let dy = y - e.changedTouches[0].clientY; if (Math.abs(dy) > 45) move(dy > 0 ? 1 : -1); }, { passive: true });
+        el.addEventListener('wheel', e => { e.preventDefault(); if (Math.abs(e.deltaY) > 17 && Date.now() - last > 500) { last = Date.now(); move(e.deltaY > 0 ? 1 : -1); } }, { passive: false });
+      }
+      if (page === 'Feed') setupTikTokFeed();
     }
-  }
 
-  function toast(s) {
-    const d = document.createElement('div');
-    d.className = 'toast';
-    d.textContent = s;
-    document.body.append(d);
-    setTimeout(() => d.remove(), 2500);
-  }
+    function toast(s) {
+      let d = document.createElement('div');
+      d.className = 'toast';
+      d.textContent = s;
+      document.body.append(d);
+      setTimeout(() => d.remove(), 2600);
+    }
 
-  function choose(i) {
-    audio.pause();
-    playing = false;
-    progress = 0;
-    curTime = 0;
-    durTime = 0;
-    currentIndex = i;
-    if (page === 'Feed') {
-      const feedEl = $('#tt-feed');
-      const targetSlide = feedEl?.querySelector(`.tt-slide[data-slideidx="${i}"]`);
-      if (targetSlide) {
-        targetSlide.scrollIntoView({ behavior: 'smooth' });
+    function choose(i) {
+      audio.pause();
+      playing = false;
+      progress = 0;
+      curTime = 0;
+      durTime = 0;
+      currentIndex = i;
+      render();
+    }
+
+    function pool() {
+      return all().filter(x => tab === 'For You' || (tab === 'Following' ? has('follows', x.t.artist) : x.t.votes < 2000));
+    }
+
+    function move(d) {
+      let p = (page === 'Feed' ? pool() : all());
+      if (!p.length) return toast('No matching songs yet');
+      let at = p.findIndex(x => x.i === currentIndex);
+      choose(p[(at + d + p.length) % p.length].i);
+    }
+
+    function startPlaybackForCurrent() {
+      const t = current();
+      if (!t) return;
+      document.querySelectorAll('.tt-vid').forEach(v => { v.pause(); v.muted = true; });
+      if (isLocked(t)) { audio.pause(); playing = false; return; }
+      playing = true;
+
+      clearTimeout(listenRewardTimer);
+      listenRewardTimer = setTimeout(() => {
+        if (playing && current()?.id === t.id) {
+          if (!has('listenedIds', t.id)) flip('listenedIds', t.id);
+          awardWavePoints(`listen_${t.id}`, 2, `Listened to "${t.title}"`);
+        }
+      }, 6000);
+
+      if (t.ytId) { audio.pause(); return; }
+      const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+      if (t.video && vid) {
+        audio.pause();
+        vid.muted = false;
+        vid.play().catch(() => { playing = false; });
         return;
       }
+      if (t.url) {
+        if (audio.src !== t.url) audio.src = t.url;
+        audio.play().catch(() => { playing = false; });
+      }
     }
-    render();
-  }
 
-  function pool() {
-    return all().filter(x => tab === 'For You' || has('follows', x.t.artist));
-  }
+    function togglePlay() {
+      const t = current();
+      if (!t) return;
+      userInteracted = true;
+      if (isLocked(t)) {
+        openArtistPage(t.artist);
+        return toast(`Subscribe to @${t.artist} to unlock this VIP track`);
+      }
+      if (playing) {
+        playing = false;
+        clearTimeout(listenRewardTimer);
+        audio.pause();
+        document.querySelectorAll('video').forEach(v => v.pause());
+        render();
+      } else {
+        startPlaybackForCurrent();
+        render();
+      }
+    }
 
-  function move(d) {
-    const p = page === 'Feed' ? pool() : all();
-    if (!p.length) return toast('Subscribe to an artist first to populate this feed');
-    const at = p.findIndex(x => x.i === currentIndex);
-    choose(p[(at + d + p.length) % p.length].i);
-  }
+    async function syncMockEngagement(trackObj, deltaVotes, deltaLikes, deltaRatingSum, deltaRatingCount) {
+      if (!sb) return;
+      const { data: existing } = await sb.from('engagement').select('*').eq('item_id', trackObj.id).maybeSingle();
+      const payload = {
+        item_id: trackObj.id,
+        votes: Math.max(0, (existing?.votes || 0) + deltaVotes),
+        likes: Math.max(0, (existing?.likes || 0) + deltaLikes),
+        rating_sum: Math.max(0, (existing?.rating_sum || 0) + deltaRatingSum),
+        rating_count: Math.max(0, (existing?.rating_count || 0) + deltaRatingCount)
+      };
+      await sb.from('engagement').upsert(payload);
+    }
 
-  function startPlaybackForCurrent() {
-    const t = current();
-    if (!t) return;
-    document.querySelectorAll('.tt-vid').forEach(v => { v.pause(); v.muted = true; });
-    if (isLocked(t)) {
-      audio.pause();
-      playing = false;
-      return;
-    }
-    playing = true;
-    if (t.ytId) {
-      audio.pause();
-      return;
-    }
-    const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
-    if (t.video && vid) {
-      audio.pause();
-      vid.muted = false;
-      vid.play().catch(() => { playing = false; });
-      return;
-    }
-    if (t.url) {
-      if (audio.src !== t.url) audio.src = t.url;
-      audio.play().catch(() => { playing = false; });
-    }
-  }
-
-  function togglePlay() {
-    const t = current();
-    if (!t) return;
-    userInteracted = true;
-    if (isLocked(t)) {
-      openArtistPage(t.artist);
-      return toast(`Subscribe to @${t.artist} to unlock this VIP track`);
-    }
-    if (playing) {
-      playing = false;
-      audio.pause();
-      document.querySelectorAll('video').forEach(v => v.pause());
-      render();
-    } else {
-      startPlaybackForCurrent();
-      render();
-    }
-  }
-
-  async function syncMockEngagement(trackObj, deltaVotes, deltaLikes, deltaRatingSum, deltaRatingCount) {
-    if (!sb) return;
-    const { data: existing } = await sb.from('engagement').select('*').eq('item_id', trackObj.id).maybeSingle();
-    const payload = {
-      item_id: trackObj.id,
-      votes: Math.max(0, (existing?.votes || 0) + deltaVotes),
-      likes: Math.max(0, (existing?.likes || 0) + deltaLikes),
-      rating_sum: Math.max(0, (existing?.rating_sum || 0) + deltaRatingSum),
-      rating_count: Math.max(0, (existing?.rating_count || 0) + deltaRatingCount)
-    };
-    await sb.from('engagement').upsert(payload);
-  }
-
-  function toggleSubscribeArtist(artistName) {
-    const wasSubbed = has('follows', artistName);
-    flip('follows', artistName);
-    if (sb) {
+    function toggleSubscribeArtist(artistName) {
+      const wasSubbed = has('follows', artistName);
+      flip('follows', artistName);
+      if (sb) {
+        if (!wasSubbed) {
+          liveSubCounts[artistName] = (liveSubCounts[artistName] || 0) + 1;
+          sb.from('subscriptions').upsert({ artist: artistName, device_id: state.deviceId }).then();
+        } else {
+          liveSubCounts[artistName] = Math.max(0, (liveSubCounts[artistName] || 1) - 1);
+          sb.from('subscriptions').delete().match({ artist: artistName, device_id: state.deviceId }).then();
+        }
+      }
       if (!wasSubbed) {
-        liveSubCounts[artistName] = (liveSubCounts[artistName] || 0) + 1;
-        sb.from('subscriptions').upsert({ artist: artistName, device_id: state.deviceId }).then();
+        awardWavePoints(`sub_${artistName}`, 5, `Subscribed to @${artistName}`);
       } else {
-        liveSubCounts[artistName] = Math.max(0, (liveSubCounts[artistName] || 1) - 1);
-        sb.from('subscriptions').delete().match({ artist: artistName, device_id: state.deviceId }).then();
+        toast(`Unsubscribed from @${artistName}`);
       }
     }
-    toast(has('follows', artistName) ? `Subscribed to @${artistName}! VIP access unlocked` : `Unsubscribed from @${artistName}`);
-  }
 
-  document.addEventListener('click', async (e) => {
-    const scrub = e.target.closest('#scrub');
-    if (scrub) {
-      const rect = scrub.getBoundingClientRect();
-      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      progress = pct * 100;
-      const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
-      if (current()?.video && vid && vid.duration) {
-        vid.currentTime = pct * vid.duration;
-        curTime = vid.currentTime;
-      } else if (audio.duration) {
-        audio.currentTime = pct * audio.duration;
-        curTime = audio.currentTime;
+    document.addEventListener('click', async e => {
+      const scrub = e.target.closest('#scrub');
+      if (scrub) {
+        const rect = scrub.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        progress = pct * 100;
+        const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+        if (current()?.video && vid && vid.duration) { vid.currentTime = pct * vid.duration; curTime = vid.currentTime; }
+        else if (audio.duration) { audio.currentTime = pct * audio.duration; curTime = audio.currentTime; }
+        document.querySelectorAll('.progress i,.tt-progress i').forEach(el => el.style.width = progress + '%');
+        return;
       }
-      document.querySelectorAll('.progress i, .tt-progress i').forEach(el => el.style.width = progress + '%');
-      return;
-    }
-
-    if (e.target.closest('[data-action="tapplay"]')) {
-      togglePlay();
-      return;
-    }
-
-    const b = e.target.closest('button,[data-track],[data-openartist],[data-subartist],[data-nav]');
-    if (!b) return;
-    const d = b.dataset;
-    const a = d.action;
-    const t = current();
-
-    if (d.upsrc) { uploadSource = d.upsrc; render(); return; }
-    if (d.openartist) { openArtistPage(d.openartist); return; }
-    if (d.subartist) { toggleSubscribeArtist(d.subartist); render(); return; }
-    if (d.copyartist) {
-      const url = `https://soundwaves.space/#@${encodeURIComponent(d.copyartist)}`;
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = url;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        toast(`Artist page link copied: #@${d.copyartist}`);
-      } catch {
-        toast(url);
+      if (e.target.closest('[data-action="tapplay"]')) {
+        togglePlay();
+        return;
       }
-      return;
-    }
-    if (a === 'togglebio') { editingBio = !editingBio; render(); return; }
-    if (d.authmode) { authMode = d.authmode; render(); return; }
-    if (a === 'openauth') { modal = 'auth'; render(); return; }
-    if (a === 'logout') {
-      if (sb) await sb.auth.signOut();
-      currentUser = null;
-      userArtistName = '';
-      modal = '';
-      render();
-      toast('Logged out');
-      return;
-    }
-    if (d.deltrack) {
-      if (sb) await sb.from('tracks').delete().eq('id', d.deltrack);
-      await syncFromSupabase();
-      toast('Release deleted');
-      return;
-    }
+      let b = e.target.closest('button,[data-track],[data-openartist],[data-subartist],[data-nav]');
+      if (!b) return;
+      let d = b.dataset, a = d.action, t = current();
 
-    if (d.nav) {
-      page = d.nav;
-      modal = '';
-      genre = 'All';
-      if (page === 'Feed') tab = 'For You';
-      try { history.replaceState(null, '', location.pathname); } catch {}
-      render();
-      scrollTo(0, 0);
-      return;
-    }
-    if (d.genre) { genre = d.genre; render(); return; }
-    if (d.tab) {
-      tab = d.tab;
-      page = 'Feed';
-      modal = '';
-      const p = pool();
-      if (p.length) currentIndex = p[0].i;
-      else { tab = 'For You'; toast('Subscribe to an artist to populate this feed'); }
-      render();
-      return;
-    }
-    if (d.track !== undefined) { choose(Number(d.track)); modal = 'player'; render(); return; }
-    if (d.rate !== undefined) { currentIndex = Number(d.rate); modal = 'rate'; render(); return; }
-    if (d.setrate !== undefined) {
-      const stars = Number(d.setrate);
-      const prev = state.ratings[t.id] || 0;
-      const deltaSum = stars - prev;
-      const deltaCount = prev ? 0 : 1;
-      state.ratings[t.id] = stars;
-      saveState();
-      modal = '';
-      t.ratingSum = (t.ratingSum || 5) + deltaSum;
-      t.ratingCount = (t.ratingCount || 1) + deltaCount;
-      if (!t.isMock) {
-        if (sb) sb.from('tracks').update({ rating_sum: t.ratingSum, rating_count: t.ratingCount }).eq('id', t.id).then();
-      } else {
-        syncMockEngagement(t, 0, 0, deltaSum, deltaCount);
+      if (d.ttstep) {
+        const feedEl = $('#tt-feed');
+        if (feedEl) feedEl.scrollBy({ top: Number(d.ttstep) * feedEl.clientHeight, behavior: 'smooth' });
+        return;
       }
-      render();
-      toast(`Rated "${t.title}" ${stars} ★`);
-      return;
-    }
-    if (d.like !== undefined) {
-      const target = tracks[Number(d.like)];
-      const wasLiked = has('likes', target.id);
-      const delta = wasLiked ? -1 : 1;
-      flip('likes', target.id);
-      target.likes = Math.max(0, (target.likes || 0) + delta);
-      if (!target.isMock) {
-        if (sb) sb.from('tracks').update({ likes: target.likes }).eq('id', target.id).then();
-      } else {
-        syncMockEngagement(target, 0, delta, 0, 0);
+      if (d.claimch) {
+        const ch = getDailyChallenges().find(c => c.id === d.claimch);
+        if (ch && ch.progress >= ch.goal) {
+          const key = ch.id + '_' + state.wpDate;
+          if (!has('claimedChallenges', key)) {
+            flip('claimedChallenges', key);
+            await awardWavePoints(`challenge_${key}`, ch.reward, `Challenge: ${ch.title}`);
+            render();
+          }
+        }
+        return;
       }
-      render();
-      return;
-    }
-    if (d.vote !== undefined) {
-      const target = tracks[Number(d.vote)];
-      const wasVoted = has('votes', target.id);
-      const delta = wasVoted ? -1 : 1;
-      flip('votes', target.id);
-      target.votes = Math.max(0, (target.votes || 0) + delta);
-      if (!target.isMock) {
-        if (sb) sb.from('tracks').update({ votes: target.votes }).eq('id', target.id).then();
-      } else {
-        syncMockEngagement(target, delta, 0, 0, 0);
+      if (d.redeem) {
+        const item = REWARD_CATALOG.find(x => x.id === d.redeem);
+        if (item && !has('redeemed', item.id)) {
+          if (state.wpBalance < item.cost) return toast(`Need ${item.cost.toLocaleString()} WP to redeem`);
+          state.wpBalance -= item.cost;
+          flip('redeemed', item.id);
+          state.wpLedger.unshift({ id: 'red_' + item.id, label: `Redeemed: ${item.title}`, delta: -item.cost, time: new Date().toISOString() });
+          saveState();
+          render();
+          toast(`Unlocked "${item.title}"!`);
+        }
+        return;
       }
-      render();
-      toast('Community chart vote updated');
-      return;
-    }
-    if (a === 'prev' || a === 'next') { move(a === 'next' ? 1 : -1); return; }
-    if (a === 'play') { togglePlay(); return; }
-    if (a === 'save') { flip('saved', t.id); toast(has('saved', t.id) ? 'Added to My Music' : 'Removed from My Music'); }
-    if (['player', 'comments', 'share', 'profile', 'promote', 'rate'].includes(a)) {
-      modal = a;
-      if (a === 'comments' && t) loadTrackComments(t.id);
-    }
-    if (a === 'close') modal = '';
-    if (a === 'copy') {
-      const v = `${t.artist} — ${t.title} on Soundwave · https://soundwaves.space/#@${encodeURIComponent(t.artist)}`;
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = v;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        toast('Song link copied');
-      } catch {
-        toast(v);
-      }
-      return;
-    }
-    render();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.target.id === 'search' && e.key === 'Enter') {
-      query = e.target.value;
-      page = 'Search';
-      render();
-    } else if ((page === 'Home' || page === 'Feed') && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) && !modal) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
-      if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
-    }
-    if (e.key === 'Escape' && modal) { modal = ''; render(); }
-  });
-
-  document.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-
-    if (e.target.id === 'bio-form') {
-      if (!currentUser || !sb) return;
-      const bio = String(data.get('bio') || '').trim();
-      const social_link = String(data.get('social_link') || '').trim();
-      const handle = getArtistDisplay();
-      await sb.from('profiles').upsert({ id: currentUser.id, artist_name: handle, bio, social_link });
-      artistProfiles[handle] = { id: currentUser.id, artist_name: handle, bio, social_link };
-      editingBio = false;
-      render();
-      toast('Artist profile updated!');
-      return;
-    }
-
-    if (e.target.id === 'wall-post-form') {
-      if (!currentUser || !sb) return;
-      const body = String(data.get('body') || '').trim();
-      const vip_only = Boolean(data.get('vip_only'));
-      const handle = getArtistDisplay();
-      if (!body) return;
-      const { error } = await sb.from('artist_posts').insert({ user_id: currentUser.id, artist: handle, body, vip_only });
-      if (!error) {
-        e.target.reset();
-        await openArtistPage(handle);
-        toast('Posted to your community wall!');
-      } else {
-        toast(error.message);
-      }
-      return;
-    }
-
-    if (e.target.classList.contains('wall-reply-form')) {
-      const pid = e.target.dataset.postid;
-      const replyTxt = String(data.get('reply') || '').trim();
-      if (replyTxt && pid) {
-        const prefix = userArtistName ? `@${userArtistName}: ` : 'Fan: ';
-        const fullReply = prefix + replyTxt;
-        const key = 'post_' + pid;
-        (state.comments[key] ??= []).push(fullReply);
+      if (d.setplan) {
+        state.plan = d.setplan;
+        if (d.setplan === 'Plus') {
+          await awardWavePoints(`plus_bonus_${state.wpDate.slice(0, 7)}`, 300, 'SpotWav Plus Insider Monthly Bonus', true);
+        }
         saveState();
         render();
-        if (sb) sb.from('comments').insert({ track_id: key, body: fullReply }).then();
-        toast('Reply posted');
+        toast(`SpotWav ${d.setplan} plan activated!`);
+        return;
       }
-      return;
-    }
+      if (d.upsrc) { uploadSource = d.upsrc; render(); return; }
+      if (d.openartist) { openArtistPage(d.openartist); return; }
+      if (d.subartist) { toggleSubscribeArtist(d.subartist); render(); return; }
+      if (d.copyartist) {
+        const url = `${SITE_URL}/#@${encodeURIComponent(d.copyartist)}`;
+        navigator.clipboard?.writeText(url).then(() => toast(`SpotWav link copied: ${url}`)).catch(() => toast(url));
+        return;
+      }
+      if (a === 'togglebio') { editingBio = !editingBio; render(); return; }
 
-    if (e.target.id === 'auth-form') {
-      if (!sb || authLoading) return;
-      const email = String(data.get('email')).trim();
-      const password = String(data.get('password'));
-      const artistName = String(data.get('artist_name') || '').trim();
-      authLoading = true;
-      render();
-      try {
-        if (authMode === 'signup') {
-          const { data: res, error } = await sb.auth.signUp({
-            email,
-            password,
-            options: { data: { artist_name: artistName } }
-          });
-          if (error) throw error;
-          if (res.user) {
-            await sb.from('profiles').upsert({ id: res.user.id, artist_name: artistName });
-            userArtistName = artistName;
-          }
-          toast(`Welcome to Soundwave, @${artistName}!`);
-        } else {
-          const { error } = await sb.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          toast('Logged in!');
-        }
+      if (d.authmode) { authMode = d.authmode; render(); return; }
+      if (a === 'openauth') { modal = 'auth'; render(); return; }
+      if (a === 'logout') {
+        if (sb) await sb.auth.signOut();
+        currentUser = null;
+        userArtistName = '';
         modal = '';
-        await syncUserSession();
-      } catch (err) {
-        toast(err.message || 'Authentication error');
-      } finally {
-        authLoading = false;
         render();
+        toast('Logged out');
+        return;
       }
-      return;
-    }
+      if (d.deltrack) {
+        if (!confirm('Delete this release permanently?')) return;
+        if (sb) await sb.from('tracks').delete().eq('id', d.deltrack);
+        await syncFromSupabase();
+        toast('Release deleted');
+        return;
+      }
 
-    if (e.target.id === 'upload') {
-      if (uploading) return;
-      if (!currentUser) {
-        modal = 'auth';
+      if (d.nav) {
+        page = d.nav;
+        modal = '';
+        genre = 'All';
+        if (page === 'Feed') tab = 'For You';
+        try { history.replaceState(null, '', location.pathname); } catch {}
         render();
-        return toast('Please sign up or log in first');
+        scrollTo(0, 0);
+        return;
       }
-      const artistName = getArtistDisplay();
-      const title = String(data.get('title')).trim();
-      const trackGenre = String(data.get('genre'));
-      const description = String(data.get('description')).trim();
-      const image = data.get('cover');
-      const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
+      if (d.genre) {
+        genre = d.genre;
+        if (genre !== 'All' && !has('exploredGenres', genre)) flip('exploredGenres', genre);
+        render();
+        return;
+      }
+      if (d.tab) {
+        tab = d.tab;
+        page = 'Feed';
+        modal = '';
+        const p = pool();
+        if (p.length) currentIndex = p[0].i;
+        else { tab = 'For You'; toast('Subscribe to an artist to build this feed'); }
+        render();
+        return;
+      }
+      if (d.track !== undefined) { choose(Number(d.track)); modal = 'player'; render(); return; }
+      if (d.rate !== undefined) { currentIndex = Number(d.rate); modal = 'rate'; render(); return; }
+      if (d.setrate !== undefined) {
+        const stars = Number(d.setrate), prev = state.ratings[t.id] || 0;
+        const deltaSum = stars - prev;
+        const deltaCount = prev ? 0 : 1;
+        state.ratings[t.id] = stars;
+        saveState();
+        modal = '';
+        t.ratingSum = (t.ratingSum || 5) + deltaSum;
+        t.ratingCount = (t.ratingCount || 1) + deltaCount;
+        if (!t.isMock) {
+          if (sb) sb.from('tracks').update({ rating_sum: t.ratingSum, rating_count: t.ratingCount }).eq('id', t.id).then();
+        } else {
+          syncMockEngagement(t, 0, 0, deltaSum, deltaCount);
+        }
+        render();
+        toast(`Rated "${t.title}" ${stars} ★`);
+        return;
+      }
+      if (d.like !== undefined) {
+        const target = tracks[Number(d.like)], wasLiked = has('likes', target.id);
+        const delta = wasLiked ? -1 : 1;
+        flip('likes', target.id);
+        target.likes = Math.max(0, (target.likes || 0) + delta);
+        if (!target.isMock) {
+          if (sb) sb.from('tracks').update({ likes: target.likes }).eq('id', target.id).then();
+        } else {
+          syncMockEngagement(target, 0, delta, 0, 0);
+        }
+        render();
+        return;
+      }
+      if (d.vote !== undefined) {
+        const target = tracks[Number(d.vote)], wasVoted = has('votes', target.id);
+        const delta = wasVoted ? -1 : 1;
+        flip('votes', target.id);
+        target.votes = Math.max(0, (target.votes || 0) + delta);
+        if (!target.isMock) {
+          if (sb) sb.from('tracks').update({ votes: target.votes }).eq('id', target.id).then();
+        } else {
+          syncMockEngagement(target, delta, 0, 0, 0);
+        }
+        if (!wasVoted) {
+          await awardWavePoints(`vote_${target.id}`, 5, `Voted for "${target.title}"`);
+        } else {
+          toast('Community chart vote updated');
+        }
+        render();
+        return;
+      }
+      if (a === 'prev' || a === 'next') { move(a === 'next' ? 1 : -1); return; }
+      if (a === 'play') { togglePlay(); return; }
+      if (a === 'save') {
+        flip('saved', t.id);
+        toast(has('saved', t.id) ? 'Added to My Music' : 'Removed from My Music');
+      }
+      if (['player', 'comments', 'share', 'profile', 'promote', 'rate'].includes(a)) {
+        modal = a;
+        if (a === 'comments' && t) loadTrackComments(t.id);
+      }
+      if (a === 'close') modal = '';
+      if (a === 'copy') {
+        const v = `${t.artist} — ${t.title} on SpotWav (${SITE_URL}/#@${encodeURIComponent(t.artist)})`;
+        navigator.clipboard?.writeText(v).then(async () => {
+          await awardWavePoints(`share_${t.id}`, 10, `Shared "${t.title}"`);
+          render();
+        }).catch(() => toast(v));
+        return;
+      }
+      render();
+    });
 
-      if (image?.size && image.size > MAX_COVER_MB * 1024 * 1024) {
-        return toast(`Cover image must be under ${MAX_COVER_MB}MB`);
+    document.addEventListener('keydown', e => {
+      if (e.target.id === 'search' && e.key === 'Enter') { query = e.target.value; page = 'Search'; render(); }
+      else if ((page === 'Home' || page === 'Feed') && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) && !modal) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      }
+      if (e.key === 'Escape' && modal) { modal = ''; render(); }
+    });
+
+    document.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+
+      if (e.target.id === 'bio-form') {
+        if (!currentUser || !sb) return;
+        const bio = String(data.get('bio') || '').trim();
+        const social_link = String(data.get('social_link') || '').trim();
+        const handle = getArtistDisplay();
+        await sb.from('profiles').upsert({ id: currentUser.id, artist_name: handle, bio, social_link });
+        artistProfiles[handle] = { id: currentUser.id, artist_name: handle, bio, social_link };
+        editingBio = false;
+        render();
+        toast('Artist profile updated!');
+        return;
       }
 
-      if (sb) {
-        uploading = true;
+      if (e.target.id === 'wall-post-form') {
+        if (!currentUser || !sb) return;
+        const body = String(data.get('body') || '').trim();
+        const vip_only = Boolean(data.get('vip_only'));
+        const handle = getArtistDisplay();
+        if (!body) return;
+        const { error } = await sb.from('artist_posts').insert({ user_id: currentUser.id, artist: handle, body, vip_only });
+        if (!error) {
+          e.target.reset();
+          await openArtistPage(handle);
+          toast('Posted to your community wall!');
+        } else toast(error.message);
+        return;
+      }
+
+      if (e.target.classList.contains('wall-reply-form')) {
+        const pid = e.target.dataset.postid;
+        const replyTxt = String(data.get('reply') || '').trim();
+        if (replyTxt && pid) {
+          const prefix = userArtistName ? `@${userArtistName}: ` : 'Fan: ';
+          const fullReply = prefix + replyTxt;
+          const key = 'post_' + pid;
+          (state.comments[key] ??= []).push(fullReply);
+          saveState();
+          render();
+          if (sb) sb.from('comments').insert({ track_id: key, body: fullReply }).then();
+          if (replyTxt.length >= 6) await awardWavePoints(`reply_${pid}_${state.wpDate}`, 3, 'Community Wall Reply');
+          else toast('Reply posted');
+        }
+        return;
+      }
+
+      if (e.target.id === 'auth-form') {
+        if (!sb || authLoading) return;
+        const email = String(data.get('email')).trim();
+        const password = String(data.get('password'));
+        const artistName = String(data.get('artist_name') || '').trim();
+        authLoading = true;
         render();
         try {
-          const ts = Date.now();
-          let audioUrl = '', isVideo = false, vip = false, ytId = '';
-
-          if (activeSource === 'youtube') {
-            const rawYt = String(data.get('youtube_url') || '').trim();
-            ytId = parseYouTubeId(rawYt);
-            if (!ytId) throw new Error('Please enter a valid YouTube link');
-            audioUrl = `https://www.youtube.com/watch?v=${ytId}`;
-            isVideo = true;
+          if (authMode === 'signup') {
+            const { data: res, error } = await sb.auth.signUp({
+              email,
+              password,
+              options: { data: { artist_name: artistName } }
+            });
+            if (error) throw error;
+            if (res.user) {
+              await sb.from('profiles').upsert({ id: res.user.id, artist_name: artistName });
+              userArtistName = artistName;
+            }
+            toast(`Welcome to SpotWav, @${artistName}!`);
           } else {
-            const media = data.get('media');
-            if (!media?.size) throw new Error('Choose an audio or video file');
-            if (media.size > MAX_MEDIA_MB * 1024 * 1024) throw new Error(`File too large (max ${MAX_MEDIA_MB}MB)`);
-            const mediaExt = (media.name.split('.').pop() || 'mp3').replace(/\W/g, '');
-            const mediaPath = `${currentUser.id}/${ts}_${Math.random().toString(36).slice(2, 7)}.${mediaExt}`;
-            const { error: mErr } = await sb.storage.from('soundwave').upload(mediaPath, media, { contentType: media.type });
-            if (mErr) throw mErr;
-            audioUrl = sb.storage.from('soundwave').getPublicUrl(mediaPath).data.publicUrl;
-            isVideo = media.type.startsWith('video/');
-            vip = Boolean(data.get('vip'));
+            const { error } = await sb.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+            toast('Logged in!');
           }
-
-          let coverUrl = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '';
-          if (image?.size) {
-            const imgExt = (image.name.split('.').pop() || 'jpg').replace(/\W/g, '');
-            const imgPath = `${currentUser.id}/cover_${ts}_${Math.random().toString(36).slice(2, 7)}.${imgExt}`;
-            const { error: iErr } = await sb.storage.from('soundwave').upload(imgPath, image, { contentType: image.type });
-            if (!iErr) coverUrl = sb.storage.from('soundwave').getPublicUrl(imgPath).data.publicUrl;
-          }
-
-          const { error: dbErr } = await sb.from('tracks').insert({
-            user_id: currentUser.id,
-            artist: artistName,
-            title,
-            genre: trackGenre,
-            description,
-            audio_url: audioUrl,
-            cover_url: coverUrl,
-            is_video: isVideo,
-            vip
-          });
-          if (dbErr) throw dbErr;
-
-          if (!has('follows', artistName)) flip('follows', artistName);
-          uploading = false;
-          page = 'Home';
-          genre = 'All';
-          playing = false;
-          audio.pause();
-          await syncFromSupabase();
-          currentIndex = 0;
-          render();
-          scrollTo(0, 0);
-          toast('Your release is now LIVE on Soundwave!');
+          modal = '';
+          await syncUserSession();
         } catch (err) {
-          uploading = false;
+          toast(err.message || 'Authentication error');
+        } finally {
+          authLoading = false;
           render();
-          toast(err.message || 'Upload failed');
         }
         return;
       }
-    }
 
-    if (e.target.id === 'comment') {
-      const txt = String(data.get('comment') || '').trim();
-      if (txt && current()) {
-        const tid = current().id;
-        const prefix = userArtistName ? `@${userArtistName}: ` : '';
-        const fullTxt = prefix + txt;
-        (state.comments[tid] ??= []).unshift(fullTxt);
-        saveState();
-        render();
-        if (sb) sb.from('comments').insert({ track_id: tid, body: fullTxt }).then();
-        toast('Feedback posted');
+      if (e.target.id === 'upload') {
+        if (uploading) return;
+        if (!currentUser) { modal = 'auth'; render(); return toast('Please sign up or log in first'); }
+        const artistName = getArtistDisplay();
+        const title = String(data.get('title')).trim();
+        const trackGenre = String(data.get('genre'));
+        const description = String(data.get('description')).trim();
+        const image = data.get('cover');
+        const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
+
+        if (image?.size && image.size > MAX_COVER_MB * 1024 * 1024) {
+          return toast(`Cover image must be under ${MAX_COVER_MB}MB`);
+        }
+
+        if (sb) {
+          uploading = true;
+          render();
+          try {
+            const ts = Date.now();
+            let audioUrl = '', isVideo = false, vip = false, ytId = '';
+
+            if (activeSource === 'youtube') {
+              const rawYt = String(data.get('youtube_url') || '').trim();
+              ytId = parseYouTubeId(rawYt);
+              if (!ytId) throw new Error('Please enter a valid YouTube link');
+              audioUrl = `https://www.youtube.com/watch?v=${ytId}`;
+              isVideo = true;
+            } else {
+              const media = data.get('media');
+              if (!media?.size) throw new Error('Choose an audio or video file');
+              if (media.size > MAX_MEDIA_MB * 1024 * 1024) throw new Error(`File too large (max ${MAX_MEDIA_MB}MB)`);
+              const mediaExt = (media.name.split('.').pop() || 'mp3').replace(/\W/g, '');
+              const mediaPath = `${currentUser.id}/${ts}_${Math.random().toString(36).slice(2, 7)}.${mediaExt}`;
+              const { error: mErr } = await sb.storage.from('soundwave').upload(mediaPath, media, { contentType: media.type });
+              if (mErr) throw mErr;
+              audioUrl = sb.storage.from('soundwave').getPublicUrl(mediaPath).data.publicUrl;
+              isVideo = media.type.startsWith('video/');
+              vip = Boolean(data.get('vip'));
+            }
+
+            let coverUrl = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '';
+            if (image?.size) {
+              const imgExt = (image.name.split('.').pop() || 'jpg').replace(/\W/g, '');
+              const imgPath = `${currentUser.id}/cover_${ts}_${Math.random().toString(36).slice(2, 7)}.${imgExt}`;
+              const { error: iErr } = await sb.storage.from('soundwave').upload(imgPath, image, { contentType: image.type });
+              if (!iErr) coverUrl = sb.storage.from('soundwave').getPublicUrl(imgPath).data.publicUrl;
+            }
+
+            const { error: dbErr } = await sb.from('tracks').insert({
+              user_id: currentUser.id,
+              artist: artistName,
+              title,
+              genre: trackGenre,
+              description,
+              audio_url: audioUrl,
+              cover_url: coverUrl,
+              is_video: isVideo,
+              vip
+            });
+            if (dbErr) throw dbErr;
+
+            if (!has('follows', artistName)) flip('follows', artistName);
+            await awardWavePoints(`upload_${ts}`, 25, `Published "${title}"`);
+            uploading = false;
+            page = 'Home';
+            genre = 'All';
+            playing = false;
+            audio.pause();
+            await syncFromSupabase();
+            currentIndex = 0;
+            render();
+            scrollTo(0, 0);
+          } catch (err) {
+            uploading = false;
+            render();
+            toast(err.message || 'Upload failed');
+          }
+          return;
+        }
       }
-    }
-  });
 
-  setInterval(() => {
-    if (playing) {
-      const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
-      if (current()?.video && vid && vid.duration) {
-        curTime = vid.currentTime;
-        durTime = vid.duration;
-        progress = (curTime / durTime) * 100;
-      } else if (current()?.url && !current()?.ytId && audio.duration) {
-        curTime = audio.currentTime;
-        durTime = audio.duration;
-        progress = (curTime / durTime) * 100;
-      } else {
-        progress = (progress + 0.5) % 100;
-        curTime = (progress / 100) * 135;
-        durTime = 135;
+      if (e.target.id === 'comment') {
+        const txt = String(data.get('comment') || '').trim();
+        if (txt && current()) {
+          const tid = current().id;
+          const prefix = userArtistName ? `@${userArtistName}: ` : '';
+          const fullTxt = prefix + txt;
+          (state.comments[tid] ??= []).unshift(fullTxt);
+          saveState();
+          render();
+          if (sb) sb.from('comments').insert({ track_id: tid, body: fullTxt }).then();
+          if (txt.length >= 6) {
+            await awardWavePoints(`comment_${tid}_${state.wpDate}`, 3, 'Meaningful Track Feedback');
+          } else {
+            toast('Feedback posted');
+          }
+        }
       }
-      document.querySelectorAll('.progress i, .tt-progress i').forEach(e => e.style.width = progress + '%');
-      document.querySelectorAll('.time-label').forEach(e => e.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime || 135)}`);
-    }
-  }, 300);
+    });
 
-  audio.addEventListener('ended', () => {
-    playing = false;
-    progress = 0;
-    curTime = 0;
+    setInterval(() => {
+      if (playing) {
+        const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+        if (current()?.video && vid && vid.duration) {
+          curTime = vid.currentTime;
+          durTime = vid.duration;
+          progress = (curTime / durTime) * 100;
+        } else if (current()?.url && !current()?.ytId && audio.duration) {
+          curTime = audio.currentTime;
+          durTime = audio.duration;
+          progress = (curTime / durTime) * 100;
+        } else {
+          progress = (progress + .5) % 100;
+          curTime = (progress / 100) * 135;
+          durTime = 135;
+        }
+        document.querySelectorAll('.progress i,.tt-progress i').forEach(e => e.style.width = progress + '%');
+        document.querySelectorAll('.time-label').forEach(e => e.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime || 135)}`);
+      }
+    }, 300);
+
+    audio.addEventListener('ended', () => {
+      playing = false;
+      progress = 0;
+      curTime = 0;
+      render();
+    });
+
     render();
-  });
-
-  render();
-  syncUserSession();
-  syncFromSupabase();
-</script>
+    syncUserSession();
+    syncFromSupabase();
+  </script>
 </body>
 </html>
