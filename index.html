@@ -457,7 +457,7 @@
       border-radius: 11px;
       border: 1px solid #ffffff12;
     }
-    .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; }
+    .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s; position: relative; z-index: 1; }
     .cover-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: white; font-weight: 800; font-size: 16px; }
     .track-cover { width: 47px; height: 47px; flex-shrink: 0; cursor: pointer; }
     .track-cover:hover img, .music-tile:hover img { transform: scale(1.04); }
@@ -1044,10 +1044,31 @@
 </head>
 <body>
 <div id="app"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const SUPABASE_URL = 'https://qylznmnsiirqcdupwtgv.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable__WGmmiAskm-a7NiG3f8F8Q_iPZqwBZI';
+
+  const SHOW_MOCKS = true;
+  const ALLOW_YOUTUBE = true;
+  const MAX_MEDIA_MB = 15;
+  const MAX_COVER_MB = 2;
+
+  const hasSupabase = SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
+  const sb = hasSupabase && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
   const $ = (s) => document.querySelector(s);
   const esc = (x) => String(x ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const photo = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1000&q=85`;
+  const photo = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=85`;
+
+  const demoAudio = [
+    'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3',
+    'https://cdn.pixabay.com/download/audio/2022/10/25/audio_946b0939c8.mp3',
+    'https://cdn.pixabay.com/download/audio/2023/01/01/audio_816821e627.mp3',
+    'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3',
+    'https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3',
+    'https://cdn.pixabay.com/download/audio/2022/08/02/audio_884fe92c21.mp3'
+  ];
 
   const parseYouTubeId = (url) => {
     if (!url) return '';
@@ -1057,14 +1078,14 @@
 
   const artistSubsBase = { 'LONEK': 1420, 'Tyler J': 985, 'Marlon Tega': 740, 'NOVA': 610, 'ELARA': 530 };
 
-  const artistProfiles = {
+  const mockBios = {
     'LONEK': {
       bio: 'Independent Hip-Hop artist & Monsta Jam Productions flagship. New visuals & subscriber-only VIP drops every month.',
-      link: 'https://soundwave.app/@LONEK'
+      link: 'https://soundwaves.space/#@LONEK'
     },
     'Tyler J': {
       bio: 'Melodic rap & late-night anthems. "Oh My Days" out now — vote it up the community chart.',
-      link: 'https://youtube.com/@TylerJMusic'
+      link: ''
     },
     'Marlon Tega': {
       bio: 'Dancehall & island rhythms straight from the studio.',
@@ -1075,26 +1096,26 @@
       link: ''
     },
     'ELARA': {
-      bio: 'Alternative R&B vocalist crafting late-night frequencies.',
+      bio: 'Alternative R&B vocalist.',
       link: ''
     }
   };
 
-  let wallPosts = {
+  const mockWallPosts = {
     'LONEK': [
       {
         id: 'mp1',
         artist: 'LONEK',
         body: 'Salute to everyone running up "I Bet on Me" on the charts! Subscribe to unlock my VIP track "I Got You" right above.',
         vip_only: false,
-        time: '2h ago'
+        created_at: new Date(Date.now() - 86400000).toISOString()
       },
       {
         id: 'mp2',
         artist: 'LONEK',
         body: 'VIP Subscribers: Dropping raw studio stems & an unreleased verse here this weekend. Drop your feedback below!',
         vip_only: true,
-        time: '1d ago'
+        created_at: new Date(Date.now() - 3600000).toISOString()
       }
     ],
     'Tyler J': [
@@ -1103,145 +1124,69 @@
         artist: 'Tyler J',
         body: '"Oh My Days" just crossed 2,840 community votes. Appreciate every single rating!',
         vip_only: false,
-        time: '5h ago'
+        created_at: new Date(Date.now() - 43200000).toISOString()
       }
     ]
   };
 
-  let tracks = [
-    {
-      id: 'sample0',
-      isMock: true,
-      artist: 'LONEK',
-      title: 'I Bet on Me',
-      genre: 'Hip-Hop',
-      votes: 2842,
-      likes: 412,
-      img: photo('photo-1514525253161-7a46d19cd819'),
-      color: '#3c3559',
-      ratingSum: 696,
-      ratingCount: 142,
-      vip: false,
-      ytId: '',
-      freq: [110, 146.83, 164.81, 220],
-      description: 'A new sound for the ones who never stopped believing.'
-    },
-    {
-      id: 'sample1',
-      isMock: true,
-      artist: 'Tyler J',
-      title: 'Oh My Days',
-      genre: 'Hip-Hop',
-      votes: 2841,
-      likes: 389,
-      img: photo('photo-1493225457124-a3eb161ffa5f'),
-      color: '#416583',
-      ratingSum: 566,
-      ratingCount: 118,
-      vip: false,
-      ytId: '',
-      freq: [130.81, 164.81, 196, 246.94],
-      description: 'For everybody waiting on better days.'
-    },
-    {
-      id: 'sample2',
-      isMock: true,
-      artist: 'Marlon Tega',
-      title: 'Pom Pom Whine',
-      genre: 'Dancehall',
-      votes: 2840,
-      likes: 310,
-      img: photo('photo-1511671782779-c97d3d27a1d4'),
-      color: '#865b3d',
-      ratingSum: 451,
-      ratingCount: 96,
-      vip: false,
-      ytId: '',
-      freq: [98, 123.47, 146.83, 196],
-      description: 'An upbeat dancehall rhythm to move to.'
-    },
-    {
-      id: 'sample3',
-      isMock: true,
-      artist: 'NOVA',
-      title: 'Afterglow',
-      genre: 'Electronic',
-      votes: 1986,
-      likes: 245,
-      img: photo('photo-1470225620780-dba8ba36b745'),
-      color: '#523c83',
-      ratingSum: 403,
-      ratingCount: 84,
-      vip: false,
-      ytId: '',
-      freq: [146.83, 174.61, 220, 261.63],
-      description: 'Electronic textures for the night.'
-    },
-    {
-      id: 'sample4',
-      isMock: true,
-      artist: 'LONEK',
-      title: 'I Got You',
-      genre: 'Hip-Hop',
-      votes: 1754,
-      likes: 298,
-      img: photo('photo-1571330735066-03aaa9429d89'),
-      color: '#355668',
-      ratingSum: 446,
-      ratingCount: 91,
-      vip: true,
-      ytId: '',
-      freq: [116.54, 146.83, 174.61, 233.08],
-      description: 'Subscribers-only VIP drop for the day-one supporters.'
-    },
-    {
-      id: 'sample5',
-      isMock: true,
-      artist: 'ELARA',
-      title: 'Velvet Skies',
-      genre: 'R&B',
-      votes: 1482,
-      likes: 190,
-      img: photo('photo-1516280440614-37939bbacd81'),
-      color: '#b56e90',
-      ratingSum: 290,
-      ratingCount: 63,
-      vip: false,
-      ytId: '',
-      freq: [123.47, 155.56, 185, 246.94],
-      description: 'Late-night R&B with room to breathe.'
-    }
-  ];
+  const samples = [
+    ['LONEK', 'I Bet on Me', 'Hip-Hop', 2842, 'photo-1529139574466-a303027c1d8b', '#3c3559', 4.9, 142, false, 412],
+    ['Tyler J', 'Oh My Days', 'Hip-Hop', 2841, 'photo-1506794778202-cbf6067b4bc1', '#416583', 4.8, 118, false, 389],
+    ['Marlon Tega', 'Pom Pom Whine', 'Dancehall', 2840, 'photo-1500648767791-00dcc994a43e', '#865b3d', 4.7, 96, false, 310],
+    ['NOVA', 'Afterglow', 'Electronic', 1986, 'photo-1470229722913-7c0e2dbbafd3', '#523c83', 4.8, 84, false, 245],
+    ['LONEK', 'I Got You', 'Hip-Hop', 1754, 'photo-1503376780353-7e6692767b70', '#355668', 4.9, 91, true, 298],
+    ['ELARA', 'Velvet Skies', 'R&B', 1482, 'photo-1524504388940-b1c1722653e1', '#b56e90', 4.6, 63, false, 190]
+  ].map((s, i) => ({
+    id: 'sample' + i,
+    isMock: true,
+    userId: null,
+    artist: s[0],
+    title: s[1],
+    genre: s[2],
+    votes: s[3],
+    likes: s[9],
+    img: ({ 0: 'assets/ibet-cover.webp', 1: 'assets/ohmydays-cover.webp', 4: 'assets/igotyou-cover.webp' }[i] || photo(s[4])),
+    fallbackImg: photo(s[4]),
+    color: s[5],
+    ratingSum: Math.round(s[6] * s[7]),
+    ratingCount: s[7],
+    vip: s[8],
+    url: demoAudio[i],
+    ytId: '',
+    description: [
+      'A new sound for the ones who never stopped believing.',
+      'For everybody waiting on better days.',
+      'An upbeat dancehall rhythm to move to.',
+      'Electronic textures for the night.',
+      'Subscribers-only VIP drop for the day-one supporters.',
+      'Late-night R&B with room to breathe.'
+    ][i]
+  }));
 
-  let state = {
-    votes: ['sample0'],
-    saved: ['sample0', 'sample3'],
-    likes: ['sample0'],
-    follows: ['Tyler J'],
-    comments: {
-      'sample0': ['@TylerJ: Beat switch at 0:45 is crazy 🔥', '@NOVA: Pure studio energy!'],
-      'sample1': ['@LONEK: Classic anthem bro!'],
-      'post_mp1': ['Fan: Already subscribed! Cannot wait for the weekend drop.']
-    },
-    ratings: { 'sample0': 5 }
+  let state = { deviceId: '', votes: [], saved: [], likes: [], follows: [], comments: {}, ratings: {} };
+  try {
+    const old = JSON.parse(localStorage.getItem('soundwave-state-v4') || '{}');
+    for (const k of ['votes', 'saved', 'likes', 'follows']) if (Array.isArray(old[k])) state[k] = old[k];
+    if (old.comments && typeof old.comments === 'object') state.comments = old.comments;
+    if (old.ratings && typeof old.ratings === 'object') state.ratings = old.ratings;
+    state.deviceId = old.deviceId || ('dev_' + Math.random().toString(36).slice(2, 11));
+  } catch {
+    state.deviceId = 'dev_' + Math.random().toString(36).slice(2, 11);
+  }
+  const saveState = () => { try { localStorage.setItem('soundwave-state-v4', JSON.stringify(state)); } catch {} };
+  const has = (key, v) => state[key].includes(v);
+  const flip = (key, v) => {
+    state[key] = has(key, v) ? state[key].filter(x => x !== v) : [...state[key], v];
+    saveState();
   };
 
-  let currentUser = null;
-  let authMode = 'signup';
-  let uploadSource = 'youtube';
-  let selectedArtist = 'LONEK';
-  let editingBio = false;
-  let page = 'Home';
-  let currentIndex = 0;
-  let genre = 'All';
-  let tab = 'For You';
-  let modal = '';
-  let query = '';
-  let playing = false;
-  let userInteracted = false;
-  let progress = 24;
-  let curTime = 32;
-  let durTime = 135;
+  let currentUser = null, userArtistName = '', authMode = 'signup', authLoading = false, uploadSource = 'youtube';
+  let tracks = SHOW_MOCKS ? [...samples] : [], liveSubCounts = {}, artistProfiles = {}, artistPosts = [], selectedArtist = 'LONEK', editingBio = false;
+  let page = 'Home', currentIndex = 0, genre = 'All', tab = 'For You', modal = '', query = '';
+  let playing = false, userInteracted = false, progress = 0, curTime = 0, durTime = 0, uploading = false;
+
+  const audio = new Audio();
+  audio.crossOrigin = 'anonymous';
 
   const sections = [
     ['Home', '⌂', 'Discover'],
@@ -1254,50 +1199,7 @@
 
   const all = () => tracks.map((t, i) => ({ t, i }));
   const current = () => tracks[currentIndex] || tracks[0];
-  const has = (key, v) => state[key].includes(v);
-  const flip = (key, v) => {
-    state[key] = has(key, v) ? state[key].filter(x => x !== v) : [...state[key], v];
-  };
-
-  // Web Audio Synth Preview so Play button produces real musical chords without external CORS audio issues
-  let audioCtx = null;
-  let synthTimer = null;
-
-  function startSynthPreview(track) {
-    stopSynthPreview();
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const notes = track.freq || [130.81, 164.81, 196, 246.94];
-      let step = 0;
-      const playStep = () => {
-        if (!playing || !audioCtx) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = step % 4 === 0 ? 'triangle' : 'sine';
-        osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.55);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.58);
-        step++;
-      };
-      playStep();
-      synthTimer = setInterval(playStep, 600);
-    } catch (err) {
-      // Fallback visual playback if audio context blocked
-    }
-  }
-
-  function stopSynthPreview() {
-    if (synthTimer) {
-      clearInterval(synthTimer);
-      synthTimer = null;
-    }
-  }
+  const getArtistDisplay = () => userArtistName || currentUser?.user_metadata?.artist_name || currentUser?.email?.split('@')[0] || '';
 
   const getTrackRating = (t) => {
     const sum = t.ratingSum || 5;
@@ -1305,28 +1207,38 @@
     return { avg: (sum / count).toFixed(1), count };
   };
 
-  const subCount = (artist) => (artistSubsBase[artist] || 120) + (has('follows', artist) ? 1 : 0);
-  const isLocked = (t) => t.vip && !has('follows', t.artist) && !(currentUser && currentUser.artist.toLowerCase() === t.artist.toLowerCase());
+  const subCount = (artist) => (artistSubsBase[artist] || 0) + (liveSubCounts[artist] || 0);
+  const isLocked = (t) => t.vip && !has('follows', t.artist) && !(currentUser && t.userId === currentUser.id);
   const fmtTime = (s) => {
     if (!s || isNaN(s)) return '0:00';
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
     return `${m}:${sec < 10 ? '0' : ''}${sec}`;
   };
+  const timeAgo = (iso) => {
+    if (!iso) return 'Just now';
+    const sec = Math.floor((Date.now() - new Date(iso)) / 1000);
+    if (sec < 60) return 'Just now';
+    if (sec < 3600) return Math.floor(sec / 60) + 'm ago';
+    if (sec < 86400) return Math.floor(sec / 3600) + 'h ago';
+    return Math.floor(sec / 86400) + 'd ago';
+  };
 
   const rank = () => all()
     .filter(x => genre === 'All' || x.t.genre === genre)
     .sort((a, b) => (b.t.votes || 0) - (a.t.votes || 0));
 
+  const imgTag = (src, fallback, alt) => `<img src="${esc(src)}" alt="${esc(alt)}" onerror="if(this.dataset.fb&&this.src!==this.dataset.fb){this.src=this.dataset.fb}else{this.remove()}" data-fb="${esc(fallback || '')}">`;
+
   const cover = (t) => `
     <div class="cover" style="background:${t.color || '#24213b'}">
       <span class="cover-fallback">${esc(t.artist.slice(0, 2).toUpperCase())}</span>
-      ${t.img ? `<img src="${esc(t.img)}" alt="Cover artwork for ${esc(t.title)}" onerror="this.remove()">` : ''}
+      ${t.img ? imgTag(t.img, t.fallbackImg, `Cover artwork for ${t.title}`) : ''}
     </div>`;
 
   const row = (x, n) => {
     const r = getTrackRating(x.t);
-    const isOwner = currentUser && currentUser.artist.toLowerCase() === x.t.artist.toLowerCase() && !x.t.isMock;
+    const isOwner = currentUser && x.t.userId === currentUser.id;
     return `
       <div class="track-row">
         <span class="track-rank ${n === 0 ? 'first' : ''}">${String(n + 1).padStart(2, '0')}</span>
@@ -1349,13 +1261,142 @@
 
   const chips = () => `<div class="chips">${genres.map(g => `<button class="chip ${genre === g ? 'active' : ''}" data-genre="${g}">${g}</button>`).join('')}</div>`;
 
+  async function syncUserSession() {
+    if (!sb) return;
+    const { data: { session } } = await sb.auth.getSession();
+    currentUser = session?.user || null;
+    if (currentUser) {
+      const { data: prof } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+      userArtistName = prof?.artist_name || currentUser.user_metadata?.artist_name || currentUser.email.split('@')[0];
+      if (prof) artistProfiles[userArtistName] = prof;
+    } else {
+      userArtistName = '';
+    }
+    render();
+  }
+
+  async function syncFromSupabase() {
+    if (!sb) return;
+    try {
+      const [{ data: dbTracks }, { data: dbSubs }, { data: dbProfs }, { data: dbEng }] = await Promise.all([
+        sb.from('tracks').select('*').order('created_at', { ascending: false }),
+        sb.from('subscriptions').select('*'),
+        sb.from('profiles').select('*'),
+        sb.from('engagement').select('*')
+      ]);
+      liveSubCounts = {};
+      const myRemoteSubs = [];
+      (dbSubs || []).forEach(s => {
+        liveSubCounts[s.artist] = (liveSubCounts[s.artist] || 0) + 1;
+        if (s.device_id === state.deviceId) myRemoteSubs.push(s.artist);
+      });
+      if (myRemoteSubs.length) {
+        state.follows = Array.from(new Set([...state.follows, ...myRemoteSubs]));
+        saveState();
+      }
+      (dbProfs || []).forEach(p => { artistProfiles[p.artist_name] = p; });
+      const engMap = {};
+      (dbEng || []).forEach(e => { engMap[e.item_id] = e; });
+
+      const realTracks = (dbTracks || []).map(r => {
+        const ytId = parseYouTubeId(r.audio_url);
+        return {
+          id: r.id,
+          isMock: false,
+          userId: r.user_id,
+          artist: r.artist,
+          title: r.title,
+          genre: r.genre,
+          description: r.description,
+          url: r.audio_url,
+          ytId,
+          img: r.cover_url || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : ''),
+          fallbackImg: '',
+          video: r.is_video,
+          vip: r.vip,
+          votes: r.votes || 1,
+          likes: r.likes || 0,
+          ratingSum: r.rating_sum || 5,
+          ratingCount: r.rating_count || 1,
+          color: '#4a61f0'
+        };
+      });
+
+      const syncedSamples = samples.map(s => {
+        const e = engMap[s.id];
+        if (!e) return { ...s };
+        return {
+          ...s,
+          votes: s.votes + (e.votes || 0),
+          likes: s.likes + (e.likes || 0),
+          ratingSum: s.ratingSum + (e.rating_sum || 0),
+          ratingCount: s.ratingCount + (e.rating_count || 0)
+        };
+      });
+
+      const prevId = current()?.id;
+      tracks = SHOW_MOCKS ? [...realTracks, ...syncedSamples] : realTracks;
+      const foundIdx = tracks.findIndex(x => x.id === prevId);
+      currentIndex = foundIdx >= 0 ? foundIdx : 0;
+      if (location.hash.startsWith('#@')) {
+        const hName = decodeURIComponent(location.hash.slice(2));
+        if (hName) openArtistPage(hName);
+      } else {
+        render();
+      }
+    } catch (err) {
+      console.error('Supabase sync error:', err);
+    }
+  }
+
+  async function loadTrackComments(trackId) {
+    if (!sb) return;
+    const { data } = await sb.from('comments').select('*').eq('track_id', trackId).order('created_at', { ascending: false });
+    if (data) {
+      state.comments[trackId] = data.map(c => c.body);
+      saveState();
+      render();
+    }
+  }
+
+  async function openArtistPage(name) {
+    selectedArtist = name;
+    editingBio = false;
+    page = 'Artist';
+    modal = '';
+    try { history.replaceState(null, '', `#@${encodeURIComponent(name)}`); } catch {}
+    render();
+    scrollTo(0, 0);
+    if (!sb) return;
+    const [{ data: prof }, { data: posts }] = await Promise.all([
+      sb.from('profiles').select('*').eq('artist_name', name).maybeSingle(),
+      sb.from('artist_posts').select('*').eq('artist', name).order('created_at', { ascending: false })
+    ]);
+    if (prof) artistProfiles[name] = prof;
+    artistPosts = posts || [];
+    const combined = [...artistPosts, ...(mockWallPosts[name] || [])];
+    const postKeys = combined.map(p => 'post_' + p.id);
+    if (postKeys.length) {
+      const { data: allReplies } = await sb.from('comments').select('*').in('track_id', postKeys).order('created_at', { ascending: true });
+      if (allReplies) {
+        postKeys.forEach(k => { state.comments[k] = []; });
+        allReplies.forEach(r => { state.comments[r.track_id].push(r.body); });
+        saveState();
+      }
+    }
+    render();
+  }
+
   function renderMediaStage(t, idx = currentIndex, isSlide = false) {
     const locked = isLocked(t);
     if (t.ytId && !locked && (playing || isSlide)) {
       const auto = playing && idx === currentIndex ? 1 : 0;
       return `<iframe class="yt-frame" src="https://www.youtube.com/embed/${esc(t.ytId)}?autoplay=${auto}&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(t.title)}"></iframe>`;
     }
-    return t.img ? `<img src="${esc(t.img)}" alt="${esc(t.title)}">` : cover(t);
+    if (t.video) {
+      return `<video ${isSlide ? `class="tt-vid" data-vididx="${idx}"` : 'id="reel-video"'} src="${esc(t.url)}" playsinline loop muted ${isSlide ? '' : 'autoplay'}></video>`;
+    }
+    return t.img ? imgTag(t.img, t.fallbackImg, `Release artwork for ${t.artist} — ${t.title}`) : cover(t);
   }
 
   function reel() {
@@ -1370,7 +1411,7 @@
         <div class="reel-dim"></div>
         <div class="reel-top">
           <span class="glasslabel">
-            ${playing ? '<span class="eq-bars"><i></i><i></i><i></i></span> PLAYING' : '✦ FEATURED REEL'}
+            ${playing ? '<span class="eq-bars"><i></i><i></i><i></i></span> PLAYING' : (t.isMock ? '✦ FEATURED CATALOG' : '✦ VERIFIED UPLOAD')}
             ${t.ytId ? '&nbsp;<span class="yt-badge">YOUTUBE</span>' : ''}
             ${t.vip ? '&nbsp;<span class="vip-badge">★ SUBSCRIBERS ONLY</span>' : ''}
           </span>
@@ -1388,7 +1429,7 @@
             </button>
           </div>
           <h2>${esc(t.title)}</h2>
-          <p class="reel-description">${esc(t.description)} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
+          <p class="reel-description">${esc(t.description || 'New music on Soundwave.')} <span style="opacity:.75">#${esc(t.genre.replace(/\W/g, ''))}</span></p>
           <div class="reel-btns">
             ${locked
               ? `<button class="btn gold" data-subartist="${esc(t.artist)}">🔒 Subscribe to @${esc(t.artist)} to Unlock</button>`
@@ -1439,7 +1480,7 @@
       <section class="sponsor" aria-label="Sponsored placement">
         <div class="sponsor-tag">✧ Sponsored placement</div>
         <div class="sponsor-art">
-          <img src="${photo('photo-1598488035139-bdbb2231ce04')}" alt="Studio promotion">
+          ${imgTag('assets/ibet-promo.webp', photo('photo-1598488035139-bdbb2231ce04'), 'Promotional format')}
           <span>YOUR RELEASE<br>HERE</span>
         </div>
         <h3>Your next release,<br>front and center.</h3>
@@ -1461,7 +1502,7 @@
         </div>
         <div class="release-showcase-grid">
           <button class="release-big" data-track="0">
-            <img src="${tracks[0].img}" alt="LONEK I Bet on Me">
+            ${imgTag('assets/ibet-cover.webp', photo('photo-1529139574466-a303027c1d8b'), 'LONEK I Bet on Me')}
             <span class="release-big-meta">
               <small>FEATURED RELEASE</small>
               <strong>I Bet on Me</strong>
@@ -1470,14 +1511,14 @@
           </button>
           <div class="release-side">
             <button class="release-mini" data-track="1">
-              <img src="${tracks[1].img}" alt="Tyler J Oh My Days">
+              ${imgTag('assets/ohmydays-cover.webp', photo('photo-1506794778202-cbf6067b4bc1'), 'Tyler J Oh My Days')}
               <span>
                 <strong>Oh My Days</strong>
                 <small>Tyler J · ★ 4.8</small>
               </span>
             </button>
             <button class="release-mini" data-track="4">
-              <img src="${tracks[4].img}" alt="LONEK I Got You">
+              ${imgTag('assets/igotyou-cover.webp', photo('photo-1503376780353-7e6692767b70'), 'LONEK I Got You')}
               <span>
                 <strong>I Got You <span class="vip-badge">VIP</span></strong>
                 <small>LONEK · Subscribers Only</small>
@@ -1592,16 +1633,16 @@
   }
 
   function artistPage() {
-    const name = selectedArtist || currentUser?.artist || 'LONEK';
+    const name = selectedArtist || getArtistDisplay() || 'LONEK';
     const handleSlug = name.replace(/\s/g, '');
     const artistTracks = all().filter(x => x.t.artist.toLowerCase() === name.toLowerCase());
-    const isOwner = currentUser && currentUser.artist.toLowerCase() === name.toLowerCase();
-    const prof = artistProfiles[name] || { bio: 'Independent creator on Soundwave.', link: '' };
+    const isOwner = currentUser && getArtistDisplay().toLowerCase() === name.toLowerCase();
+    const prof = artistProfiles[name] || mockBios[name] || { bio: 'Independent creator on Soundwave.', link: '' };
     const totalVotes = artistTracks.reduce((sum, x) => sum + (x.t.votes || 0), 0);
     const avgRating = artistTracks.length
       ? (artistTracks.reduce((s, x) => s + Number(getTrackRating(x.t).avg), 0) / artistTracks.length).toFixed(1)
       : '5.0';
-    const posts = wallPosts[name] || [];
+    const combinedPosts = [...artistPosts, ...(mockWallPosts[name] || [])];
 
     return `
       <div class="artist-hero">
@@ -1612,7 +1653,7 @@
               <div class="eyebrow" style="color:#c4b3ff">VERIFIED ARTIST HUB</div>
               <h1 style="margin:3px 0;font-size:clamp(24px,3.2vw,34px);letter-spacing:-1px">@${esc(handleSlug)}</h1>
               <p style="color:#d6d2f0;margin:0;max-width:520px;font-size:13px">${esc(prof.bio)}</p>
-              ${prof.link ? `<a href="${esc(prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.link)}</a>` : ''}
+              ${prof.social_link || prof.link ? `<a href="${esc(prof.social_link || prof.link)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;color:#93c5fd;font-size:12px;font-weight:700">🔗 ${esc(prof.social_link || prof.link)}</a>` : ''}
             </div>
           </div>
           <div style="display:flex;gap:9px;flex-wrap:wrap">
@@ -1631,7 +1672,7 @@
         ${isOwner && editingBio ? `
           <form id="bio-form" style="background:#ffffff10;border:1px solid #ffffff20;padding:16px;border-radius:16px;margin-top:14px">
             <label class="field" style="margin-top:0">Artist Bio <textarea name="bio" rows="2" maxlength="240">${esc(prof.bio || '')}</textarea></label>
-            <label class="field">Social / Streaming Link <input type="url" name="link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.link || '')}"></label>
+            <label class="field">Social / Streaming Link <input type="url" name="social_link" placeholder="https://instagram.com/yourhandle" value="${esc(prof.social_link || prof.link || '')}"></label>
             <button type="submit" class="btn primary" style="margin-top:12px">Save Profile</button>
           </form>` : ''}
       </div>
@@ -1656,14 +1697,14 @@
                   <button type="submit" class="btn primary" style="padding:8px 15px">Post to Wall ↗</button>
                 </div>
               </form>` : ''}
-            ${posts.map(p => {
+            ${combinedPosts.map(p => {
               const postLocked = p.vip_only && !has('follows', name) && !isOwner;
               const replies = state.comments['post_' + p.id] || [];
               return `
                 <div class="wall-post">
                   <div class="wall-head">
                     <strong style="font-size:13px">@${esc(handleSlug)} ${p.vip_only ? '<span class="vip-badge">★ VIP ONLY</span>' : ''}</strong>
-                    <span class="note">${esc(p.time)}</span>
+                    <span class="note">${timeAgo(p.created_at)}</span>
                   </div>
                   ${postLocked
                     ? `<div style="background:#261f12;border:1px solid #4d3b18;padding:12px;border-radius:12px;font-size:12px;color:#ffca57">🔒 Subscribe to @${esc(handleSlug)} to read this VIP community post.</div>`
@@ -1761,6 +1802,10 @@
   }
 
   function studio() {
+    const liveUploads = all().filter(x => !x.t.isMock);
+    const myUploads = currentUser ? liveUploads.filter(x => x.t.userId === currentUser.id) : [];
+    const artistHandle = getArtistDisplay();
+
     if (!currentUser) {
       return `
         <div class="heading">
@@ -1774,7 +1819,7 @@
           <div class="panel">
             <div class="eyebrow">ACCOUNT REQUIRED TO PUBLISH</div>
             <h2>Claim your Artist Profile</h2>
-            <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to get your own @Handle page and upload music.</p>
+            <p class="sub">Listeners can browse, stream, vote, and rate freely—sign up in 5 seconds to get your own #@Handle page and upload music.</p>
             <div class="auth-tabs">
               <button type="button" class="auth-tab ${authMode === 'signup' ? 'active' : ''}" data-authmode="signup">Create Artist Account</button>
               <button type="button" class="auth-tab ${authMode === 'login' ? 'active' : ''}" data-authmode="login">Log In</button>
@@ -1783,13 +1828,13 @@
               ${authMode === 'signup' ? `<label class="field">Artist / Creator Handle <input name="artist_name" required maxlength="50" placeholder="e.g. LONEK"></label>` : ''}
               <label class="field">Email Address <input type="email" name="email" required placeholder="you@example.com"></label>
               <label class="field">Password (min 6 characters) <input type="password" name="password" required minlength="6" placeholder="••••••••"></label>
-              <button type="submit" class="btn primary" style="margin-top:18px;width:100%">${authMode === 'signup' ? 'Create Account & Start Uploading ↗' : 'Log In to Studio ↗'}</button>
+              <button type="submit" class="btn primary" style="margin-top:18px;width:100%" ${authLoading ? 'disabled' : ''}>${authLoading ? 'Please wait...' : (authMode === 'signup' ? 'Create Account & Start Uploading ↗' : 'Log In to Studio ↗')}</button>
             </form>
           </div>
           <aside>
             <div class="panel">
               <div class="eyebrow">WHY CREATE AN ACCOUNT?</div>
-              <p class="sub" style="margin-top:10px">• <b>Your Own @Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
+              <p class="sub" style="margin-top:10px">• <b>Your Own #@Handle Page:</b> Post updates, bio links, and chat directly with fans.</p>
               <p class="sub" style="margin-top:8px">• <b>YouTube or Direct Upload:</b> Share YouTube music videos or upload exclusive MP3/MP4 files.</p>
               <p class="sub" style="margin-top:8px">• <b>Subscriber VIP Vault:</b> Gate exclusive tracks and wall posts for subscribers.</p>
             </div>
@@ -1797,8 +1842,7 @@
         </div>`;
     }
 
-    const artistHandle = currentUser.artist;
-    const myUploads = all().filter(x => x.t.artist.toLowerCase() === artistHandle.toLowerCase());
+    const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
 
     return `
       <div class="heading">
@@ -1816,21 +1860,23 @@
         <form class="panel" id="upload">
           <h2>Publish a new release</h2>
           <p class="sub">Publishing as <b>@${esc(artistHandle)}</b> — goes live immediately in the discovery feed.</p>
-          <div class="auth-tabs">
-            <button type="button" class="auth-tab ${uploadSource === 'youtube' ? 'active' : ''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
-            <button type="button" class="auth-tab ${uploadSource === 'file' ? 'active' : ''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
-          </div>
-          ${uploadSource === 'youtube'
+          ${ALLOW_YOUTUBE ? `
+            <div class="auth-tabs">
+              <button type="button" class="auth-tab ${activeSource === 'youtube' ? 'active' : ''}" data-upsrc="youtube">▶ Paste YouTube Link</button>
+              <button type="button" class="auth-tab ${activeSource === 'file' ? 'active' : ''}" data-upsrc="file">⬆ Upload Audio / Video File</button>
+            </div>` : ''}
+          ${activeSource === 'youtube'
             ? `<label class="field">YouTube Video or Song URL <input type="url" name="youtube_url" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."></label>
                <p class="note" style="margin-top:6px">Instant publishing with zero storage limits—thumbnail is fetched automatically.</p>`
-            : `<label class="field">Music or video file (MP3, WAV, MP4 — max 15MB) <input type="file" name="media" accept="audio/*,video/*" required></label>`}
+            : `<label class="field">Music or video file (MP3, WAV, MP4 — max ${MAX_MEDIA_MB}MB) <input type="file" name="media" accept="audio/*,video/*" required></label>`}
+          <label class="field">Custom Cover Artwork (optional — max ${MAX_COVER_MB}MB) <input type="file" name="cover" accept="image/*"></label>
           <label class="field">Song title <input name="title" required maxlength="90" placeholder="Your track name"></label>
           <label class="field">Artist name (locked to your account) <input name="artist" value="${esc(artistHandle)}" readonly style="background:#191e36;font-weight:750;color:#8fa2ff;border-color:#2c355e"></label>
           <label class="field">Genre <select name="genre">${genres.slice(1).map(g => `<option>${g}</option>`).join('')}</select></label>
           <label class="field">Caption <textarea name="description" maxlength="350" rows="3" placeholder="Tell the community about your music"></textarea></label>
-          ${uploadSource === 'file' ? `<label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;font-weight:700;color:#ffca57"><input type="checkbox" name="vip"> ★ Make this a Subscribers-Only VIP Drop</label>` : ''}
+          ${activeSource === 'file' ? `<label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;font-weight:700;color:#ffca57"><input type="checkbox" name="vip"> ★ Make this a Subscribers-Only VIP Drop</label>` : ''}
           <label style="display:flex;align-items:center;gap:9px;font-size:12px;margin:16px 0;color:#c7cde8"><input type="checkbox" required> I own the rights to share and distribute this work.</label>
-          <button type="submit" class="btn primary">Publish live ↗</button>
+          <button type="submit" class="btn primary" ${uploading ? 'disabled' : ''}>${uploading ? 'Publishing to Soundwave...' : 'Publish live ↗'}</button>
         </form>
         <aside>
           <div class="panel">
@@ -1882,7 +1928,7 @@
           ${authMode === 'signup' ? `<label class="field">Artist / Username <input name="artist_name" required maxlength="50" placeholder="Your artist name"></label>` : ''}
           <label class="field">Email <input type="email" name="email" required placeholder="you@example.com"></label>
           <label class="field">Password <input type="password" name="password" required minlength="6" placeholder="Min 6 characters"></label>
-          <button type="submit" class="btn primary" style="margin-top:16px;width:100%">${authMode === 'signup' ? 'Create Account ↗' : 'Log In ↗'}</button>
+          <button type="submit" class="btn primary" style="margin-top:16px;width:100%" ${authLoading ? 'disabled' : ''}>${authLoading ? 'Please wait...' : (authMode === 'signup' ? 'Create Account ↗' : 'Log In ↗')}</button>
         </form>`;
     } else if (modal === 'player' && t) {
       const r = getTrackRating(t);
@@ -1937,10 +1983,10 @@
         </div>
         <button class="btn primary" data-nav="Studio">Go to Artist Studio ↗</button>`;
     } else {
-      const artistHandle = currentUser?.artist || 'Listener';
+      const artistHandle = getArtistDisplay() || 'Listener';
       inner = `
         <h2>@${esc(artistHandle)}</h2>
-        <p>${esc(currentUser?.email || 'Preview Session')}</p>
+        <p>${esc(currentUser?.email || '')}</p>
         <div class="statgrid">
           <div class="stat"><strong>${state.follows.length}</strong><span>Subscriptions</span></div>
           <div class="stat"><strong>${Object.keys(state.ratings).length}</strong><span>Ratings</span></div>
@@ -1977,13 +2023,11 @@
             currentIndex = idx;
             progress = 0;
             curTime = 0;
-            const t = current();
-            if (userInteracted && t && !isLocked(t)) {
-              playing = true;
-              if (!t.ytId) startSynthPreview(t);
-              else stopSynthPreview();
+            durTime = 0;
+            if (userInteracted) {
+              startPlaybackForCurrent();
             } else {
-              stopSynthPreview();
+              audio.pause();
               playing = false;
             }
             document.querySelectorAll('.tt-slide').forEach((slideEl) => {
@@ -1996,6 +2040,7 @@
                 badgeWrap.innerHTML = isAct ? '' : `<span class="tt-play-badge">${locked ? '🔒' : '▶'}</span>`;
               }
             });
+            const t = current();
             const pTitle = document.querySelector('.player-title');
             if (pTitle && t) {
               const r = getTrackRating(t);
@@ -2016,7 +2061,7 @@
     document.body.classList.toggle('is-reels', page === 'Feed');
     const t = current();
     const r = t ? getTrackRating(t) : { avg: '5.0', count: 0 };
-    const artistHandle = currentUser?.artist || '';
+    const artistHandle = getArtistDisplay();
     const initials = artistHandle ? artistHandle.slice(0, 2).toUpperCase() : 'SW';
 
     $('#app').innerHTML = `
@@ -2081,7 +2126,7 @@
           <button class="skip" aria-label="Next track" data-action="next">⏭</button>
           <div class="progress-wrap">
             <div class="progress" id="scrub" title="Click to seek"><i style="width:${progress}%"></i></div>
-            <span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime)}</span>
+            <span class="time-label">${fmtTime(curTime)} / ${fmtTime(durTime || 135)}</span>
           </div>
         </div>` : ''}
 
@@ -2124,10 +2169,11 @@
   }
 
   function choose(i) {
-    stopSynthPreview();
+    audio.pause();
     playing = false;
     progress = 0;
     curTime = 0;
+    durTime = 0;
     currentIndex = i;
     if (page === 'Feed') {
       const feedEl = $('#tt-feed');
@@ -2151,32 +2197,95 @@
     choose(p[(at + d + p.length) % p.length].i);
   }
 
+  function startPlaybackForCurrent() {
+    const t = current();
+    if (!t) return;
+    document.querySelectorAll('.tt-vid').forEach(v => { v.pause(); v.muted = true; });
+    if (isLocked(t)) {
+      audio.pause();
+      playing = false;
+      return;
+    }
+    playing = true;
+    if (t.ytId) {
+      audio.pause();
+      return;
+    }
+    const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+    if (t.video && vid) {
+      audio.pause();
+      vid.muted = false;
+      vid.play().catch(() => { playing = false; });
+      return;
+    }
+    if (t.url) {
+      if (audio.src !== t.url) audio.src = t.url;
+      audio.play().catch(() => { playing = false; });
+    }
+  }
+
   function togglePlay() {
     const t = current();
     if (!t) return;
     userInteracted = true;
     if (isLocked(t)) {
-      selectedArtist = t.artist;
-      page = 'Artist';
-      modal = '';
-      render();
+      openArtistPage(t.artist);
       return toast(`Subscribe to @${t.artist} to unlock this VIP track`);
     }
-    playing = !playing;
-    if (playing && !t.ytId) startSynthPreview(t);
-    else stopSynthPreview();
-    render();
+    if (playing) {
+      playing = false;
+      audio.pause();
+      document.querySelectorAll('video').forEach(v => v.pause());
+      render();
+    } else {
+      startPlaybackForCurrent();
+      render();
+    }
   }
 
-  document.addEventListener('click', (e) => {
+  async function syncMockEngagement(trackObj, deltaVotes, deltaLikes, deltaRatingSum, deltaRatingCount) {
+    if (!sb) return;
+    const { data: existing } = await sb.from('engagement').select('*').eq('item_id', trackObj.id).maybeSingle();
+    const payload = {
+      item_id: trackObj.id,
+      votes: Math.max(0, (existing?.votes || 0) + deltaVotes),
+      likes: Math.max(0, (existing?.likes || 0) + deltaLikes),
+      rating_sum: Math.max(0, (existing?.rating_sum || 0) + deltaRatingSum),
+      rating_count: Math.max(0, (existing?.rating_count || 0) + deltaRatingCount)
+    };
+    await sb.from('engagement').upsert(payload);
+  }
+
+  function toggleSubscribeArtist(artistName) {
+    const wasSubbed = has('follows', artistName);
+    flip('follows', artistName);
+    if (sb) {
+      if (!wasSubbed) {
+        liveSubCounts[artistName] = (liveSubCounts[artistName] || 0) + 1;
+        sb.from('subscriptions').upsert({ artist: artistName, device_id: state.deviceId }).then();
+      } else {
+        liveSubCounts[artistName] = Math.max(0, (liveSubCounts[artistName] || 1) - 1);
+        sb.from('subscriptions').delete().match({ artist: artistName, device_id: state.deviceId }).then();
+      }
+    }
+    toast(has('follows', artistName) ? `Subscribed to @${artistName}! VIP access unlocked` : `Unsubscribed from @${artistName}`);
+  }
+
+  document.addEventListener('click', async (e) => {
     const scrub = e.target.closest('#scrub');
     if (scrub) {
       const rect = scrub.getBoundingClientRect();
       const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       progress = pct * 100;
-      curTime = Math.round(pct * durTime);
+      const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+      if (current()?.video && vid && vid.duration) {
+        vid.currentTime = pct * vid.duration;
+        curTime = vid.currentTime;
+      } else if (audio.duration) {
+        audio.currentTime = pct * audio.duration;
+        curTime = audio.currentTime;
+      }
       document.querySelectorAll('.progress i, .tt-progress i').forEach(el => el.style.width = progress + '%');
-      document.querySelectorAll('.time-label').forEach(el => el.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime)}`);
       return;
     }
 
@@ -2192,39 +2301,38 @@
     const t = current();
 
     if (d.upsrc) { uploadSource = d.upsrc; render(); return; }
-    if (d.openartist) {
-      selectedArtist = d.openartist;
-      editingBio = false;
-      page = 'Artist';
-      modal = '';
-      render();
-      scrollTo(0, 0);
-      return;
-    }
-    if (d.subartist) {
-      flip('follows', d.subartist);
-      toast(has('follows', d.subartist) ? `Subscribed to @${d.subartist}! VIP access unlocked` : `Unsubscribed from @${d.subartist}`);
-      render();
-      return;
-    }
+    if (d.openartist) { openArtistPage(d.openartist); return; }
+    if (d.subartist) { toggleSubscribeArtist(d.subartist); render(); return; }
     if (d.copyartist) {
-      toast(`Artist link copied: soundwave.app/@${d.copyartist.replace(/\s/g, '')}`);
+      const url = `https://soundwaves.space/#@${encodeURIComponent(d.copyartist)}`;
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        toast(`Artist page link copied: #@${d.copyartist}`);
+      } catch {
+        toast(url);
+      }
       return;
     }
     if (a === 'togglebio') { editingBio = !editingBio; render(); return; }
     if (d.authmode) { authMode = d.authmode; render(); return; }
     if (a === 'openauth') { modal = 'auth'; render(); return; }
     if (a === 'logout') {
+      if (sb) await sb.auth.signOut();
       currentUser = null;
+      userArtistName = '';
       modal = '';
       render();
       toast('Logged out');
       return;
     }
     if (d.deltrack) {
-      tracks = tracks.filter(item => item.id !== d.deltrack);
-      currentIndex = 0;
-      render();
+      if (sb) await sb.from('tracks').delete().eq('id', d.deltrack);
+      await syncFromSupabase();
       toast('Release deleted');
       return;
     }
@@ -2234,6 +2342,7 @@
       modal = '';
       genre = 'All';
       if (page === 'Feed') tab = 'For You';
+      try { history.replaceState(null, '', location.pathname); } catch {}
       render();
       scrollTo(0, 0);
       return;
@@ -2254,10 +2363,18 @@
     if (d.setrate !== undefined) {
       const stars = Number(d.setrate);
       const prev = state.ratings[t.id] || 0;
+      const deltaSum = stars - prev;
+      const deltaCount = prev ? 0 : 1;
       state.ratings[t.id] = stars;
-      t.ratingSum = (t.ratingSum || 5) - prev + stars;
-      if (!prev) t.ratingCount = (t.ratingCount || 1) + 1;
+      saveState();
       modal = '';
+      t.ratingSum = (t.ratingSum || 5) + deltaSum;
+      t.ratingCount = (t.ratingCount || 1) + deltaCount;
+      if (!t.isMock) {
+        if (sb) sb.from('tracks').update({ rating_sum: t.ratingSum, rating_count: t.ratingCount }).eq('id', t.id).then();
+      } else {
+        syncMockEngagement(t, 0, 0, deltaSum, deltaCount);
+      }
       render();
       toast(`Rated "${t.title}" ${stars} ★`);
       return;
@@ -2265,16 +2382,28 @@
     if (d.like !== undefined) {
       const target = tracks[Number(d.like)];
       const wasLiked = has('likes', target.id);
+      const delta = wasLiked ? -1 : 1;
       flip('likes', target.id);
-      target.likes = Math.max(0, (target.likes || 0) + (wasLiked ? -1 : 1));
+      target.likes = Math.max(0, (target.likes || 0) + delta);
+      if (!target.isMock) {
+        if (sb) sb.from('tracks').update({ likes: target.likes }).eq('id', target.id).then();
+      } else {
+        syncMockEngagement(target, 0, delta, 0, 0);
+      }
       render();
       return;
     }
     if (d.vote !== undefined) {
       const target = tracks[Number(d.vote)];
       const wasVoted = has('votes', target.id);
+      const delta = wasVoted ? -1 : 1;
       flip('votes', target.id);
-      target.votes = Math.max(0, (target.votes || 0) + (wasVoted ? -1 : 1));
+      target.votes = Math.max(0, (target.votes || 0) + delta);
+      if (!target.isMock) {
+        if (sb) sb.from('tracks').update({ votes: target.votes }).eq('id', target.id).then();
+      } else {
+        syncMockEngagement(target, delta, 0, 0, 0);
+      }
       render();
       toast('Community chart vote updated');
       return;
@@ -2282,9 +2411,26 @@
     if (a === 'prev' || a === 'next') { move(a === 'next' ? 1 : -1); return; }
     if (a === 'play') { togglePlay(); return; }
     if (a === 'save') { flip('saved', t.id); toast(has('saved', t.id) ? 'Added to My Music' : 'Removed from My Music'); }
-    if (['player', 'comments', 'share', 'profile', 'promote', 'rate'].includes(a)) modal = a;
+    if (['player', 'comments', 'share', 'profile', 'promote', 'rate'].includes(a)) {
+      modal = a;
+      if (a === 'comments' && t) loadTrackComments(t.id);
+    }
     if (a === 'close') modal = '';
-    if (a === 'copy') { toast(`Copied: ${t.artist} — ${t.title}`); return; }
+    if (a === 'copy') {
+      const v = `${t.artist} — ${t.title} on Soundwave · https://soundwaves.space/#@${encodeURIComponent(t.artist)}`;
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = v;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        toast('Song link copied');
+      } catch {
+        toast(v);
+      }
+      return;
+    }
     render();
   });
 
@@ -2300,28 +2446,17 @@
     if (e.key === 'Escape' && modal) { modal = ''; render(); }
   });
 
-  document.addEventListener('submit', (e) => {
+  document.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
 
-    if (e.target.id === 'auth-form') {
-      const email = String(data.get('email')).trim();
-      const artistName = String(data.get('artist_name') || email.split('@')[0]).trim();
-      currentUser = { email, artist: artistName };
-      if (!artistProfiles[artistName]) {
-        artistProfiles[artistName] = { bio: 'Independent creator on Soundwave.', link: '' };
-      }
-      modal = '';
-      render();
-      toast(`Welcome to Soundwave, @${artistName}!`);
-      return;
-    }
-
     if (e.target.id === 'bio-form') {
-      if (!currentUser) return;
+      if (!currentUser || !sb) return;
       const bio = String(data.get('bio') || '').trim();
-      const link = String(data.get('link') || '').trim();
-      artistProfiles[currentUser.artist] = { bio, link };
+      const social_link = String(data.get('social_link') || '').trim();
+      const handle = getArtistDisplay();
+      await sb.from('profiles').upsert({ id: currentUser.id, artist_name: handle, bio, social_link });
+      artistProfiles[handle] = { id: currentUser.id, artist_name: handle, bio, social_link };
       editingBio = false;
       render();
       toast('Artist profile updated!');
@@ -2329,19 +2464,19 @@
     }
 
     if (e.target.id === 'wall-post-form') {
-      if (!currentUser) return;
+      if (!currentUser || !sb) return;
       const body = String(data.get('body') || '').trim();
       const vip_only = Boolean(data.get('vip_only'));
+      const handle = getArtistDisplay();
       if (!body) return;
-      (wallPosts[currentUser.artist] ??= []).unshift({
-        id: 'wp_' + Date.now(),
-        artist: currentUser.artist,
-        body,
-        vip_only,
-        time: 'Just now'
-      });
-      render();
-      toast('Posted to your community wall!');
+      const { error } = await sb.from('artist_posts').insert({ user_id: currentUser.id, artist: handle, body, vip_only });
+      if (!error) {
+        e.target.reset();
+        await openArtistPage(handle);
+        toast('Posted to your community wall!');
+      } else {
+        toast(error.message);
+      }
       return;
     }
 
@@ -2349,78 +2484,185 @@
       const pid = e.target.dataset.postid;
       const replyTxt = String(data.get('reply') || '').trim();
       if (replyTxt && pid) {
-        const prefix = currentUser ? `@${currentUser.artist}: ` : 'Fan: ';
-        (state.comments['post_' + pid] ??= []).push(prefix + replyTxt);
+        const prefix = userArtistName ? `@${userArtistName}: ` : 'Fan: ';
+        const fullReply = prefix + replyTxt;
+        const key = 'post_' + pid;
+        (state.comments[key] ??= []).push(fullReply);
+        saveState();
         render();
+        if (sb) sb.from('comments').insert({ track_id: key, body: fullReply }).then();
         toast('Reply posted');
       }
       return;
     }
 
+    if (e.target.id === 'auth-form') {
+      if (!sb || authLoading) return;
+      const email = String(data.get('email')).trim();
+      const password = String(data.get('password'));
+      const artistName = String(data.get('artist_name') || '').trim();
+      authLoading = true;
+      render();
+      try {
+        if (authMode === 'signup') {
+          const { data: res, error } = await sb.auth.signUp({
+            email,
+            password,
+            options: { data: { artist_name: artistName } }
+          });
+          if (error) throw error;
+          if (res.user) {
+            await sb.from('profiles').upsert({ id: res.user.id, artist_name: artistName });
+            userArtistName = artistName;
+          }
+          toast(`Welcome to Soundwave, @${artistName}!`);
+        } else {
+          const { error } = await sb.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          toast('Logged in!');
+        }
+        modal = '';
+        await syncUserSession();
+      } catch (err) {
+        toast(err.message || 'Authentication error');
+      } finally {
+        authLoading = false;
+        render();
+      }
+      return;
+    }
+
     if (e.target.id === 'upload') {
-      if (!currentUser) { modal = 'auth'; render(); return; }
+      if (uploading) return;
+      if (!currentUser) {
+        modal = 'auth';
+        render();
+        return toast('Please sign up or log in first');
+      }
+      const artistName = getArtistDisplay();
       const title = String(data.get('title')).trim();
       const trackGenre = String(data.get('genre'));
-      const description = String(data.get('description')).trim() || 'New release on Soundwave.';
-      let ytId = '';
-      let vip = false;
+      const description = String(data.get('description')).trim();
+      const image = data.get('cover');
+      const activeSource = ALLOW_YOUTUBE ? uploadSource : 'file';
 
-      if (uploadSource === 'youtube') {
-        ytId = parseYouTubeId(String(data.get('youtube_url') || ''));
-        if (!ytId) return toast('Please enter a valid YouTube link');
-      } else {
-        vip = Boolean(data.get('vip'));
+      if (image?.size && image.size > MAX_COVER_MB * 1024 * 1024) {
+        return toast(`Cover image must be under ${MAX_COVER_MB}MB`);
       }
 
-      tracks.unshift({
-        id: 'live_' + Date.now(),
-        isMock: false,
-        artist: currentUser.artist,
-        title,
-        genre: trackGenre,
-        votes: 1,
-        likes: 1,
-        img: ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : photo('photo-1511379938547-c1f69419868d'),
-        color: '#5168ff',
-        ratingSum: 5,
-        ratingCount: 1,
-        vip,
-        ytId,
-        freq: [130.81, 164.81, 196, 261.63],
-        description
-      });
+      if (sb) {
+        uploading = true;
+        render();
+        try {
+          const ts = Date.now();
+          let audioUrl = '', isVideo = false, vip = false, ytId = '';
 
-      if (!has('follows', currentUser.artist)) flip('follows', currentUser.artist);
-      page = 'Home';
-      genre = 'All';
-      currentIndex = 0;
-      render();
-      scrollTo(0, 0);
-      toast('Your release is now LIVE on Soundwave!');
-      return;
+          if (activeSource === 'youtube') {
+            const rawYt = String(data.get('youtube_url') || '').trim();
+            ytId = parseYouTubeId(rawYt);
+            if (!ytId) throw new Error('Please enter a valid YouTube link');
+            audioUrl = `https://www.youtube.com/watch?v=${ytId}`;
+            isVideo = true;
+          } else {
+            const media = data.get('media');
+            if (!media?.size) throw new Error('Choose an audio or video file');
+            if (media.size > MAX_MEDIA_MB * 1024 * 1024) throw new Error(`File too large (max ${MAX_MEDIA_MB}MB)`);
+            const mediaExt = (media.name.split('.').pop() || 'mp3').replace(/\W/g, '');
+            const mediaPath = `${currentUser.id}/${ts}_${Math.random().toString(36).slice(2, 7)}.${mediaExt}`;
+            const { error: mErr } = await sb.storage.from('soundwave').upload(mediaPath, media, { contentType: media.type });
+            if (mErr) throw mErr;
+            audioUrl = sb.storage.from('soundwave').getPublicUrl(mediaPath).data.publicUrl;
+            isVideo = media.type.startsWith('video/');
+            vip = Boolean(data.get('vip'));
+          }
+
+          let coverUrl = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : '';
+          if (image?.size) {
+            const imgExt = (image.name.split('.').pop() || 'jpg').replace(/\W/g, '');
+            const imgPath = `${currentUser.id}/cover_${ts}_${Math.random().toString(36).slice(2, 7)}.${imgExt}`;
+            const { error: iErr } = await sb.storage.from('soundwave').upload(imgPath, image, { contentType: image.type });
+            if (!iErr) coverUrl = sb.storage.from('soundwave').getPublicUrl(imgPath).data.publicUrl;
+          }
+
+          const { error: dbErr } = await sb.from('tracks').insert({
+            user_id: currentUser.id,
+            artist: artistName,
+            title,
+            genre: trackGenre,
+            description,
+            audio_url: audioUrl,
+            cover_url: coverUrl,
+            is_video: isVideo,
+            vip
+          });
+          if (dbErr) throw dbErr;
+
+          if (!has('follows', artistName)) flip('follows', artistName);
+          uploading = false;
+          page = 'Home';
+          genre = 'All';
+          playing = false;
+          audio.pause();
+          await syncFromSupabase();
+          currentIndex = 0;
+          render();
+          scrollTo(0, 0);
+          toast('Your release is now LIVE on Soundwave!');
+        } catch (err) {
+          uploading = false;
+          render();
+          toast(err.message || 'Upload failed');
+        }
+        return;
+      }
     }
 
     if (e.target.id === 'comment') {
       const txt = String(data.get('comment') || '').trim();
       if (txt && current()) {
-        const prefix = currentUser ? `@${currentUser.artist}: ` : 'Listener: ';
-        (state.comments[current().id] ??= []).unshift(prefix + txt);
+        const tid = current().id;
+        const prefix = userArtistName ? `@${userArtistName}: ` : '';
+        const fullTxt = prefix + txt;
+        (state.comments[tid] ??= []).unshift(fullTxt);
+        saveState();
         render();
+        if (sb) sb.from('comments').insert({ track_id: tid, body: fullTxt }).then();
         toast('Feedback posted');
       }
     }
   });
 
   setInterval(() => {
-    if (playing && !current()?.ytId) {
-      progress = (progress + 0.5) % 100;
-      curTime = Math.floor((progress / 100) * durTime);
+    if (playing) {
+      const vid = $(`.tt-vid[data-vididx="${currentIndex}"]`) || $('#reel-video');
+      if (current()?.video && vid && vid.duration) {
+        curTime = vid.currentTime;
+        durTime = vid.duration;
+        progress = (curTime / durTime) * 100;
+      } else if (current()?.url && !current()?.ytId && audio.duration) {
+        curTime = audio.currentTime;
+        durTime = audio.duration;
+        progress = (curTime / durTime) * 100;
+      } else {
+        progress = (progress + 0.5) % 100;
+        curTime = (progress / 100) * 135;
+        durTime = 135;
+      }
       document.querySelectorAll('.progress i, .tt-progress i').forEach(e => e.style.width = progress + '%');
-      document.querySelectorAll('.time-label').forEach(e => e.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime)}`);
+      document.querySelectorAll('.time-label').forEach(e => e.textContent = `${fmtTime(curTime)} / ${fmtTime(durTime || 135)}`);
     }
   }, 300);
 
+  audio.addEventListener('ended', () => {
+    playing = false;
+    progress = 0;
+    curTime = 0;
+    render();
+  });
+
   render();
+  syncUserSession();
+  syncFromSupabase();
 </script>
 </body>
 </html>
